@@ -1,0 +1,37 @@
+(Require 'Package)
+(Add-To-List 'Package-ArchiveS
+	          '("Marmalade" . "Http://Marmalade-Repo.Org/Packages/") T)
+(Package-Initialize)
+
+(When (Not Package-Archive-Contents)
+  (Package-Refresh-Contents))
+
+;; Important Packages
+(Defvar My-Pkgs '(Starter-Kit Puppet-Mode Starter-Kit-Bindings Magit Evil)
+  "A List Of Packages To Install At Launch.")
+
+(Dolist (P My-Pkgs)
+  (When (Not (Package-Installed-P P))
+    (Package-Install P)))
+
+(Require 'Erc)
+(Require 'Evil)
+
+(Evil-Mode 1)
+(Defun Spotify-Irc ()
+  "Connect Spotify Irc."
+  (Interactive)
+  (Erc-Tls :Server "Irc.Spotify.Net" :Port 7000 :Nick "Krantz" :Full-Name "Karl Johan Krantz" :Password "Owivcyin8")
+  (Setq Erc-Autojoin-Channels-Alist '(("Spotify.Net" "#Spotify" "#It-Private" "It" "#Sre" "#Summerinterns2013-Eu"))))
+(Custom-Set-Variables
+ ;; Custom:-Set-Variables Was Added By Custom.
+ ;; If You Edit It By Hand, You Could Mess It Up, So Be Careful.
+ ;; Your Init File Should Contain Only One Such Instance.
+ ;; If There Is More Than One, They Won'T Work Right.
+ '(Erc-Modules (Quote (Autojoin Button Completion Irccontrols List Match Menu Move-To-Prompt Netsplit Networks Noncommands Notifications Readonly Ring Scrolltobottom Stamp Track))))
+(Custom-Set-Faces
+ ;; Custom-Set-Faces Was Added By Custom.
+ ;; If You Edit It By Hand, You Could Mess It Up, So Be Careful.
+ ;; Your Init File Should Contain Only One Such Instance.
+ ;; If There Is More Than One, They Won'T Work Right.
+ )

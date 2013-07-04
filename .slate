@@ -1,0 +1,89 @@
+# Configs
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+config secondsBetweenRepeat 0.1
+config checkDefaultsOnLoad true
+config focusCheckWidthMax 3000
+config keyboardLayout dvorak
+config windowHintsShowIcons true
+config windowHintsIgnoreHiddenWindows false
+#config windowHintsDuration 5
+config windowHintsSpread true
+#config windowHintsOrder persist
+ 
+
+
+#============
+#Aliases
+#============
+# Monitor Aliases
+alias mon-laptop     0
+alias mon-samsung    1
+
+
+# Misc Aliases
+alias showHintsLeftHand hint AOEUIYQJKX
+alias showNormalHint hint AOEUIDHTNSYXFBPKGMCW
+alias browser 'Google Chrome'
+alias editor 'Sublime Text 2'
+alias terminal 'iterm'
+alias musicplayer 'Spotify'
+
+# Abstract positions
+alias full          move screenOriginX;screenOriginY                  screenSizeX;screenSizeY
+
+alias lefthalf      move screenOriginX;screenOriginY                  screenSizeX/2;screenSizeY
+alias leftmost      move screenOriginX;screenOriginY                  screenSizeX*0.6;screenSizeY
+alias leftless      move screenOriginX;screenOriginY                  screenSizeX*0.4;screenSizeY
+
+alias righthalf     move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY
+alias rightmost     move screenOriginX+screenSizeX*0.4;screenOriginY  screenSizeX*0.6;screenSizeY
+alias rightless     move screenOriginX+screenSizeX*0.6;screenOriginY  screenSizeX*0.4;screenSizeY
+
+alias halfUp        sequence move windowTopLeftX;0 windowSizeX;screenSizeY/2 | push up
+alias halfDown      sequence move windowTopLeftX;screenSizeY/2 windowSizeX;screenSizeY/2 | push down
+
+# Concrete positions
+alias 1-full        move screenOriginX;screenOriginY screenSizeX;screenSizeY         ${mon-laptop}
+alias 1-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY         ${mon-laptop}
+alias 1-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY         ${mon-laptop}
+
+alias 2-full		move screenOriginX;screenOriginY screenSizeX;screenSizeY			${mon-samsung}
+alias 2-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY         ${mon-samsung}
+alias 2-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY         ${mon-samsung}
+
+
+# Keybinding aliases
+alias hyper ctrl,alt,shift,cmd
+
+#============
+#Layouts
+#============
+
+#TODO
+#code layout
+#browser layout
+
+#============
+#Default Layouts
+#============
+
+#default twoScreenLayout count:2
+#default oneScreenLayout count:1
+
+#============
+#Keybindings
+#============
+
+#Focus bindings
+bind left:${hyper} focus left
+bind down:${hyper} focus below
+bind up:${hyper} focus above
+bind right:${hyper} focus right
+
+#focus on applications
+bind b:${hyper} focus ${browser}
+bind e:${hyper} focus ${editor}
+//bind t:${hyper} focus ${terminal}
+bind m:${hyper} focus ${musicplayer} 
