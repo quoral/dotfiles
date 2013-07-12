@@ -50,6 +50,10 @@ source $ZSH/oh-my-zsh.sh
 
 #path
 export PATH=/usr/local/bin:/usr/local/tranquil/bin:$PATH
+
 #fix for altkeys
 bindkey '[D' backward-word
 bindkey '[C' forward-word
+
+
+[ -f /opt/boxen/env.sh ] && soruce /opt/boxen/env.sh
