@@ -56,4 +56,4 @@ bindkey '[D' backward-word
 bindkey '[C' forward-word
 
 
-[ -f /opt/boxen/env.sh ] && soruce /opt/boxen/env.sh
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
