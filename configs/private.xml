@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <root>
 	<item>
-		<name>Remap F19 to Hyper</name>
+		<name>F19_Hyper</name>
 		<appendix>OS X doesn't have a Hyper. This maps F19 to Control + Shift + Option + Command.</appendix>
 
 		<identifier>usercustom.f19_to_hyper</identifier>
