@@ -49,11 +49,10 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 #path
-export PATH=/usr/local/bin:/usr/local/tranquil/bin:$PATH
+export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$PATH
 
 #fix for altkeys
 bindkey '[D' backward-word
 bindkey '[C' forward-word
-
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
