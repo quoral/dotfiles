@@ -22,4 +22,4 @@ set fish_greeting ""
 
 set PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
 
-[ -f /opt/boxen/env.sh and . /opt/boxen/env.sh]
+. ~/.config/fish/boxen.fish
