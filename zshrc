@@ -49,7 +49,7 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 #path
-export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$PATH
+export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$HOME/bin:$PATH
 
 #fix for altkeys
 bindkey '[D' backward-word
