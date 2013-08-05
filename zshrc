@@ -55,4 +55,4 @@ export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$HOME
 bindkey '[D' backward-word
 bindkey '[C' forward-word
 
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh 
