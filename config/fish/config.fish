@@ -1,8 +1,9 @@
 function fish_prompt
     set_color magenta
     echo -n (vcprompt -f "(%s:%b%a%m)")
-    set_color cyan
-    echo -n '> '
+    set_color red
+    echo -ne 'λ '
+    set_color white
 end
 
 function fish_right_prompt
