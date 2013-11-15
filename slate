@@ -77,10 +77,10 @@ alias hyper ctrl,alt,shift,cmd
 #============
 
 #Focus bindings
-bind h:${hyper} focus left
-bind j:${hyper} focus below
-bind k:${hyper} focus above
-bind l:${hyper} focus right
+bind left:${hyper} focus left
+bind down:${hyper} focus below
+bind up:${hyper} focus above
+bind right:${hyper} focus right
 
 #focus on applications
 bind b:${hyper} focus ${browser}
