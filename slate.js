@@ -85,26 +85,26 @@ slate.bind("space:ctrl,alt", function(win){
     win.doOperation(fullScreen);
     return;
 });
-slate.bind("left:ctrl,alt", function(win){
+slate.bind("h:ctrl,alt", function(win){
     win.doOperation(halfLeft);
     return;
 });
-slate.bind("right:ctrl,alt", function(win){
+slate.bind("l:ctrl,alt", function(win){
     win.doOperation(halfRight);
     return;
 });
-slate.bind("up:ctrl,alt", function(win){
+slate.bind("k:ctrl,alt", function(win){
     win.doOperation(halfUp);
     win.doOperation(pushUp);
     return;
 });
-slate.bind("down:ctrl,alt", function(win){
+slate.bind("j:ctrl,alt", function(win){
     win.doOperation(halfDown);
     win.doOperation(pushDown);
     return;
 });
 
-slate.bind("right:ctrl,alt,cmd", function(win){
+slate.bind("l:ctrl,alt,cmd", function(win){
     if(isOnLeft(win)){
         win.doOperation(mostLeft);
     }
@@ -117,7 +117,7 @@ slate.bind("right:ctrl,alt,cmd", function(win){
     return;
 });
 
-slate.bind("left:ctrl,alt,cmd", function(win){
+slate.bind("h:ctrl,alt,cmd", function(win){
     if(isOnLeft(win)){
         win.doOperation(lessLeft);
     }
@@ -131,14 +131,14 @@ slate.bind("left:ctrl,alt,cmd", function(win){
     return;
 });
 
-slate.bind("left:ctrl", function(win){
+slate.bind("h:ctrl", function(win){
     var id = win.screen().id();
     var move = slate.operation("throw", {
         "screen":(id-1).toString()
     });
     win.doOperation(move);
 });
-slate.bind("right:ctrl", function(win){
+slate.bind("l:ctrl", function(win){
     var id = win.screen().id();
     var move = slate.operation("throw", {
         "screen":(id+1).toString()
