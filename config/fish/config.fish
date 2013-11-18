@@ -22,5 +22,5 @@ set -gx VISUAL emacsclient
 set fish_greeting ""
 
 set PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
-
+. ~/.config/fish/alias.fish
 . ~/.config/fish/boxen.fish
