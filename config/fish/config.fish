@@ -21,6 +21,9 @@ set -gx VISUAL emacsclient
 
 set fish_greeting ""
 
+#Settings for Homebrew Cask
+set -x HOMEBREW_CASK_OPTS '--appdir="/Applications"'
+
 set PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
 . ~/.config/fish/alias.fish
 . ~/.config/fish/boxen.fish
