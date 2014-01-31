@@ -24,5 +24,14 @@ set fish_greeting ""
 #Settings for Homebrew Cask
 set -x HOMEBREW_CASK_OPTS '--appdir="/Applications"'
 
-set PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
-. ~/.config/fish/boxen.fish
+
+set -x JAVA_HOME "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home"
+
+set -x PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
+set -x PATH "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/bin" $PATH
+
+. ~/.config/fish/boxen/env.fish
+# NOPE
+# . ~/.config/fish/boxen.fish
+
+
