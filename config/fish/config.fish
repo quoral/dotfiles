@@ -30,8 +30,6 @@ set -x JAVA_HOME "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Hom
 set -x PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
 set -x PATH "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/bin" $PATH
 
-alias 
-
 . ~/.config/fish/boxen/env.fish
 
 
