@@ -19,6 +19,7 @@ set -gx EDITOR "emacsclient -n -create-frame"
 set -gx ALTERNATE_EDITOR emacs
 set -gx VISUAL emacsclient
 
+#Lol commits, for extra lol
 set -gx LOLCOMMITS_FORK
 set -gx LOLCOMMITS_STEALTH
 
