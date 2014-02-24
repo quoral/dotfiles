@@ -19,10 +19,6 @@ set -gx EDITOR "emacsclient -n -create-frame"
 set -gx ALTERNATE_EDITOR emacs
 set -gx VISUAL emacsclient
 
-#Lol commits, for extra lol
-#No pesky messages, forks it off to a different process and gives a 3 second gif
-alias lolcommits "lolcommits --fork --stealth --animate=3"
-
 
 set fish_greeting ""
 
