@@ -19,6 +19,9 @@ set -gx EDITOR "emacsclient -n -create-frame"
 set -gx ALTERNATE_EDITOR emacs
 set -gx VISUAL emacsclient
 
+set -gx LOLCOMMITS_FORK
+set -gx LOLCOMMITS_STEALTH
+
 set fish_greeting ""
 
 #Settings for Homebrew Cask
