@@ -20,8 +20,8 @@ set -gx ALTERNATE_EDITOR emacs
 set -gx VISUAL emacsclient
 
 #Lol commits, for extra lol
-set -gx LOLCOMMITS_FORK
-set -gx LOLCOMMITS_STEALTH
+alias lolcommit "lolcommit --fork --stealth --animate=3"
+
 
 set fish_greeting ""
 
@@ -35,5 +35,4 @@ set -x PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
 set -x PATH "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/bin" $PATH
 
 . ~/.config/fish/boxen/env.fish
-
 
