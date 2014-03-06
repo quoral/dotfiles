@@ -1,3 +1,3 @@
 function edit
-    emacsclient -no-wait $argv
+    subl3 $argv
 end
