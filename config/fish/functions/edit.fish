@@ -1,3 +1,3 @@
 function edit
-    subl3 $argv
+    atom $argv
 end
