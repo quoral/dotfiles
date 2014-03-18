@@ -1,4 +1,5 @@
 init-irc.el
 fish_history
+config/hub
 fishd*
 boxen.fish
