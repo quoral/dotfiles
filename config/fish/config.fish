@@ -28,6 +28,8 @@ set -x HOMEBREW_CASK_OPTS '--appdir="/Applications"'
 
 set -x JAVA_HOME "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home"
 
+#Could probably break at any point.
+set -x PATH /opt/boxen/homebrew/Cellar/python/2.7.3-boxen2/share/python/ $PATH
 set -x PATH /usr/local/tranquil/bin /usr/local/bin ~/bin $PATH
 set -x PATH "/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/bin" $PATH
 
