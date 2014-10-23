@@ -3,7 +3,8 @@
         "tall",
         "wide",
         "fullscreen",
-        "column"
+        "column",
+        "floating"
     ],
 
     "mod1": [
@@ -145,7 +146,7 @@
         "key": "i"
     },
 
-    "floating": ["pink-fluid"],
+    "floating": ["pink-fluid", "Achdome"],
     "float-small-windows": true,
     "mouse-follows-focus": false
 }
