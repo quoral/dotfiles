@@ -8,6 +8,7 @@
 		<string>/Applications/Xcode.app/Contents/Applications</string>
 		<string>/Developer/Applications</string>
 		<string>/Library/PreferencePanes</string>
+		<string>/opt/boxen/homebrew/Cellar</string>
 		<string>/opt/homebrew-cask/Caskroom</string>
 		<string>/System/Library/CoreServices/Applications</string>
 		<string>/System/Library/PreferencePanes</string>
