@@ -48,6 +48,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+# Fix for boxen in zsh
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
 #path
 export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$HOME/bin:$PATH
 
