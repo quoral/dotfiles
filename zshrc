@@ -7,19 +7,14 @@ antigen theme sorin
 antigen bundle pip
 antigen bundle git
 antigen bundle brew
+antigen bundle brew-cask
+antigen bundle gem
+antigen bundle osx
 antigen bundle npm
 antigen bundle command-not-found
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle virtualenvwrapper
 
-#
-# OS specific plugins
-if [[ $CURRENT_OS == 'OS X' ]]; then
-    antigen bundle brew
-    antigen bundle brew-cask
-    antigen bundle gem
-    antigen bundle osx
-fi
-#
 
 antigen apply
 
@@ -36,4 +31,12 @@ export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$HOME
 bindkey '[D' backward-word
 bindkey '[C' forward-word
 
+alias edit="emacsclient --no-wait"
+
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh 
+
+PATH=$ANDROID_HOME/build-tools/21.1.2/:$PATH
+
+
+export PYLINTRC="~/.pylintrc"
+export EDITOR="emacsclient -n"
