@@ -6,5 +6,7 @@
 	<true/>
 	<key>hidehat</key>
 	<true/>
+	<key>hidemenu</key>
+	<true/>
 </dict>
 </plist>

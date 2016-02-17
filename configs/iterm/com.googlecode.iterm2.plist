@@ -316,22 +316,22 @@
 		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
 		hAErATGG
 		</data>
-		<string>302</string>
+		<string>319</string>
 	</array>
 	<key>NSTableView Hidden Columns KeyBingingTable</key>
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
 	<key>NSWindow Frame Preferences</key>
-	<string>195 140 924 485 0 0 1680 1027 </string>
+	<string>516 392 924 485 0 0 1440 877 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 9 836 1018 0 0 1680 1027 </string>
+	<string>-1280 271 1277 1140 -1920 240 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-1440 -158 717 874 -1440 -161 1440 877 </string>
+	<string>-960 244 960 1173 -1920 240 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>1008 5 672 255 0 0 1680 1027 </string>
+	<string>960 3 960 587 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
 	<string>0 15 1676 1012 0 0 1680 1027 </string>
 	<key>NeverWarnAboutShortLivedSessions_AD978259-86BD-49BC-8A2A-B89DE03C4885</key>
@@ -556,7 +556,7 @@
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
-			<string>No</string>
+			<string>Recycle</string>
 			<key>Default Bookmark</key>
 			<string>No</string>
 			<key>Disable Printing</key>
@@ -1041,7 +1041,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.15069341659545898</real>
+			<real>0.0</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -1792,7 +1792,7 @@
 	<key>NoSyncTimeOfLastPromo</key>
 	<real>453326092.62621897</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>453326092.62639397</real>
+	<real>471525641.357297</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -1801,6 +1801,8 @@
 	<false/>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>0</integer>
+	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
 	<key>PassOnControlClick</key>
 	<false/>
 	<key>PasteFromClipboard</key>
@@ -1853,11 +1855,11 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>http://iterm2.com/appcasts/testing.xml</string>
+	<string>https://iterm2.com/appcasts/testing.xml</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2015-05-14T19:54:51Z</date>
+	<date>2015-12-11T11:17:48Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -1905,6 +1907,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.1.1</string>
+	<string>2.1.4</string>
 </dict>
 </plist>
