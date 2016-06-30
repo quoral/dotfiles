@@ -31,7 +31,7 @@ alias e edit
 alias gs "git status --short"
 alias gl "git lg"
 alias gd "git diff"
-alias x "aunpack -q"
+alias x "aunpack -q -e"
 
 
 # Settings for Homebrew Cask
