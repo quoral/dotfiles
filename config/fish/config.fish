@@ -23,14 +23,15 @@ set -U LC_ALL en_US.UTF-8
 set -U LANG en_US.UTF-8
 
 set fish_greeting ""
-set fish_function_path $fish_function_path "/opt/boxen/homebrew/lib/python2.7/site-packages/powerline/bindings/fish"
-# powerline-setup
+set fish_function_path $fish_function_path "/usr/local/lib/python2.7/site-packages/powerline/bindings/fish"
+powerline-setup
 
 # Aliases that are good to have.
 alias e edit
 alias gs "git status --short"
 alias gl "git lg"
-
+alias gd "git diff"
+alias x "aunpack -q"
 
 
 # Settings for Homebrew Cask
