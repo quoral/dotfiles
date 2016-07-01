@@ -1,4 +1,6 @@
 fisherman/await
 fisherman/fzf
+fisherman/getopts
 fisherman/last_job_id
 fisherman/pyenv
+fisherman/spin

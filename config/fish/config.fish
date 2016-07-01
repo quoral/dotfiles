@@ -36,3 +36,5 @@ alias x "aunpack -q -e"
 
 # Settings for Homebrew Cask
 set -x PATH "/usr/local/bin" $PATH
+
+status --is-interactive; and source (pyenv init - | psub)
