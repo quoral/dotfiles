@@ -32,7 +32,7 @@ alias gs "git status --short"
 alias gl "git lg"
 alias gd "git diff"
 alias x "aunpack -q -e"
-
+alias emc 'emacsclient -n'
 
 # Settings for Homebrew Cask
 set -x PATH "/usr/local/bin" $PATH

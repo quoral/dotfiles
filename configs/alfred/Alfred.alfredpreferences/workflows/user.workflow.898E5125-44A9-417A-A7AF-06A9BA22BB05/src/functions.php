@@ -98,8 +98,8 @@ function invokeMopidyMethod($w, $method, $params, $displayError = true) {
 
 	if ($retVal != 0) {
 		if ($displayError) {
-			displayNotificationWithArtwork('Mopidy Exception: returned error ' . $retVal, './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug Mopidy Exception: returned error " . $retVal . "\"'");
+			displayNotificationWithArtwork($w,'Mopidy Exception: returned error ' . $retVal, './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug Mopidy Exception: returned error " . $retVal . "\"'");
 
 		}
 		return false;
@@ -114,14 +114,14 @@ function invokeMopidyMethod($w, $method, $params, $displayError = true) {
 			logMsg("ERROR: invokeMopidyMethod() method: " . $method . ' params: ' . json_encode($params, JSON_HEX_APOS) . ' exception:'. print_r($result));
 
 			if ($displayError) {
-				displayNotificationWithArtwork('Mopidy Exception: ' . htmlspecialchars($result->error->message), './images/warning.png', 'Error!');
-				exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug Mopidy Exception: " . htmlspecialchars($result->error->message) . "\"'");
+				displayNotificationWithArtwork($w,'Mopidy Exception: ' . htmlspecialchars($result->error->message), './images/warning.png', 'Error!');
+				exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug Mopidy Exception: " . htmlspecialchars($result->error->message) . "\"'");
 			}
 			return false;
 		}
 	} else {
 		logMsg("ERROR: empty response from Mopidy method: " . $method . ' params: ' . json_encode($params, JSON_HEX_APOS));
-		displayNotificationWithArtwork("ERROR: empty response from Mopidy method: " . $method . ' params: ' . json_encode($params, JSON_HEX_APOS), './images/warning.png');
+		displayNotificationWithArtwork($w,"ERROR: empty response from Mopidy method: " . $method . ' params: ' . json_encode($params, JSON_HEX_APOS), './images/warning.png');
 	}
 }
 
@@ -245,6 +245,8 @@ function createDebugFile($w) {
 
 	$output = $output . "\n----------------------------------------------\nCan you describe the problem in a few lines:\n";
 
+    exec("echo \"" . $output . "\" | pbcopy");
+
 	exec("open \"mailto:alfred.spotify.mini.player@gmail.com?subject=Alfred Spotify Mini Player debug file&body=$output\"");
 }
 /**
@@ -307,7 +309,7 @@ function playUriWithMopidyWithoutClearing($w, $uri) {
 	if (isset($tl_tracks[0])) {
 		invokeMopidyMethod($w, "core.playback.play", array('tl_track' => $tl_tracks[0]));
 	} else {
-		displayNotificationWithArtwork("Cannot play track with uri " . $uri, './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"Cannot play track with uri " . $uri, './images/warning.png', 'Error!');
 	}
 }
 
@@ -473,7 +475,7 @@ function addPlaylistToPlayQueue($w, $playlist_uri, $playlist_name) {
 	if (! $use_mopidy) {
 		$tracks = getThePlaylistFullTracks($w, $playlist_uri);
 		if ($tracks == false) {
-			displayNotificationWithArtwork("Cannot get tracks for playlist " . $playlist_name, './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get tracks for playlist " . $playlist_name, './images/warning.png', 'Error!');
 			return false;
 		}
 	} else {
@@ -513,7 +515,7 @@ function addAlbumToPlayQueue($w, $album_uri, $album_name) {
 	if (! $use_mopidy) {
 		$tracks = getTheAlbumFullTracks($w, $album_uri);
 		if ($tracks == false) {
-			displayNotificationWithArtwork("Cannot get tracks for album " . $album_name, './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get tracks for album " . $album_name, './images/warning.png', 'Error!');
 			return false;
 		}
 	} else {
@@ -555,7 +557,7 @@ function addArtistToPlayQueue($w, $artist_uri, $artist_name, $country_code) {
 	if (! $use_mopidy) {
 		$tracks = getTheArtistFullTracks($w, $artist_uri, $country_code);
 		if ($tracks == false) {
-			displayNotificationWithArtwork("Cannot get tracks for artist " . $artist_name, './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get tracks for artist " . $artist_name, './images/warning.png', 'Error!');
 			return false;
 		}
 	} else {
@@ -670,12 +672,12 @@ function addTrackToPlayQueue($w, $track_uri, $track_name, $artist_name, $album_n
 function updateCurrentTrackIndexFromPlayQueue($w) {
 	$playqueue = $w->read('playqueue.json');
 	if ($playqueue == false) {
-		displayNotificationWithArtwork("No play queue yet", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"No play queue yet", './images/warning.png', 'Error!');
 	}
 	exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 	if ($retVal != 0) {
-		displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+		displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 		return;
 	}
 
@@ -707,7 +709,7 @@ function updateCurrentTrackIndexFromPlayQueue($w) {
 				"current_track_index" => 0,
 				"tracks" => array(),
 			);
-			// displayNotificationWithArtwork("Play Queue has been reset!", './images/warning.png', 'Error!');
+			// displayNotificationWithArtwork($w,"Play Queue has been reset!", './images/warning.png', 'Error!');
 		} else {
 			$newplayqueue = array(
 				"type" => $playqueue->type,
@@ -719,7 +721,7 @@ function updateCurrentTrackIndexFromPlayQueue($w) {
 		}
 		$w->write($newplayqueue, 'playqueue.json');
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png');
 	}
 }
 
@@ -874,7 +876,7 @@ function playAlfredPlaylist($w) {
 	$use_mopidy                = $settings->use_mopidy;
 
 	if ($alfred_playlist_uri == "" || $alfred_playlist_name == "") {
-		displayNotificationWithArtwork("Alfred Playlist is not set", './images/warning.png');
+		displayNotificationWithArtwork($w,"Alfred Playlist is not set", './images/warning.png');
 
 		return;
 	}
@@ -886,7 +888,7 @@ function playAlfredPlaylist($w) {
 	}
 
 	$playlist_artwork_path = getPlaylistArtwork($w, $alfred_playlist_uri, true, true);
-	displayNotificationWithArtwork('🔈 Alfred Playlist ' . $alfred_playlist_name, $playlist_artwork_path, 'Play Alfred Playlist');
+	displayNotificationWithArtwork($w,'🔈 Alfred Playlist ' . $alfred_playlist_name, $playlist_artwork_path, 'Play Alfred Playlist');
 }
 
 
@@ -912,8 +914,8 @@ function lookupCurrentArtist($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -928,13 +930,13 @@ function lookupCurrentArtist($w) {
 		}
 
 		if ($artist_uri == false) {
-			displayNotificationWithArtwork("Cannot get current artist", './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get current artist", './images/warning.png', 'Error!');
 
 			return;
 		}
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini Online▹" . $artist_uri . "@" . escapeQuery($results[1]) . '▹' . "\"'");
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini Online▹" . $artist_uri . "@" . escapeQuery($results[1]) . '▹' . "\"'");
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png');
 	}
 }
 
@@ -948,7 +950,7 @@ function lookupCurrentArtist($w) {
  */
 function displayCurrentArtistBiography($w) {
 	if (!$w->internet()) {
-		displayNotificationWithArtwork("No internet connection", './images/warning.png');
+		displayNotificationWithArtwork($w,"No internet connection", './images/warning.png');
 		return;
 	}
 
@@ -966,8 +968,8 @@ function displayCurrentArtistBiography($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -981,13 +983,13 @@ function displayCurrentArtistBiography($w) {
 			$artist_uri = getArtistUriFromTrack($w, $results[4]);
 		}
 		if ($artist_uri == false) {
-			displayNotificationWithArtwork("Cannot get current artist", './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get current artist", './images/warning.png', 'Error!');
 
 			return;
 		}
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini Biography▹" . $artist_uri . "∙" . escapeQuery($results[1]) . '▹' . "\"'");
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini Biography▹" . $artist_uri . "∙" . escapeQuery($results[1]) . '▹' . "\"'");
 	} else {
-		displayNotificationWithArtwork("No artist is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No artist is playing", './images/warning.png');
 	}
 }
 
@@ -1015,8 +1017,8 @@ function playCurrentArtist($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1030,7 +1032,7 @@ function playCurrentArtist($w) {
 			$artist_uri = getArtistUriFromTrack($w, $results[4]);
 		}
 		if ($artist_uri == false) {
-			displayNotificationWithArtwork("Cannot get current artist", './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get current artist", './images/warning.png', 'Error!');
 
 			return;
 		}
@@ -1040,9 +1042,9 @@ function playCurrentArtist($w) {
 			exec("osascript -e 'tell application \"Spotify\" to play track \"$artist_uri\"'");
 			addArtistToPlayQueue($w, $artist_uri, escapeQuery($results[1]), $country_code);
 		}
-		displayNotificationWithArtwork('🔈 Artist ' . escapeQuery($results[1]), getArtistArtwork($w, $artist_uri, $results[1], true), 'Play Current Artist');
+		displayNotificationWithArtwork($w,'🔈 Artist ' . escapeQuery($results[1]), getArtistArtwork($w, $artist_uri, $results[1], true), 'Play Current Artist');
 	} else {
-		displayNotificationWithArtwork("No artist is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No artist is playing", './images/warning.png');
 	}
 }
 
@@ -1069,8 +1071,8 @@ function playCurrentAlbum($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1080,14 +1082,14 @@ function playCurrentAlbum($w) {
 		$tmp       = explode(':', $results[4]);
 		$album_uri = getAlbumUriFromTrack($w, $results[4]);
 		if ($album_uri == false) {
-			displayNotificationWithArtwork("Cannot get current album", './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,"Cannot get current album", './images/warning.png', 'Error!');
 
 			return;
 		}
 		exec("osascript -e 'tell application \"Spotify\" to play track \"$album_uri\"'");
-		displayNotificationWithArtwork('🔈 Album ' . escapeQuery($results[2]), getTrackOrAlbumArtwork($w, $results[4], true), 'Play Current Album');
+		displayNotificationWithArtwork($w,'🔈 Album ' . escapeQuery($results[2]), getTrackOrAlbumArtwork($w, $results[4], true), 'Play Current Album');
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png');
 	}
 }
 
@@ -1114,8 +1116,8 @@ function addCurrentTrackTo($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1144,14 +1146,14 @@ function addCurrentTrackTo($w) {
 				$results[4] = $track->uri;
 			} else {
 				logMsg("Could not find track: $results[4] / $results[0] / $results[1] ");
-				displayNotificationWithArtwork('Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
+				displayNotificationWithArtwork($w,'Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
 
 				return;
 			}
 		}
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini Add▹" . $results[4] . "∙" . escapeQuery($results[0]) . '▹' . "\"'");
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini Add▹" . $results[4] . "∙" . escapeQuery($results[0]) . '▹' . "\"'");
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png');
 	}
 }
 
@@ -1178,17 +1180,17 @@ function removeCurrentTrackFrom($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
 
 	if (isset($retArr[0]) && substr_count($retArr[0], '▹') > 0) {
 		$results = explode('▹', $retArr[0]);
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini Remove▹" . $results[4] . "∙" . escapeQuery($results[0]) . '▹' . "\"'");
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini Remove▹" . $results[4] . "∙" . escapeQuery($results[0]) . '▹' . "\"'");
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png');
 	}
 }
 
@@ -1239,8 +1241,8 @@ function addCurrentTrackToAlfredPlaylist($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1259,7 +1261,7 @@ function addCurrentTrackToAlfredPlaylist($w) {
 		$country_code              = $settings->country_code;
 
 		if ($alfred_playlist_uri == "" || $alfred_playlist_name == "") {
-			displayNotificationWithArtwork("Alfred Playlist is not set", './images/warning.png');
+			displayNotificationWithArtwork($w,"Alfred Playlist is not set", './images/warning.png');
 
 			return;
 		}
@@ -1281,7 +1283,7 @@ function addCurrentTrackToAlfredPlaylist($w) {
 				$results[4] = $track->uri;
 			} else {
 				logMsg("Could not find track: $results[4] / $results[0] / $results[1] ");
-				displayNotificationWithArtwork('Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
+				displayNotificationWithArtwork($w,'Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
 
 				return;
 			}
@@ -1290,12 +1292,12 @@ function addCurrentTrackToAlfredPlaylist($w) {
 		$tmp = explode(':', $results[4]);
 		$ret = addTracksToPlaylist($w, $tmp[2], $alfred_playlist_uri, $alfred_playlist_name, false);
 		if (is_numeric($ret) && $ret > 0) {
-			displayNotificationWithArtwork('' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' added to Alfred Playlist ' . $alfred_playlist_name, getTrackOrAlbumArtwork($w, $results[4], true), 'Add Current Track to Alfred Playlist');
+			displayNotificationWithArtwork($w,'' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' added to Alfred Playlist ' . $alfred_playlist_name, getTrackOrAlbumArtwork($w, $results[4], true), 'Add Current Track to Alfred Playlist');
 		} elseif (is_numeric($ret) && $ret == 0) {
-			displayNotificationWithArtwork('' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' is already in Alfred Playlist ' . $alfred_playlist_name, './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,'' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' is already in Alfred Playlist ' . $alfred_playlist_name, './images/warning.png', 'Error!');
 		}
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png', 'Error!');
 	}
 }
 
@@ -1322,8 +1324,8 @@ function addCurrentTrackToYourMusic($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1353,7 +1355,7 @@ function addCurrentTrackToYourMusic($w) {
 				$results[4] = $track->uri;
 			} else {
 				logMsg("Could not find track: $results[4] / $results[0] / $results[1] ");
-				displayNotificationWithArtwork('Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
+				displayNotificationWithArtwork($w,'Local track ' . escapeQuery($results[0]) . ' has not online match', './images/warning.png', 'Error!');
 
 				return;
 			}
@@ -1361,12 +1363,12 @@ function addCurrentTrackToYourMusic($w) {
 		$tmp = explode(':', $results[4]);
 		$ret = addTracksToYourMusic($w, $tmp[2], false);
 		if (is_numeric($ret) && $ret > 0) {
-			displayNotificationWithArtwork('' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' added to Your Music', getTrackOrAlbumArtwork($w, $results[4], true), 'Add Current Track to Your Music');
+			displayNotificationWithArtwork($w,'' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' added to Your Music', getTrackOrAlbumArtwork($w, $results[4], true), 'Add Current Track to Your Music');
 		} elseif (is_numeric($ret) && $ret == 0) {
-			displayNotificationWithArtwork('' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' is already in Your Music', './images/warning.png');
+			displayNotificationWithArtwork($w,'' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' is already in Your Music', './images/warning.png');
 		}
 	} else {
-		displayNotificationWithArtwork("No track is playing", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"No track is playing", './images/warning.png', 'Error!');
 	}
 }
 
@@ -1538,7 +1540,7 @@ function removeTrackFromPlaylist($w, $track_uri, $playlist_uri, $playlist_name, 
 	try {
 		$api = getSpotifyWebAPI($w);
 		$tmp = explode(':', $playlist_uri);
-		$api->deletePlaylistTracks(urlencode($userid), $tmp[4], array(
+		$api->deleteUserPlaylistTracks(urlencode($userid), $tmp[4], array(
 				array(
 					'id' => $track_uri
 				)
@@ -1924,8 +1926,8 @@ function createRadioArtistPlaylistForCurrentArtist($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -1934,7 +1936,7 @@ function createRadioArtistPlaylistForCurrentArtist($w) {
 		$results = explode('▹', $retArr[0]);
 		createRadioArtistPlaylist($w, $results[1]);
 	} else {
-		displayNotificationWithArtwork("Cannot get current artist", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"Cannot get current artist", './images/warning.png', 'Error!');
 	}
 }
 
@@ -2000,18 +2002,18 @@ function createRadioArtistPlaylist($w, $artist_name) {
 				sleep(2);
 				exec("osascript -e 'tell application \"Spotify\" to play track \"$json->uri\"'");
 				$playlist_artwork_path = getPlaylistArtwork($w, $json->uri, true, false);
-				displayNotificationWithArtwork('🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Artist Radio Playlist');
+				displayNotificationWithArtwork($w,'🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Artist Radio Playlist');
 			}
 			refreshLibrary($w);
 
 			return;
 		} elseif (is_numeric($ret) && $ret == 0) {
-			displayNotificationWithArtwork('Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,'Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
 
 			return;
 		}
 	} else {
-		displayNotificationWithArtwork('Artist was not found in Echo Nest', './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,'Artist was not found in Echo Nest', './images/warning.png', 'Error!');
 
 		return false;
 	}
@@ -2061,7 +2063,7 @@ function createCompleteCollectionArtistPlaylist($w, $artist_name, $artist_uri) {
 		try {
 			$api  = getSpotifyWebAPI($w);
 			$json = $api->createUserPlaylist($userid, array(
-					'name' => 'Complete Collection for ' . escapeQuery($artist_name),
+					'name' => 'CC for ' . escapeQuery($artist_name),
 					'public' => $public
 				));
 		}
@@ -2078,18 +2080,18 @@ function createCompleteCollectionArtistPlaylist($w, $artist_name, $artist_uri) {
 				sleep(2);
 				exec("osascript -e 'tell application \"Spotify\" to play track \"$json->uri\"'");
 				$playlist_artwork_path = getPlaylistArtwork($w, $json->uri, true, false);
-				displayNotificationWithArtwork('🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Complete Collection Playlist');
+				displayNotificationWithArtwork($w,'🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Complete Collection Playlist');
 			}
 			refreshLibrary($w);
 
 			return;
 		} elseif (is_numeric($ret) && $ret == 0) {
-			displayNotificationWithArtwork('Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,'Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
 
 			return;
 		}
 	} else {
-		displayNotificationWithArtwork('No track was found for artist ' . $artist_name, './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,'No track was found for artist ' . $artist_name, './images/warning.png', 'Error!');
 
 		return false;
 	}
@@ -2119,8 +2121,8 @@ function createRadioSongPlaylistForCurrentTrack($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
@@ -2129,7 +2131,7 @@ function createRadioSongPlaylistForCurrentTrack($w) {
 		$results = explode('▹', $retArr[0]);
 		createRadioSongPlaylist($w, $results[0], $results[4], $results[1]);
 	} else {
-		displayNotificationWithArtwork("There is not track currently playing", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"There is not track currently playing", './images/warning.png', 'Error!');
 	}
 }
 
@@ -2218,18 +2220,18 @@ function createRadioSongPlaylist($w, $track_name, $track_uri, $artist_name) {
 				sleep(2);
 				exec("osascript -e 'tell application \"Spotify\" to play track \"$json->uri\"'");
 				$playlist_artwork_path = getPlaylistArtwork($w, $json->uri, true, false);
-				displayNotificationWithArtwork('🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Radio Playlist');
+				displayNotificationWithArtwork($w,'🔈 Playlist ' . $json->name, $playlist_artwork_path, 'Launch Radio Playlist');
 			}
 			refreshLibrary($w);
 
 			return;
 		} elseif (is_numeric($ret) && $ret == 0) {
-			displayNotificationWithArtwork('Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
+			displayNotificationWithArtwork($w,'Playlist ' . $json->name . ' cannot be added', './images/warning.png', 'Error!');
 
 			return;
 		}
 	} else {
-		displayNotificationWithArtwork('Track was not found in Echo Nest', './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,'Track was not found in Echo Nest', './images/warning.png', 'Error!');
 
 		return false;
 	}
@@ -2852,19 +2854,19 @@ function getNumberOfTracksForAlbum($db, $album_uri, $yourmusiconly = false) {
  *
  * @access public
  * @param mixed $db
- * @param mixed $artist_uri
+ * @param mixed $artist_name
  * @return void
  */
-function getNumberOfTracksForArtist($db, $artist_uri, $yourmusiconly = false) {
+function getNumberOfTracksForArtist($db, $artist_name, $yourmusiconly = false) {
 	if ($yourmusiconly == false) {
-		$getNumberOfTracksForArtist = "select count(distinct track_name) from tracks where artist_uri=:artist_uri";
+		$getNumberOfTracksForArtist = "select count(distinct track_name) from tracks where artist_name=:artist_name";
 	} else {
-		$getNumberOfTracksForArtist = "select count(distinct track_name) from tracks where yourmusic=1 and artist_uri=:artist_uri";
+		$getNumberOfTracksForArtist = "select count(distinct track_name) from tracks where yourmusic=1 and artist_name=:artist_name";
 	}
 
 	try {
 		$stmt = $db->prepare($getNumberOfTracksForArtist);
-		$stmt->bindValue(':artist_uri', '' . $artist_uri . '');
+		$stmt->bindValue(':artist_name', '' . $artist_name . '');
 		$stmt->execute();
 		$nb = $stmt->fetch();
 	}
@@ -2940,20 +2942,33 @@ function checkIfDuplicate($track_ids, $id) {
 }
 
 
+
 /**
  * displayNotificationWithArtwork function.
  *
  * @access public
- * @param mixed $output
+ * @param mixed $w
+ * @param mixed $subtitle
  * @param mixed $artwork
+ * @param string $title (default: 'Spotify Mini Player')
  * @return void
  */
-function displayNotificationWithArtwork($subtitle, $artwork, $title = 'Spotify Mini Player') {
-	if ($artwork != "" && file_exists($artwork)) {
-		copy($artwork, "/tmp/tmp");
+function displayNotificationWithArtwork($w,$subtitle, $artwork, $title = 'Spotify Mini Player') {
+	//
+	// Read settings from JSON
+	//
+	$settings            = getSettings($w);
+	$use_growl           = $settings->use_growl;
+
+	if(!$use_growl) {
+		if ($artwork != "" && file_exists($artwork)) {
+			copy($artwork, "/tmp/tmp");
+		}
+		exec("./terminal-notifier.app/Contents/MacOS/terminal-notifier -title '" . $title . "' -sender 'com.spotify.miniplayer' -contentImage '/tmp/tmp' -message '" . $subtitle . "'");
+	} else {
+		exec("./src/growl_notification.ksh -t \"" . $title . "\" -s \"" . $subtitle . "\" >> \"" . $w->cache() . "/action.log\" 2>&1 & ");
 	}
 
-	exec("./terminal-notifier.app/Contents/MacOS/terminal-notifier -title '" . $title . "' -sender 'com.spotify.miniplayer' -contentImage '/tmp/tmp' -message '" . $subtitle . "'");
 }
 
 
@@ -2980,15 +2995,15 @@ function displayNotificationForCurrentTrack($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
 
 	if (isset($retArr[0]) && substr_count($retArr[0], '▹') > 0) {
 		$results = explode('▹', $retArr[0]);
-		displayNotificationWithArtwork('🔈 ' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' in album ' . escapeQuery($results[2]), getTrackOrAlbumArtwork($w, $results[4], true), 'Now Playing ' . floatToStars(($results[6] / 100) ? $is_display_rating : 0) . ' (' . beautifyTime($results[5] / 1000) . ')');
+		displayNotificationWithArtwork($w,'🔈 ' . escapeQuery($results[0]) . ' by ' . escapeQuery($results[1]) . ' in album ' . escapeQuery($results[2]), getTrackOrAlbumArtwork($w, $results[4], true), 'Now Playing ' . floatToStars(($results[6] / 100) ? $is_display_rating : 0) . ' (' . beautifyTime($results[5] / 1000) . ')');
 	}
 }
 
@@ -3002,7 +3017,7 @@ function displayNotificationForCurrentTrack($w) {
  */
 function displayLyricsForCurrentTrack($w) {
 	if (!$w->internet()) {
-		displayNotificationWithArtwork("No internet connection", './images/warning.png');
+		displayNotificationWithArtwork($w,"No internet connection", './images/warning.png');
 
 		return;
 	}
@@ -3021,17 +3036,17 @@ function displayLyricsForCurrentTrack($w) {
 		// get info on current song
 		exec("./src/track_info.ksh 2>&1", $retArr, $retVal);
 		if ($retVal != 0) {
-			displayNotificationWithArtwork('AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
-			exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
+			displayNotificationWithArtwork($w,'AppleScript Exception: ' . htmlspecialchars($retArr[0]) . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+			exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug AppleScript Exception: " . htmlspecialchars($retArr[0]) . "\"'");
 			return;
 		}
 	}
 
 	if (isset($retArr[0]) && substr_count($retArr[0], '▹') > 0) {
 		$results = explode('▹', $retArr[0]);
-		exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini Lyrics▹" . $results[4] . "∙" . escapeQuery($results[1]) . "∙" . escapeQuery($results[0]) . "\"'");
+		exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini Lyrics▹" . $results[4] . "∙" . escapeQuery($results[1]) . "∙" . escapeQuery($results[0]) . "\"'");
 	} else {
-		displayNotificationWithArtwork("There is not track currently playing", './images/warning.png', 'Error!');
+		displayNotificationWithArtwork($w,"There is not track currently playing", './images/warning.png', 'Error!');
 	}
 }
 
@@ -3045,7 +3060,7 @@ function displayLyricsForCurrentTrack($w) {
  */
 function downloadArtworks($w) {
 	if (!$w->internet()) {
-		displayNotificationWithArtwork("Download Artworks,
+		displayNotificationWithArtwork($w,"Download Artworks,
 	No internet connection", './images/warning.png');
 
 		return;
@@ -3099,7 +3114,7 @@ function downloadArtworks($w) {
 			$nb_artworks_total += intval($count[0]);
 
 			if ($nb_artworks_total != 0) {
-				displayNotificationWithArtwork("Start downloading " . $nb_artworks_total . " artworks", './images/artworks.png', 'Artworks');
+				displayNotificationWithArtwork($w,"Start downloading " . $nb_artworks_total . " artworks", './images/artworks.png', 'Artworks');
 
 				// artists
 				$getArtists     = "select artist_uri,artist_name from artists where already_fetched=0";
@@ -3206,7 +3221,7 @@ function downloadArtworks($w) {
 	logMsg("End of Download Artworks");
 	if ($nb_artworks_total != 0) {
 		$elapsed_time = time() - $words[3];
-		displayNotificationWithArtwork("All artworks have been downloaded (" . $nb_artworks_total . " artworks) - took " . beautifyTime($elapsed_time, true), './images/artworks.png', 'Artworks');
+		displayNotificationWithArtwork($w,"All artworks have been downloaded (" . $nb_artworks_total . " artworks) - took " . beautifyTime($elapsed_time, true), './images/artworks.png', 'Artworks');
 		if ($userid != 'vdesabou') {
 			stathat_ez_count('AlfredSpotifyMiniPlayer', 'artworks', $nb_artworks_total);
 		}
@@ -3267,7 +3282,9 @@ function getTrackOrAlbumArtwork($w, $spotifyURL, $fetchIfNotPresent, $fetchLater
 				endif;
 				$fp      = fopen($currentArtwork, 'w+');
 				$options = array(
-					CURLOPT_FILE => $fp
+					CURLOPT_FILE => $fp,
+					CURLOPT_FOLLOWLOCATION => 1,
+					CURLOPT_TIMEOUT => 5
 				);
 
 				$w->request("$artwork", $options);
@@ -3393,7 +3410,6 @@ function getPlaylistArtwork($w, $playlist_uri, $fetchIfNotPresent, $forceFetch =
 	if (!is_file($currentArtwork) || (is_file($currentArtwork) && filesize($currentArtwork) == 0) || $forceFetch) {
 		if ($fetchIfNotPresent == true || (is_file($currentArtwork) && filesize($currentArtwork) == 0) || $forceFetch) {
 			$artwork = getPlaylistArtworkURL($w, $playlist_uri);
-
 			// if return 0, it is a 404 error, no need to fetch
 			if (!empty($artwork) || (is_numeric($artwork) && $artwork != 0)) {
 				if (!file_exists($w->data() . "/artwork/" . hash('md5', $filename . ".png"))):
@@ -3401,7 +3417,9 @@ function getPlaylistArtwork($w, $playlist_uri, $fetchIfNotPresent, $forceFetch =
 				endif;
 				$fp      = fopen($currentArtwork, 'w+');
 				$options = array(
-					CURLOPT_FILE => $fp
+					CURLOPT_FILE => $fp,
+					CURLOPT_FOLLOWLOCATION => 1,
+					CURLOPT_TIMEOUT => 5
 				);
 
 				$w->request("$artwork", $options);
@@ -3492,6 +3510,10 @@ function getArtistArtwork($w, $artist_uri, $artist_name, $fetchIfNotPresent = fa
 
 	$currentArtwork = $w->data() . "/artwork/" . hash('md5', $parsedArtist . ".png") . "/" . "$parsedArtist.png";
 
+    if($artist_uri == '') {
+        return "./images/artists.png";
+    }
+
 	$tmp  = explode(':', $artist_uri);
 	if(isset($tmp[2])) {
 		$artist_uri = $tmp[2];
@@ -3525,7 +3547,9 @@ function getArtistArtwork($w, $artist_uri, $artist_name, $fetchIfNotPresent = fa
 				endif;
 				$fp      = fopen($currentArtwork, 'w+');
 				$options = array(
-					CURLOPT_FILE => $fp
+					CURLOPT_FILE => $fp,
+					CURLOPT_FOLLOWLOCATION => 1,
+					CURLOPT_TIMEOUT => 5
 				);
 				$w->request("$artwork", $options);
 				stathat_ez_count('AlfredSpotifyMiniPlayer', 'artworks', 1);
@@ -4387,9 +4411,9 @@ function updateLibrary($w) {
 
 	$elapsed_time = time() - $words[3];
 	if ($nb_skipped == 0) {
-		displayNotificationWithArtwork(" " . $nb_track . " tracks - took " . beautifyTime($elapsed_time, true), './images/recreate.png', "Library (re-)created");
+		displayNotificationWithArtwork($w," " . $nb_track . " tracks - took " . beautifyTime($elapsed_time, true), './images/recreate.png', "Library (re-)created");
 	} else {
-		displayNotificationWithArtwork(" " . $nb_track . " tracks / " . $nb_skipped . " skipped - took " . beautifyTime($elapsed_time, true), './images/recreate.png', "Library (re-)created");
+		displayNotificationWithArtwork($w," " . $nb_track . " tracks / " . $nb_skipped . " skipped - took " . beautifyTime($elapsed_time, true), './images/recreate.png', "Library (re-)created");
 	}
 
 	if (file_exists($w->data() . '/library_old.db')) {
@@ -4423,7 +4447,7 @@ function updateLibrary($w) {
  */
 function refreshLibrary($w) {
 	if (!file_exists($w->data() . '/library.db')) {
-		displayNotificationWithArtwork("Refresh library called while library does not exist", './images/warning.png');
+		displayNotificationWithArtwork($w,"Refresh library called while library does not exist", './images/warning.png');
 		return;
 	}
 
@@ -4567,7 +4591,15 @@ function refreshLibrary($w) {
 	do {
 		$retry = true;
 		$nb_retry = 0;
-		$api           = getSpotifyWebAPI($w);
+		try {
+    		$api           = getSpotifyWebAPI($w);
+		}
+		catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+			logMsg("Error(refreshLibrary): (exception " . print_r($e) . ")");
+			handleSpotifyWebAPIException($w, $e);
+			return false;
+		}
+
 		while ($retry) {
 			try {
 				// refresh api
@@ -4827,7 +4859,7 @@ function refreshLibrary($w) {
 				return;
 			}
 
-			displayNotificationWithArtwork('Added playlist ' . escapeQuery($playlist->name), $playlist_artwork_path, 'Refresh Library');
+			displayNotificationWithArtwork($w,'Added playlist ' . escapeQuery($playlist->name), $playlist_artwork_path, 'Refresh Library');
 		} else {
 			// number of tracks has changed or playlist name has changed or the privacy has changed
 			// update the playlist
@@ -5028,7 +5060,7 @@ function refreshLibrary($w) {
 					$db         = null;
 					return;
 				}
-				displayNotificationWithArtwork('Updated playlist ' . escapeQuery($playlist->name), getPlaylistArtwork($w, $playlist->uri, true), 'Refresh Library');
+				displayNotificationWithArtwork($w,'Updated playlist ' . escapeQuery($playlist->name), getPlaylistArtwork($w, $playlist->uri, true), 'Refresh Library');
 			} else {
 				continue;
 			}
@@ -5061,7 +5093,7 @@ function refreshLibrary($w) {
 				$stmtDelete       = $db->prepare($deleteFromTracks);
 				$stmtDelete->bindValue(':uri', $playlist_in_db[0]);
 				$stmtDelete->execute();
-				displayNotificationWithArtwork('Removed playlist ' . $playlist_in_db[1], getPlaylistArtwork($w, $playlist_in_db[0], false), 'Refresh Library');
+				displayNotificationWithArtwork($w,'Removed playlist ' . $playlist_in_db[1], getPlaylistArtwork($w, $playlist_in_db[0], false), 'Refresh Library');
 			}
 		}
 	}
@@ -5382,7 +5414,7 @@ function refreshLibrary($w) {
 		$message = 'No change';
 	}
 
-	displayNotificationWithArtwork($message . " - took " . beautifyTime($elapsed_time, true), './images/update.png', 'Library refreshed');
+	displayNotificationWithArtwork($w,$message . " - took " . beautifyTime($elapsed_time, true), './images/update.png', 'Library refreshed');
 
 	if (file_exists($w->data() . '/library_old.db')) {
 		deleteTheFile($w->data() . '/library_old.db');
@@ -5459,9 +5491,9 @@ function handleDbIssuePdoEcho($dbhandle, $w) {
 		deleteTheFile($w->data() . '/library_old.db');
 	}
 
-	displayNotificationWithArtwork("DB Exception: " . $errorInfo[2], './images/warning.png');
+	displayNotificationWithArtwork($w,"DB Exception: " . $errorInfo[2], './images/warning.png');
 
-	exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug DB Exception: " . escapeQuery($errorInfo[2]) . "\"'");
+	exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug DB Exception: " . escapeQuery($errorInfo[2]) . "\"'");
 
 	exit;
 }
@@ -5490,9 +5522,9 @@ function handleSpotifyWebAPIException($w, $e) {
 		rename($w->data() . '/library_old.db', $w->data() . '/library.db');
 	}
 
-	displayNotificationWithArtwork('Web API Exception: ' . $e->getCode() . ' - ' . $e->getMessage() . ' use spot_mini_debug command', './images/warning.png', 'Error!');
+	displayNotificationWithArtwork($w,'Web API Exception: ' . $e->getCode() . ' - ' . $e->getMessage() . ' use spot_mini_debug command', './images/warning.png', 'Error!');
 
-	exec("osascript -e 'tell application \"Alfred 2\" to search \"spot_mini_debug Web API Exception: " . escapeQuery($e->getMessage()) . "\"'");
+	exec("osascript -e 'tell application \"Alfred 3\" to search \"spot_mini_debug Web API Exception: " . escapeQuery($e->getMessage()) . "\"'");
 
 	exit;
 }
@@ -5708,7 +5740,7 @@ function getLyrics($w, $artist, $title) {
 	);
 	$file = $w->request($uri, $options);
 
-	preg_match('/<script>var __mxmProps = (.*?)<\/script>/s', $file, $lyrics);
+	preg_match('/<script>.*var __mxmState = (.*?);<\/script>/s', $file, $lyrics);
 	$lyrics = (empty($lyrics[1])) ? '' : $lyrics[1];
 	if (empty($file)) {
 		return array(
@@ -5740,10 +5772,11 @@ function getLyrics($w, $artist, $title) {
 				''
 			);
 		case JSON_ERROR_NONE:
-			if (isset($json->lyrics) &&
-				isset($json->lyrics->attributes) &&
-				isset($json->lyrics->attributes->lyrics_body)) {
-				if ($json->lyrics->attributes->lyrics_body == '') {
+
+			if (isset($json->page) &&
+				isset($json->page->lyrics) &&
+				isset($json->page->lyrics->lyrics)) {
+				if ($json->page->lyrics->lyrics->body == '') {
 					return array(
 						false,
 						''
@@ -5751,7 +5784,7 @@ function getLyrics($w, $artist, $title) {
 				} else {
 					return array(
 						$uri,
-						$json->lyrics->attributes->lyrics_body
+						$json->page->lyrics->lyrics->body
 					);
 				}
 			} else {
@@ -5873,7 +5906,7 @@ function checkForUpdate($w, $last_check_update_time, $download = false) {
 function doJsonRequest($w, $url, $actionMode = true) {
 	if (!$w->internet()) {
 		if ($actionMode == true) {
-			displayNotificationWithArtwork("No internet connection", './images/warning.png');
+			displayNotificationWithArtwork($w,"No internet connection", './images/warning.png');
 
 			exit;
 		} else {
@@ -5886,7 +5919,7 @@ function doJsonRequest($w, $url, $actionMode = true) {
 	$json = $w->request($url);
 	if (empty($json)) {
 		if ($actionMode == true) {
-			displayNotificationWithArtwork("Error: JSON request returned empty result", './images/warning.png');
+			displayNotificationWithArtwork($w,"Error: JSON request returned empty result", './images/warning.png');
 
 			exit;
 		} else {
@@ -5902,7 +5935,7 @@ function doJsonRequest($w, $url, $actionMode = true) {
 		return $json;
 	default:
 		if ($actionMode == true) {
-			displayNotificationWithArtwork("Error: JSON request returned error " . json_last_error() . ' (' . json_last_error_msg() . ')', './images/warning.png');
+			displayNotificationWithArtwork($w,"Error: JSON request returned error " . json_last_error() . ' (' . json_last_error_msg() . ')', './images/warning.png');
 
 			exit;
 		} else {
@@ -5924,12 +5957,19 @@ function doJsonRequest($w, $url, $actionMode = true) {
 function killUpdate($w) {
 	deleteTheFile($w->data() . '/update_library_in_progress');
 	deleteTheFile($w->data() . '/download_artworks_in_progress');
-	deleteTheFile($w->data() . '/library_new.db');
-	deleteTheFile($w->data() . '/library_old.db');
+
+
+	if (file_exists($w->data() . '/library_old.db')) {
+	    rename($w->data() . '/library_old.db', $w->data() . '/library.db');
+    }
+
+	if (file_exists($w->data() . '/library_new.db')) {
+		deleteTheFile($w->data() . '/library_new.db');
+	}
 
 	exec("kill -9 $(ps -efx | grep \"php\" | egrep \"update_|php -S localhost:15298|ADDTOPLAYLIST|UPDATE_|DOWNLOAD_ARTWORKS\" | grep -v grep | awk '{print $2}')");
 
-	displayNotificationWithArtwork("Update library was killed", './images/kill.png', 'Kill Update Library ');
+	displayNotificationWithArtwork($w,"Update library was killed", './images/kill.png', 'Kill Update Library ');
 }
 
 
@@ -5946,7 +5986,7 @@ function deleteTheFile($filename) {
 
 	if (is_file($filename)) {
 		logMsg("Error(deleteTheFile): file was locked (or permissions error) " . realpath($filename) . " permissions: " . decoct(fileperms(realpath($filename)) & 0777));
-		displayNotificationWithArtwork("Problem deleting " . $filename, './images/warning.png', 'Delete File');
+		displayNotificationWithArtwork($w,"Problem deleting " . $filename, './images/warning.png', 'Delete File');
 	}
 }
 
@@ -6076,7 +6116,8 @@ function getSettings($w) {
 				'mopidy_port' => '6680',
 				'volume_percent' => 20,
 				'is_display_rating' => 1,
-				'is_autoplay_playlist' => 1
+				'is_autoplay_playlist' => 1,
+				'use_growl' => 0,
 			);
 
 			$ret = $w->write($migrated, 'settings.json');
@@ -6116,11 +6157,12 @@ function getSettings($w) {
 			'mopidy_port' => '6680',
 			'volume_percent' => 20,
 			'is_display_rating' => 1,
-			'is_autoplay_playlist' => 1
+			'is_autoplay_playlist' => 1,
+			'use_growl' => 0,
 		);
 
 		$ret = $w->write($default, 'settings.json');
-		displayNotificationWithArtwork("Settings have been set to default", './images/info.png', 'Settings reset');
+		displayNotificationWithArtwork($w,"Settings have been set to default", './images/info.png', 'Settings reset');
 
 		$settings = $w->read('settings.json');
 	}
@@ -6164,6 +6206,12 @@ function getSettings($w) {
 	// add is_autoplay_playlist if needed
 	if (!isset($settings->is_autoplay_playlist)) {
 		updateSetting($w, 'is_autoplay_playlist', 1);
+		$settings = $w->read('settings.json');
+	}
+
+	// add use_growl if needed
+	if (!isset($settings->use_growl)) {
+		updateSetting($w, 'use_growl', 0);
 		$settings = $w->read('settings.json');
 	}
 

@@ -1,11 +1,11 @@
 function edit
     if [ $argv ]
        if test -e $argv
-          emacsclient -n $argv
+          emc $argv
        else      
-          fzf -q $argv | read MYRESULT; and charm $MYRESULT
+          fzf -q $argv | read MYRESULT; and emc $MYRESULT
        end
     else
-       fzf | read MYRESULT; and charm $MYRESULT
+       fzf | read MYRESULT; and emc $MYRESULT
     end
 end
