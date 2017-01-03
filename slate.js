@@ -131,14 +131,14 @@ slate.bind("left:ctrl,alt,cmd", function(win){
     return;
 });
 
-slate.bind("left:ctrl", function(win){
+slate.bind("left:ctrl,cmd", function(win){
     var id = win.screen().id();
     var move = slate.operation("throw", {
         "screen":(id-1).toString()
     });
     win.doOperation(move);
 });
-slate.bind("right:ctrl", function(win){
+slate.bind("right:ctrl,cmd", function(win){
     var id = win.screen().id();
     var move = slate.operation("throw", {
         "screen":(id+1).toString()

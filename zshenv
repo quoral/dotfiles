@@ -29,13 +29,11 @@ alias edit="emacsclient --no-wait"
 export PYLINTRC="~/.pylintrc"
 export EDITOR="emacsclient -n"
 
+export GOPATH="$HOME/Code/go"
 
 
+export PATH=/usr/local/bin:$HOME/bin:$GOPATH/bin:$PATH
 
-export PATH=/usr/local/tranquil/bin:/usr/local/bin:/usr/local/tranquil/bin:$HOME/bin:$PATH
-export PYENV_ROOT=/opt/boxen/homebrew/var/pyenv
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
 if which pyenv > /dev/null; then
     eval "$(pyenv init -)";
