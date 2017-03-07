@@ -18,6 +18,6 @@ function edit
             fzf -q "$search_args" | read MYRESULT; and eval $EDE "$MYRESULT"
         end
     else
-        fzf | read MYRESULT; and emc $MYRESULT
+        fzf | read MYRESULT; and eval $EDE "$MYRESULT"
     end
 end

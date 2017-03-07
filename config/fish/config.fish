@@ -1,14 +1,14 @@
 set -gx EDITOR "emacsclient -n -create-frame"
 set -gx ALTERNATE_EDITOR emacs
 set -gx VISUAL emacsclient
-
-set -U LC_ALL en_US.UTF-8
-set -U LANG en_US.UTF-8
+set -gx  LC_ALL en_US.UTF-8  
 
 set fish_function_path $fish_function_path "/usr/local/lib/python2.7/site-packages/powerline/bindings/fish"
 
 # Aliases that are good to have.
+
 alias e edit
+alias c "edit --editor charm"
 alias gs "git status --short"
 alias gl "git lg"
 alias gd "git diff"
@@ -26,9 +26,10 @@ set -x GOPATH "$HOME/Code/go"
 set -x PATH "/usr/local/bin" $PATH
 set -x PATH "$GOPATH/bin" $PATH
 
+fundle plugin 'tuvistavie/fish-ssh-agent'
+
 if [ $TERM ]
    powerline-setup
-   status --is-interactive; and source (pyenv init - | psub)
-   status --is-interactive; and . (nodenv init -|psub)
+   status --is-interactive; and source (pyenv init - | psub); and . (nodenv init -|psub)
 end
 
