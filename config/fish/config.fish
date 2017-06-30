@@ -9,6 +9,7 @@ set fish_function_path $fish_function_path "/usr/local/lib/python2.7/site-packag
 
 alias e edit
 alias c "edit --editor charm"
+alias we "edit --editor webstorm"
 alias gs "git status --short"
 alias gl "git lg"
 alias gd "git diff"
@@ -21,7 +22,7 @@ alias ipy "ipython"
 alias kp "kill %1" 
 
 set -x GOPATH "$HOME/Code/go"
-
+set -x JAVA_HOME (/usr/libexec/java_home)
 # Settings for Homebrew Cask
 set -x PATH "/usr/local/bin" $PATH
 set -x PATH "$GOPATH/bin" $PATH
