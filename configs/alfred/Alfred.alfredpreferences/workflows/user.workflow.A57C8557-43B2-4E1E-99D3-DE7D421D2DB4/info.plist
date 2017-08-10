@@ -66,7 +66,7 @@
 			<dict>
 				<key>paths</key>
 				<array>
-					<string>/Applications/Google Chrome Canary.app</string>
+					<string>/Applications/Google Chrome.app</string>
 				</array>
 				<key>toggle</key>
 				<true/>

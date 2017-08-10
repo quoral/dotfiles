@@ -1,0 +1,6 @@
+COPY = 'copy'
+LINK = 'link'
+METHODS = [COPY, LINK]
+
+MAP_FILENAME = "mappings.json"
+MAP_LOCATION = MAP_FILENAME

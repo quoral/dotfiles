@@ -3,3 +3,5 @@ fish_history
 config/hub
 fishd*
 boxen.fish
+__pycache__
+*.egg-info

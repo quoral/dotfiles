@@ -4,4 +4,6 @@ fisherman/get
 fisherman/getopts
 fisherman/last_job_id
 fisherman/pyenv
+oh-my-fish/plugin-rustup
 fisherman/spin
+tuvistavie/fish-ssh-agent
