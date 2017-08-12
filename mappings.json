@@ -1,0 +1,6 @@
+{
+    "zshenv": "~/.zshenv",
+    "slate": "~/.slate",
+    "slate.js": "~/.slate.js",
+    "vimrc": "~/.vimrc"
+}
