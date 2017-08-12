@@ -19,7 +19,7 @@ def rit():
 @click.option(
     '--method',
     type=click.Choice(constants.Methods),
-    default=constants.Method.LINK.value,
+    default=constants.DEFAULT_METHOD.value,
     callback=method_translation)
 @click.option('--dryrun/--no-dryrun', is_flag=True, default=False)
 def inject(method, dryrun):
