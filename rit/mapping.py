@@ -1,5 +1,6 @@
 import os
 from enum import Enum, auto
+from collections import namedtuple
 
 from rit.constants import Method
 from rit.repo import acquire_repo
@@ -10,6 +11,15 @@ class InjectionStatus(Enum):
     CanInject = auto()
     InjectionConflict = auto()
     UnkownStatus = auto()
+
+
+def okay_status(injection_status):
+    return (injection_status is InjectionStatus.CanInject
+            or injection_status is InjectionStatus.AlreadyInjected)
+
+
+InjectionMappingStatus = namedtuple('InjectionMappingStatus',
+                                    ['mapping', 'injection_status'])
 
 
 class Mapping:
@@ -34,22 +44,23 @@ class Mapping:
     def __repr__(self):
         return "`{} -> {}`".format(self.source, self.destination)
 
-    def verify_injection(self):
+    @property
+    def injection_status(self):
         """Verifies if injection is possible, or necessary.
 
         API wise, return True if """
         if self.method is Method.LINK:
             if self.real_source == self.real_destination:
                 return InjectionStatus.AlreadyInjected
-            if not os.path.exists(self.destination):
+            if not os.path.exists(self.real_destination):
                 return InjectionStatus.CanInject
-            if os.path.exists(self.destination):
+            if os.path.exists(self.real_destination):
                 return InjectionStatus.InjectionConflict
             else:
                 return InjectionStatus.UnkownStatus
         else:
-            raise ValueError("{} is not currently a valid injection mapping".
-                             format(self.mapping.value))
+            raise ValueError("{} is not currently a valid injection method".
+                             format(self.method.value))
 
     def inject(self, force=False):
         pass

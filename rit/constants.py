@@ -6,7 +6,7 @@ class Method(Enum):
     LINK = 'link'
 
 
-DEFAULT_METHOD = Method.COPY
+DEFAULT_METHOD = Method.LINK
 Methods = [m.value for m in Method]
 
 MAP_FILENAME = "mappings.json"

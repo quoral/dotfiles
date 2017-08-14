@@ -3,7 +3,7 @@ import os
 
 from rit import constants
 from rit.repo import acquire_repo
-from rit.mapping import Mapping
+from rit.mapping import Mapping, InjectionMappingStatus
 
 
 def get_all_mappings(method):
@@ -37,11 +37,23 @@ def show_mappings(mappings):
         print(
             fmt_string.format(source, dest, source_exists, dest_exists,
                               mapping.real_destination,
-                              mapping.verify_injection().name))
+                              mapping.injection_status.name))
 
 
-def detect_injection_conflicts():
-    pass
+def generate_injection_statuses(mappings):
+    return [
+        InjectionMappingStatus(mapping, mapping.injection_status)
+        for mapping in mappings
+    ]
+
+
+def status_mappings(injection_statuses):
+    output = {}
+    for mapping, injection_status in injection_statuses:
+        if injection_status not in output:
+            output[injection_status] = []
+        output[injection_status].append(mapping)
+    return output
 
 
 def inject_mappings(mappings, method):

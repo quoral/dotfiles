@@ -35,4 +35,25 @@ def inject(method, dryrun):
     if method is constants.Method.COPY:
         raise click.UsageError(
             "Copy is currently not implemented. Please use link.")
-    dotfiles.detect_injection_conflicts(mappings, method)
+    status_mappings = dotfiles.generate_injection_statuses(mappings)
+    injection_statuses_not_ok = [
+        ms for ms in status_mappings
+        if not mapping.okay_status(ms.injection_status)
+    ]
+    if injection_statuses_not_ok:
+        raise click.ClickException("\n" + "\n".join(
+            "{}: {}".format(status.name, ", ".join(str(m) for m in mappings))
+            for status, mappings in dotfiles.status_mappings(
+                injection_statuses_not_ok).items()))
+    injections_to_perform = [
+        ms for ms in status_mappings
+        if ms.injection_status is mapping.InjectionStatus.CanInject
+    ]
+    if not injections_to_perform:
+        click.secho("No action to perform.", color='green')
+    click.confirm(
+        "Confirm to inject the following "
+        "mappings with method `{}`:\n   {}\n".format(
+            method.value, "\n   ".join(
+                str(m.mapping) for m in injections_to_perform)),
+        abort=True)
