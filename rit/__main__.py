@@ -50,10 +50,13 @@ def inject(method, dryrun):
         if ms.injection_status is mapping.InjectionStatus.CanInject
     ]
     if not injections_to_perform:
-        click.secho("No action to perform.", color='green')
+        click.secho("No actions to perform.", fg='green')
+        raise click.Abort()
     click.confirm(
         "Confirm to inject the following "
         "mappings with method `{}`:\n   {}\n".format(
             method.value, "\n   ".join(
                 str(m.mapping) for m in injections_to_perform)),
         abort=True)
+    injection_method = mapping.injection_method_picker(method)
+    injection_method([ms.mapping for ms in injections_to_perform])

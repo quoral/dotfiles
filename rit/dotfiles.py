@@ -54,8 +54,3 @@ def status_mappings(injection_statuses):
             output[injection_status] = []
         output[injection_status].append(mapping)
     return output
-
-
-def inject_mappings(mappings, method):
-    for mapping in mappings:
-        pass

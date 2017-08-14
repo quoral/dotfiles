@@ -1,6 +1,8 @@
 import os
-from enum import Enum, auto
 from collections import namedtuple
+from enum import Enum, auto
+
+import click
 
 from rit.constants import Method
 from rit.repo import acquire_repo
@@ -64,3 +66,20 @@ class Mapping:
 
     def inject(self, force=False):
         pass
+
+
+def _link_injection_method(mappings):
+    for mapping in mappings:
+        click.secho("Performing mapping: {} ... ".format(mapping), nl=False)
+        os.symlink(mapping.real_source, mapping.real_destination)
+        click.secho("√", fg='green')
+
+
+_method_dispatch_dict = {Method.LINK: _link_injection_method}
+
+
+def injection_method_picker(method):
+    _method_func = _method_dispatch_dict.get(method)
+    if _method_func is None:
+        raise ValueError('Method {} not found'.format(method.value))
+    return _method_func
