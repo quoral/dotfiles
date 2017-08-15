@@ -70,6 +70,14 @@ class Mapping:
 
 def _link_injection_method(mappings):
     for mapping in mappings:
+        mapping_destination_dir = os.path.dirname(mapping.real_destination)
+        if not os.path.isdir(mapping_destination_dir):
+            click.secho(
+                "Creating folder structure: {} ... ".format(
+                    mapping_destination_dir),
+                nl=False)
+            os.makedirs(mapping_destination_dir)
+            click.secho("√", fg='green')
         click.secho("Performing mapping: {} ... ".format(mapping), nl=False)
         os.symlink(mapping.real_source, mapping.real_destination)
         click.secho("√", fg='green')
