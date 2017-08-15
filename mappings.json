@@ -3,5 +3,15 @@
     "slate": "~/.slate",
     "slate.js": "~/.slate.js",
     "vimrc": "~/.vimrc",
-    "xmonad.hs": "~/.xmonad.hs"
+    "xmonad.hs": "~/.xmonad.hs",
+    "spacemacs": "~/.spacemacs",
+    "zshrc": "~/.zshrc",
+    "zshenv": "~/.zshenv",
+    "settings.json": "~/Library/Application Support/Code/User/settings.json",
+    "config/fish/config.fish": "~/.config/fish/config.fish",
+    "config/fish/fishfile": "~/.config/fish/fishfile",
+    "config/fish/functions/edit.fish": "~/.config/fish/functions/edit.fish",
+    "config/fish/functions/git.fish": "~/.config/fish/functions/git.fish",
+    "config/powerline/config.json": "~/.config/powerline/config.json",
+    "config/powerline/themes/shell/mytheme.json": "~/.config/powerline/themes/shell/mytheme.json"
 }
