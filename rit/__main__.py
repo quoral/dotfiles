@@ -1,4 +1,6 @@
 """The entrypoint to all rit commands."""
+import os
+
 import click
 
 from rit import constants, dotfiles, mapping
@@ -70,3 +72,31 @@ def inject_list(verbose, method):
         dotfiles.show_mappings_verbose(mappings)
     else:
         dotfiles.show_mappings(mappings)
+
+
+@rit.command()
+@method_decorator
+@click.option('-d', '--destination', required=True)
+@click.option('-s', '--source', required=True)
+def add(method, destination, source):
+    if os.path.isabs(destination):
+        raise click.ClickException("Destination seems to be an absolute path. "
+                                   "Please quote the options so your shell "
+                                   "doesn't auto-expand the parameter.")
+    mappings = dotfiles.get_all_mappings(method)
+    source_mapped = [m for m in mappings if m.source == source]
+    if len(source_mapped) > 0:
+        raise click.ClickException(
+            'Already mapped source `{}`'.format(source_mapped[0].source))
+    expanded_destination = os.path.expanduser(destination)
+    expanded_source = os.path.expanduser(source)
+
+    if os.path.exists(expanded_destination):
+        raise click.ClickException(
+            'Destination {} already exists.'.format(expanded_destination))
+    if not os.path.exists(expanded_source):
+        raise click.ClickException(
+            'Source {} does not exist'.format(expanded_source))
+
+    with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
+        mapping_json[source] = destination

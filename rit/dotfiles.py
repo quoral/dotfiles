@@ -1,5 +1,8 @@
+import copy
 import json
+import simplejson
 import os
+from contextlib import contextmanager
 
 import click
 
@@ -8,7 +11,8 @@ from rit.mapping import InjectionMappingStatus, Mapping, okay_status
 from rit.repo import acquire_repo
 
 
-def get_all_mappings(method):
+@contextmanager
+def acquire_mapping_json(writeable=False):
     with acquire_repo() as r:
         mapping_location = os.path.join(r.working_dir, constants.MAP_LOCATION)
         if not os.path.isfile(mapping_location):
@@ -16,6 +20,17 @@ def get_all_mappings(method):
                 'File {} not found'.format(constants.MAP_FILENAME))
         with open(mapping_location) as f:
             raw_maps = json.load(f)
+        copied_maps = copy.copy(raw_maps)
+        yield raw_maps
+        if writeable and raw_maps != copied_maps:
+            raw_maps_formatted = simplejson.dumps(
+                raw_maps, indent=4, sort_keys=True)
+            with open(mapping_location, 'w') as f:
+                f.write(raw_maps_formatted)
+
+
+def get_all_mappings(method):
+    with acquire_mapping_json() as raw_maps:
         return [
             Mapping(source, destination, method)
             for source, destination in raw_maps.items()
