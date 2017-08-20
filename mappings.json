@@ -1,18 +1,17 @@
 {
-    "zshenv": "~/.zshenv",
-    "slate": "~/.slate",
-    "slate.js": "~/.slate.js",
-    "vimrc": "~/.vimrc",
-    "xmonad.hs": "~/.xmonad.hs",
-    "spacemacs": "~/.spacemacs",
-    "zshrc": "~/.zshrc",
-    "zshenv": "~/.zshenv",
-    "settings.json": "~/Library/Application Support/Code/User/settings.json",
     "config/fish/config.fish": "~/.config/fish/config.fish",
     "config/fish/fishfile": "~/.config/fish/fishfile",
     "config/fish/functions/edit.fish": "~/.config/fish/functions/edit.fish",
     "config/fish/functions/git.fish": "~/.config/fish/functions/git.fish",
+    "config/karabiner/karabiner.json": "~/.config/karabiner/karabiner.json",
     "config/powerline/config.json": "~/.config/powerline/config.json",
     "config/powerline/themes/shell/mytheme.json": "~/.config/powerline/themes/shell/mytheme.json",
-    "config/karabiner/karabiner.json": "~/.config/karabiner/karabiner.json"
+    "settings.json": "~/Library/Application Support/Code/User/settings.json",
+    "slate": "~/.slate",
+    "slate.js": "~/.slate.js",
+    "spacemacs": "~/.spacemacs",
+    "vimrc": "~/.vimrc",
+    "xmonad.hs": "~/.xmonad.hs",
+    "zshenv": "~/.zshenv",
+    "zshrc": "~/.zshrc"
 }
