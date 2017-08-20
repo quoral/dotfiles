@@ -1,9 +1,11 @@
 import json
 import os
 
+import click
+
 from rit import constants
+from rit.mapping import InjectionMappingStatus, Mapping, okay_status
 from rit.repo import acquire_repo
-from rit.mapping import Mapping, InjectionMappingStatus
 
 
 def get_all_mappings(method):
@@ -21,6 +23,14 @@ def get_all_mappings(method):
 
 
 def show_mappings(mappings):
+    for m in mappings:
+        injection_status = m.injection_status
+        color = 'green' if okay_status(injection_status) else 'red'
+        click.secho("{}: ".format(m), nl=False)
+        click.secho(injection_status.name, fg=color)
+
+
+def show_mappings_verbose(mappings):
     for mapping in mappings:
         source = mapping.source
         dest = mapping.destination

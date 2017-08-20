@@ -13,5 +13,6 @@
     "config/fish/functions/edit.fish": "~/.config/fish/functions/edit.fish",
     "config/fish/functions/git.fish": "~/.config/fish/functions/git.fish",
     "config/powerline/config.json": "~/.config/powerline/config.json",
-    "config/powerline/themes/shell/mytheme.json": "~/.config/powerline/themes/shell/mytheme.json"
+    "config/powerline/themes/shell/mytheme.json": "~/.config/powerline/themes/shell/mytheme.json",
+    "config/karabiner/karabiner.json": "~/.config/karabiner/karabiner.json"
 }

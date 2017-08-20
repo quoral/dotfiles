@@ -43,7 +43,7 @@ class Mapping:
         with acquire_repo() as r:
             return os.path.join(r.working_dir, self.source)
 
-    def __repr__(self):
+    def __str__(self):
         return "`{} -> {}`".format(self.source, self.destination)
 
     @property

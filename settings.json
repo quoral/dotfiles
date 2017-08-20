@@ -1,5 +1,6 @@
 {
     "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
     "rust.mode": "rls",
     "rust.rustup": {
         "nightlyToolchain": "nightly-x86_64-apple-darwin"

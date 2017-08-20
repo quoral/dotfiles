@@ -9,6 +9,13 @@ def method_translation(ctx, param, value):
         return constants.Method(value)
 
 
+method_decorator = click.option(
+    '--method',
+    type=click.Choice(constants.Methods),
+    default=constants.DEFAULT_METHOD.value,
+    callback=method_translation)
+
+
 @click.group(name="rit")
 def rit():
     """Main entrypoint of rit, the dotfile manager."""
@@ -16,21 +23,13 @@ def rit():
 
 
 @rit.command()
-@click.option(
-    '--method',
-    type=click.Choice(constants.Methods),
-    default=constants.DEFAULT_METHOD.value,
-    callback=method_translation)
-@click.option('--dryrun/--no-dryrun', is_flag=True, default=False)
-def inject(method, dryrun):
+@method_decorator
+def inject(method):
     """Starts the injection of base dotfiles.
 
     Injection is used to describe linking and copying."""
 
     mappings = dotfiles.get_all_mappings(method)
-    if dryrun:
-        dotfiles.show_mappings(mappings)
-        return
 
     if method is constants.Method.COPY:
         raise click.UsageError(
@@ -60,3 +59,14 @@ def inject(method, dryrun):
         abort=True)
     injection_method = mapping.injection_method_picker(method)
     injection_method([ms.mapping for ms in injections_to_perform])
+
+
+@rit.command(name='list')
+@click.option('-v', '--verbose', is_flag=True, default=False)
+@method_decorator
+def inject_list(verbose, method):
+    mappings = dotfiles.get_all_mappings(method)
+    if verbose:
+        dotfiles.show_mappings_verbose(mappings)
+    else:
+        dotfiles.show_mappings(mappings)
