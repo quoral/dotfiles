@@ -1,9 +1,13 @@
 """The entrypoint to all rit commands."""
 import os
+import glob
 
 import click
+import click_completion
 
 from rit import constants, dotfiles, mapping
+
+click_completion.init()
 
 
 def method_translation(ctx, param, value):
@@ -74,10 +78,26 @@ def inject_list(verbose, method):
         dotfiles.show_mappings(mappings)
 
 
+with dotfiles.acquire_mapping_json() as mapping_json:
+    injections = {key: '' for key in mapping_json.keys()}
+
+with dotfiles.acquire_repo() as r:
+    path_wildcard = os.path.join(r.working_dir, '**', '*')
+    files = {
+        os.path.relpath(f, start=r.working_dir): ''
+        for f in glob.iglob(path_wildcard)
+        if f not in injections and os.path.isfile(f)
+    }
+
+
 @rit.command()
 @method_decorator
 @click.option('-d', '--destination', required=True)
-@click.option('-s', '--source', required=True)
+@click.option(
+    '-s',
+    '--source',
+    required=True,
+    type=click_completion.DocumentedChoice(files))
 def add(method, destination, source):
     if os.path.isabs(destination):
         raise click.ClickException("Destination seems to be an absolute path. "
@@ -100,3 +120,9 @@ def add(method, destination, source):
 
     with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
         mapping_json[source] = destination
+
+
+@rit.command()
+@click.argument('source', type=click_completion.DocumentedChoice(injections))
+def rm(source):
+    pass
