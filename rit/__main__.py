@@ -126,14 +126,34 @@ def add(method, destination, source):
 
 @rit.command()
 @click.argument('source', type=click_completion.DocumentedChoice(injections))
-def remove(source):
+@method_decorator
+def remove(source, method):
     if source not in injections:
         raise click.ClickException(
             'Injection `{}` does not exist'.format(source))
     with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
+
         if source not in mapping_json:
             click.ClickException(
                 'Injection `{}` does not exist within json.'.format(source))
+        dest = mapping_json[source]
+        mp = mapping.Mapping(source, dest, method)
+        if mp.injection_status is mapping.InjectionStatus.AlreadyInjected:
+            click.confirm(
+                "Mapping `{}` is already injected. Do you want to eject?".
+                format(source),
+                abort=True)
+            if method is constants.Method.LINK:
+                click.secho(
+                    "Unlinking `{}` ... ".format(mp.destination), nl=False)
+                os.unlink(mp.user_destination)
+                click.secho("√", fg='green')
+            elif method is constants.Method.COPY:
+                pass
+            else:
+                raise click.ClickException(
+                    'Unkown method `{}`.'.format(method.name))
+
         click.secho('Removing injection `{}` ... '.format(source), nl=False)
         del mapping_json[source]
         click.secho('√', fg='green')
