@@ -82,11 +82,13 @@ with dotfiles.acquire_mapping_json() as mapping_json:
     injections = {key: '' for key in mapping_json.keys()}
 
 with dotfiles.acquire_repo() as r:
+    git_files = set(
+        os.path.join(r.working_dir, f) for f in r.git.ls_files().splitlines())
     path_wildcard = os.path.join(r.working_dir, '**', '*')
     files = {
         os.path.relpath(f, start=r.working_dir): ''
         for f in glob.iglob(path_wildcard)
-        if f not in injections and os.path.isfile(f)
+        if f not in injections and os.path.isfile(f) and f in git_files
     }
 
 
@@ -124,5 +126,14 @@ def add(method, destination, source):
 
 @rit.command()
 @click.argument('source', type=click_completion.DocumentedChoice(injections))
-def rm(source):
-    pass
+def remove(source):
+    if source not in injections:
+        raise click.ClickException(
+            'Injection `{}` does not exist'.format(source))
+    with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
+        if source not in mapping_json:
+            click.ClickException(
+                'Injection `{}` does not exist within json.'.format(source))
+        click.secho('Removing injection `{}` ... '.format(source), nl=False)
+        del mapping_json[source]
+        click.secho('√', fg='green')
