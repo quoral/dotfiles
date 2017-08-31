@@ -10,18 +10,6 @@ from rit import constants, dotfiles, mapping
 click_completion.init()
 
 
-def method_translation(ctx, param, value):
-    if value is not None:
-        return constants.Method(value)
-
-
-method_decorator = click.option(
-    '--method',
-    type=click.Choice(constants.Methods),
-    default=constants.DEFAULT_METHOD.value,
-    callback=method_translation)
-
-
 @click.group(name="rit")
 def rit():
     """Main entrypoint of rit, the dotfile manager."""
@@ -29,17 +17,13 @@ def rit():
 
 
 @rit.command()
-@method_decorator
-def inject(method):
+def inject():
     """Starts the injection of base dotfiles.
 
     Injection is used to describe linking and copying."""
 
-    mappings = dotfiles.get_all_mappings(method)
+    mappings = dotfiles.get_all_mappings()
 
-    if method is constants.Method.COPY:
-        raise click.UsageError(
-            "Copy is currently not implemented. Please use link.")
     status_mappings = dotfiles.generate_injection_statuses(mappings)
     injection_statuses_not_ok = [
         ms for ms in status_mappings
@@ -59,19 +43,18 @@ def inject(method):
         raise click.Abort()
     click.confirm(
         "Confirm to inject the following "
-        "mappings with method `{}`:\n   {}\n".format(
-            method.value, "\n   ".join(
-                str(m.mapping) for m in injections_to_perform)),
+        "mappings:\n   {}\n".format(
+            "\n   ".join(str(m.mapping) for m in injections_to_perform)),
         abort=True)
-    injection_method = mapping.injection_method_picker(method)
+    injection_method = mapping.injection_method_picker(
+        constants.DEFAULT_METHOD)
     injection_method([ms.mapping for ms in injections_to_perform])
 
 
 @rit.command(name='list')
 @click.option('-v', '--verbose', is_flag=True, default=False)
-@method_decorator
-def inject_list(verbose, method):
-    mappings = dotfiles.get_all_mappings(method)
+def inject_list(verbose):
+    mappings = dotfiles.get_all_mappings()
     if verbose:
         dotfiles.show_mappings_verbose(mappings)
     else:
@@ -93,19 +76,18 @@ with dotfiles.acquire_repo() as r:
 
 
 @rit.command()
-@method_decorator
 @click.option('-d', '--destination', required=True)
 @click.option(
     '-s',
     '--source',
     required=True,
     type=click_completion.DocumentedChoice(files))
-def add(method, destination, source):
+def add(destination, source):
     if os.path.isabs(destination):
         raise click.ClickException("Destination seems to be an absolute path. "
                                    "Please quote the options so your shell "
                                    "doesn't auto-expand the parameter.")
-    mappings = dotfiles.get_all_mappings(method)
+    mappings = dotfiles.get_all_mappings()
     source_mapped = [m for m in mappings if m.source == source]
     if len(source_mapped) > 0:
         raise click.ClickException(
@@ -126,8 +108,7 @@ def add(method, destination, source):
 
 @rit.command()
 @click.argument('source', type=click_completion.DocumentedChoice(injections))
-@method_decorator
-def remove(source, method):
+def remove(source):
     if source not in injections:
         raise click.ClickException(
             'Injection `{}` does not exist'.format(source))
@@ -137,22 +118,15 @@ def remove(source, method):
             click.ClickException(
                 'Injection `{}` does not exist within json.'.format(source))
         dest = mapping_json[source]
-        mp = mapping.Mapping(source, dest, method)
+        mp = mapping.Mapping(source, dest)
         if mp.injection_status is mapping.InjectionStatus.AlreadyInjected:
             click.confirm(
                 "Mapping `{}` is already injected. Do you want to eject?".
                 format(source),
                 abort=True)
-            if method is constants.Method.LINK:
-                click.secho(
-                    "Unlinking `{}` ... ".format(mp.destination), nl=False)
-                os.unlink(mp.user_destination)
-                click.secho("√", fg='green')
-            elif method is constants.Method.COPY:
-                pass
-            else:
-                raise click.ClickException(
-                    'Unkown method `{}`.'.format(method.name))
+            click.secho("Unlinking `{}` ... ".format(mp.destination), nl=False)
+            os.unlink(mp.user_destination)
+            click.secho("√", fg='green')
 
         click.secho('Removing injection `{}` ... '.format(source), nl=False)
         del mapping_json[source]

@@ -29,10 +29,10 @@ def acquire_mapping_json(writeable=False):
                 f.write(raw_maps_formatted)
 
 
-def get_all_mappings(method):
+def get_all_mappings():
     with acquire_mapping_json() as raw_maps:
         return [
-            Mapping(source, destination, method)
+            Mapping(source, destination)
             for source, destination in raw_maps.items()
         ]
 
