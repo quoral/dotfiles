@@ -1,6 +1,7 @@
 """The entrypoint to all rit commands."""
 import os
 import glob
+import itertools
 
 import click
 import click_completion
@@ -62,16 +63,22 @@ def inject_list(verbose):
 
 
 with dotfiles.acquire_mapping_json() as mapping_json:
-    injections = {key: '' for key in mapping_json.keys()}
+    injections = {m['source']: '' for m in mapping_json.get("mappings")}
 
 with dotfiles.acquire_repo() as r:
     git_files = set(
         os.path.join(r.working_dir, f) for f in r.git.ls_files().splitlines())
-    path_wildcard = os.path.join(r.working_dir, '**', '*')
+    folder_wildcard = os.path.join(r.working_dir, '**', '*')
+    root_wildcard = os.path.join(r.working_dir, '*')
+
+    def file_filter(f):
+        return f not in injections and os.path.isfile(f)
+
     files = {
         os.path.relpath(f, start=r.working_dir): ''
-        for f in glob.iglob(path_wildcard)
-        if f not in injections and os.path.isfile(f) and f in git_files
+        for f in itertools.chain(
+            glob.iglob(folder_wildcard), glob.iglob(root_wildcard))
+        if file_filter(f)
     }
 
 
@@ -103,7 +110,10 @@ def add(destination, source):
             'Source {} does not exist'.format(expanded_source))
 
     with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
-        mapping_json[source] = destination
+        mapping_json["mappings"].append({
+            "source": source,
+            "destination": destination
+        })
 
 
 @rit.command()
@@ -113,12 +123,16 @@ def remove(source):
         raise click.ClickException(
             'Injection `{}` does not exist'.format(source))
     with dotfiles.acquire_mapping_json(writeable=True) as mapping_json:
-
-        if source not in mapping_json:
+        mappings = mapping_json['mappings']
+        for i, obj in enumerate(mappings):
+            if obj.get('source') == source:
+                location = i
+        else:
             click.ClickException(
                 'Injection `{}` does not exist within json.'.format(source))
-        dest = mapping_json[source]
-        mp = mapping.Mapping(source, dest)
+        raw_mapping = mappings[location]
+        mp = mapping.Mapping(
+            raw_mapping.get('source'), raw_mapping.get('destination'))
         if mp.injection_status is mapping.InjectionStatus.AlreadyInjected:
             click.confirm(
                 "Mapping `{}` is already injected. Do you want to eject?".
@@ -129,5 +143,5 @@ def remove(source):
             click.secho("√", fg='green')
 
         click.secho('Removing injection `{}` ... '.format(source), nl=False)
-        del mapping_json[source]
+        del mappings[location]
         click.secho('√', fg='green')

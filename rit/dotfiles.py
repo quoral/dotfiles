@@ -20,7 +20,7 @@ def acquire_mapping_json(writeable=False):
                 'File {} not found'.format(constants.MAP_FILENAME))
         with open(mapping_location) as f:
             raw_maps = json.load(f)
-        copied_maps = copy.copy(raw_maps)
+        copied_maps = copy.deepcopy(raw_maps)
         yield raw_maps
         if writeable and raw_maps != copied_maps:
             raw_maps_formatted = simplejson.dumps(
@@ -30,10 +30,11 @@ def acquire_mapping_json(writeable=False):
 
 
 def get_all_mappings():
-    with acquire_mapping_json() as raw_maps:
+    with acquire_mapping_json() as raw_maps_json:
+        raw_mappings = raw_maps_json.get("mappings")
         return [
-            Mapping(source, destination)
-            for source, destination in raw_maps.items()
+            Mapping(raw_mapping.get('source'), raw_mapping.get('destination'))
+            for raw_mapping in raw_mappings
         ]
 
 

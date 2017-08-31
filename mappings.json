@@ -1,17 +1,64 @@
 {
-    "config/fish/config.fish": "~/.config/fish/config.fish",
-    "config/fish/fishfile": "~/.config/fish/fishfile",
-    "config/fish/functions/edit.fish": "~/.config/fish/functions/edit.fish",
-    "config/fish/functions/git.fish": "~/.config/fish/functions/git.fish",
-    "config/karabiner/karabiner.json": "~/.config/karabiner/karabiner.json",
-    "config/powerline/config.json": "~/.config/powerline/config.json",
-    "config/powerline/themes/shell/mytheme.json": "~/.config/powerline/themes/shell/mytheme.json",
-    "settings.json": "~/Library/Application Support/Code/User/settings.json",
-    "slate": "~/.slate",
-    "slate.js": "~/.slate.js",
-    "spacemacs": "~/.spacemacs",
-    "vimrc": "~/.vimrc",
-    "xmonad.hs": "~/.xmonad.hs",
-    "zshenv": "~/.zshenv",
-    "zshrc": "~/.zshrc"
+    "mappings": [
+        {
+            "destination": "~/.config/fish/config.fish",
+            "source": "config/fish/config.fish"
+        },
+        {
+            "destination": "~/.config/fish/fishfile",
+            "source": "config/fish/fishfile"
+        },
+        {
+            "destination": "~/.config/fish/functions/edit.fish",
+            "source": "config/fish/functions/edit.fish"
+        },
+        {
+            "destination": "~/.config/fish/functions/git.fish",
+            "source": "config/fish/functions/git.fish"
+        },
+        {
+            "destination": "~/.config/karabiner/karabiner.json",
+            "source": "config/karabiner/karabiner.json"
+        },
+        {
+            "destination": "~/.config/powerline/config.json",
+            "source": "config/powerline/config.json"
+        },
+        {
+            "destination": "~/.config/powerline/themes/shell/mytheme.json",
+            "source": "config/powerline/themes/shell/mytheme.json"
+        },
+        {
+            "destination": "~/Library/Application Support/Code/User/settings.json",
+            "source": "settings.json"
+        },
+        {
+            "destination": "~/.slate",
+            "source": "slate"
+        },
+        {
+            "destination": "~/.slate.js",
+            "source": "slate.js"
+        },
+        {
+            "destination": "~/.spacemacs",
+            "source": "spacemacs"
+        },
+        {
+            "destination": "~/.vimrc",
+            "source": "vimrc"
+        },
+        {
+            "destination": "~/.zshenv",
+            "source": "zshenv"
+        },
+        {
+            "destination": "~/.zshrc",
+            "source": "zshrc"
+        },
+        {
+            "destination": "~/.xmonad.hs",
+            "source": "xmonad.hs"
+        }
+    ]
 }
