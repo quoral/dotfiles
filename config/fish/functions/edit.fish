@@ -1,7 +1,7 @@
 function edit
 
     set search_args ""
-    set EDE emc
+    set EDE code
     getopts $argv | while read -l key option
         switch $key
             case _
