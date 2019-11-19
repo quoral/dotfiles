@@ -180,7 +180,7 @@ bindsym Mod1+y exec discord
 
 
 # Lock computer
-bindsym Mod1+o exec "i3lock-fancy -pgf Source-Code-Pro-Medium -- scrot -z"
+bindsym Mod1+o exec "i3lock-fancy -pgf Source-Code-Pro-Medium -- maim"
 
 gaps inner 5
 for_window [class="^.*"] border pixel 2
