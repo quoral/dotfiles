@@ -1,0 +1,42 @@
+links:
+  - src: vimrc
+    dest: ~/.vimrc
+
+  - src: zshenv
+    dest: ~/.zshenv
+  - src: zshrc
+    dest: ~/.zshrc
+
+  - src: config/termite/config
+    dest: ~/.config/termite/config
+
+  - src: config/i3/config
+    dest: ~/.config/i3/config
+  - src: config/i3status/config
+    dest: ~/.config/i3status/config
+
+  - src: config/compton/compton.conf
+    dest: ~/.config/compton/compton.conf
+
+  - src: config/fish/config.fish
+    dest: ~/.config/fish/config.fish
+  - src: config/fish/fishfile
+    dest: ~/.config/fish/fishfile
+
+  - src: config/fish/functions/1pass.fish
+    dest: ~/.config/fish/functions/1pass.fish
+  - src: config/fish/functions/1pass-login.fish
+    dest: ~/.config/fish/functions/1pass-login.fish
+  - src: config/fish/functions/1pass-list.fish
+    dest: ~/.config/fish/functions/1pass-list.fish
+
+  - src: config/fish/functions/edit.fish
+    dest: ~/.config/fish/functions/edit.fish
+
+  - src: wallpapers/planet.jpg
+    dest: ~/wallpapers/planet.jpg
+
+  - src: bin/1pass.py
+    dest: ~/.local/bin/1pass.py
+
+dotfiles_repository: https://github.com/kallekrantz/dotfiles

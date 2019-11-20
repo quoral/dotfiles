@@ -1,0 +1,28 @@
+- name: "Ensure folder is created"
+  file:
+    state: directory
+    dest: ~/Code/Own/dotfiles
+  register: dotfiles_folder
+
+- name: "Install powerline"
+  pip:
+    executable: pip3
+    name: powerline-status
+
+- name: "Clone Dotfiles repository"
+  git:
+    repo: '{{ dotfiles_repository }}'
+    dest: "~/Code/Own/dotfiles"
+
+- name: "Ensure all basefolders are created"
+  file:
+    dest: "{{ item.dest | dirname }}"
+    state: directory
+  with_items: "{{ links }}"
+
+- name: "Ensure all symlinks are placed"
+  file:
+    src: "{{ dotfiles_folder.path }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items: "{{ links }}"
