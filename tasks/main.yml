@@ -11,7 +11,7 @@
 
 - name: "Ensure all symlinks are placed"
   file:
-    src: "{{ dotfiles_folder.path }}/{{ item.src }}"
+    src: "{{ playbook_dir }}/roles/dotfiles/files/{{ item.src }}"
     dest: "{{ item.dest }}"
     state: link
   with_items: "{{ links }}"
