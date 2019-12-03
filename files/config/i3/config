@@ -185,7 +185,7 @@ bindsym Mod1+o exec "i3lock-fancy -pgf Source-Code-Pro-Medium -- maim"
 gaps inner 5
 for_window [class="^.*"] border pixel 2
 
-exec_always --no-startup-id feh --bg-fill $HOME/wallpapers/planet.jpg
+exec_always --no-startup-id feh -R 360 --randomize --bg-fill $HOME/wallpapers/*
 
 exec --no-startup-id synclient HorizEdgeScroll=1 VertEdgeScroll=1 VertScrollDelta=-111
 exec --no-startup-id compton --config ~/.config/compton/compton.conf
