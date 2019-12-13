@@ -35,6 +35,8 @@ links:
 
   - src: wallpapers/planet.jpg
     dest: ~/wallpapers/planet.jpg
+  - src: wallpapers/expanse_4k_full.png
+    dest: ~/wallpapers/expanse_4k_full.png
 
   - src: bin/1pass.py
     dest: ~/.local/bin/1pass.py

@@ -2,12 +2,16 @@
   pip:
     executable: pip3
     name: powerline-status
+  tags:
+    - dotfiles
 
 - name: "Ensure all basefolders are created"
   file:
     dest: "{{ item.dest | dirname }}"
     state: directory
   with_items: "{{ links }}"
+  tags:
+    - dotfiles
 
 - name: "Ensure all symlinks are placed"
   file:
@@ -15,3 +19,5 @@
     dest: "{{ item.dest }}"
     state: link
   with_items: "{{ links }}"
+  tags:
+    - dotfiles
