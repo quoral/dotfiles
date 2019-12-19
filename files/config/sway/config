@@ -49,6 +49,9 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     natural_scroll enabled
     middle_emulation enabled
 }
+output DP-2 transform 270
+output DP-2 pos 0 0 res 2560x1440
+output DP-1 pos 1440 330 res 2560x1440
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -200,8 +203,13 @@ bindsym Mod1+y exec discord
 
 bindsym Mod1+o exec "swaylock --image ~/wallpapers/expanse_4k_full.png"
 
-output "*" bg $HOME/wallpapers/expanse_4k_full.png fill
+output "*" bg $HOME/wallpapers/expanse_4k_full.png center
 
+# Ensure a scratchpad window for my password manager exists
+for_window [title="I3-PASSWORD-WINDOW"] floating enable
+for_window [title="I3-PASSWORD-WINDOW"] move scratchpad 
+bindsym $mod+i [title="I3-PASSWORD-WINDOW"] scratchpad show
+exec termite --title I3-PASSWORD-WINDOW
 #
 # Status Bar:
 #
