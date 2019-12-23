@@ -19,7 +19,6 @@ set $term termite
 # Note: it's recommended that you pass the final command to sway
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-hide_edge_borders smart 
 ### Idle configuration
 #
 # Example configuration:
@@ -203,7 +202,14 @@ bindsym Mod1+y exec discord
 
 bindsym Mod1+o exec "swaylock --image ~/wallpapers/expanse_4k_full.png"
 
+bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
 output "*" bg $HOME/wallpapers/expanse_4k_full.png center
+
+hide_edge_borders smart
+default_border pixel
+
+gaps inner 7
+gaps outer -7
 
 # Ensure a scratchpad window for my password manager exists
 for_window [title="I3-PASSWORD-WINDOW"] floating enable
@@ -219,13 +225,17 @@ bar {
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-
+    status_command while ~/.local/bin/sway-bar; do sleep 1; done
+    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+    separator_symbol |
+    status_edge_padding 15
+    status_padding 5
     colors {
         statusline #ffffff
         background #323232
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
+    font Source Code Pro for Powerline 11
 }
 
 
