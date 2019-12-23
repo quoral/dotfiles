@@ -40,5 +40,7 @@ links:
 
   - src: bin/1pass.py
     dest: ~/.local/bin/1pass.py
+  - src: bin/sway-bar.py
+    dest: ~/.local/bin/sway-bar
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
