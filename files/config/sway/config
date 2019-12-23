@@ -24,10 +24,10 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec --
 # Example configuration:
 #
  exec swayidle -w \
-          timeout 300 'swaylock -f -c 000000' \
+          timeout 300 'sway-lock' \
           timeout 600 'swaymsg "output * dpms off"' \
                resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -c 000000'
+          before-sleep 'sway-lock'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -200,7 +200,7 @@ bindsym Mod1+b exec firefox-trunk
 bindsym Mod1+t exec slack
 bindsym Mod1+y exec discord
 
-bindsym Mod1+o exec "swaylock --image ~/wallpapers/expanse_4k_full.png"
+bindsym Mod1+o exec "sway-lock"
 
 bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
 output "*" bg $HOME/wallpapers/expanse_4k_full.png center

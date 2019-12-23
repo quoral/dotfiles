@@ -42,5 +42,7 @@ links:
     dest: ~/.local/bin/1pass.py
   - src: bin/sway-bar.py
     dest: ~/.local/bin/sway-bar
+  - src: bin/sway-lock.sh
+    dest: ~/.local/bin/sway-lock
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
