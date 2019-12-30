@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import json
+import subprocess
 import psutil
 import re
 import pulsectl
@@ -116,6 +118,14 @@ def memory_output():
     virtual_memory = psutil.virtual_memory()
     return ":ram: {}%".format(virtual_memory.percent)
 
+def language_output():
+    result = subprocess.run(['swaymsg', '-t', 'get_inputs'], capture_output=True)
+    if result.returncode != 0:
+        return
+    inputs = json.loads(result.stdout)
+    primary_input = next(keyboard_input for keyboard_input in inputs if keyboard_input["identifier"] == "1:1:AT_Translated_Set_2_keyboard")
+    return ":keyboard: {}".format(primary_input["xkb_active_layout_name"])
+
 def compose_output():
     date_string = date_output(datetime.now())
     battery_string = battery_output(psutil.sensors_battery())
@@ -124,7 +134,9 @@ def compose_output():
         audio_string = pulse_output(pulse_client)
     load_string = load_output()
     memory_string = memory_output()
+    language_string = language_output()
 
-    return emojize("{}  {}  {}  {}  {}  {}".format(load_string, memory_string, audio_string, battery_string, network_string, date_string), use_aliases=True)
+    return emojize("{} {}  {}  {}  {}  {}  {}".format(language_string, load_string, memory_string, audio_string, battery_string, network_string, date_string), use_aliases=True)
+
 
 print(compose_output())
