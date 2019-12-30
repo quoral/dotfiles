@@ -202,8 +202,13 @@ bindsym Mod1+y exec discord
 
 bindsym Mod1+o exec "sway-lock"
 
+# Hardware buttons
+bindsym XF86AudioMute exec pactl set-sink-mute  @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
 bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
-output "*" bg $HOME/wallpapers/expanse_4k_full.png center
+output "*" bg $HOME/wallpapers/spiderman_into_the_spiderverse.jpg fill
 
 hide_edge_borders smart
 default_border pixel
@@ -216,6 +221,9 @@ for_window [title="I3-PASSWORD-WINDOW"] floating enable
 for_window [title="I3-PASSWORD-WINDOW"] move scratchpad 
 bindsym $mod+i [title="I3-PASSWORD-WINDOW"] scratchpad show
 exec termite --title I3-PASSWORD-WINDOW
+
+# Startup dependencies
+exec blueman-applet
 #
 # Status Bar:
 #
@@ -226,13 +234,12 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command while ~/.local/bin/sway-bar; do sleep 1; done
-    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
     separator_symbol |
     status_edge_padding 15
     status_padding 5
     colors {
         statusline #ffffff
-        background #323232
+        background #32323299
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
     font Source Code Pro for Powerline 11
