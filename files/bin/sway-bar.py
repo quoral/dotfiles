@@ -3,6 +3,7 @@
 import psutil
 import re
 import pulsectl
+import warnings
 
 from emoji import emojize
 from pathlib import Path
@@ -20,6 +21,11 @@ def decorate_interface(iff, stats):
         "is_wireless": interface_is_wireless
     }
 
+def mean(seq):
+    return sum(seq)/len(seq)
+
+def to_pct(num):
+    return num*100
 
 def get_interfaces():
     interfaces = set()
@@ -39,6 +45,10 @@ def get_interfaces():
 def pulse_output(pulse_client):
     default_sink_name = pulse_client.server_info().default_sink_name
     default_sink = next(sink for sink in pulse_client.sink_list() if sink.name == default_sink_name)
+
+    mean_pct = mean(default_sink.volume.values)
+    percentage_string = "{}%".format(round(to_pct(mean_pct)))
+
     form_factor = default_sink.proplist["device.form_factor"]
     is_muted = default_sink.mute == 1
 
@@ -50,6 +60,8 @@ def pulse_output(pulse_client):
         pulse_string += ":headphones:"
     else:
         pulse_string += ":speaker:"
+
+    pulse_string += percentage_string
 
     return pulse_string
 
