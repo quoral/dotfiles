@@ -1,0 +1,5 @@
+{
+    output "Dell Inc. DELL U2719DC JSH4QS2" position 0,0 transform 90
+    output "Dell Inc. DELL U2719DC 2LJ0MS2" position 1440,500
+    output eDP-1 enable position 4000,1000
+}

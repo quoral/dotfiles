@@ -13,6 +13,9 @@ links:
   - src: config/sway/config
     dest: ~/.config/sway/config
 
+  - src: config/kanshi/config
+    dest: ~/.config/kanshi/config
+
   - src: config/i3/config
     dest: ~/.config/i3/config
   - src: config/i3status/config
