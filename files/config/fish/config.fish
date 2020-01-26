@@ -23,6 +23,7 @@ function setenv
     set -gx $argv
 end
 
+
 # Aliases that are good to have.
 alias e edit
 alias c "edit --editor charm"
@@ -48,10 +49,12 @@ set -x PATH "$HOME/.cargo/bin" $PATH
 set -x PATH "$HOME/.local/bin" $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x TERM linux
+set -x EDITOR "$HOME/.emacs.d/bin/doom run"
 set -x TERMINFO /etc/terminfo
 set -x DYLD_LIBRARY_PATH $HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib
 set -x RLS_ROOT $HOME/src/rls
-set -x pipenv_fish_fancy yes 
+set -x pipenv_fish_fancy yes
+set -x _JAVA_AWT_WM_NONREPARENTING 1
 if [ $TERM ]
    powerline-setup
 end
