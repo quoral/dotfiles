@@ -5,6 +5,11 @@
   tags:
     - dotfiles
 
+- name: "Install parellel"
+  apt:
+    name: parallel
+  become: True
+
 - name: "Ensure all basefolders are created"
   file:
     dest: "{{ item.dest | dirname }}"
