@@ -35,7 +35,7 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 input * {
     xkb_layout us,se
-    xkb_options grp:win_space_toggle
+    xkb_options "grp:win_space_toggle,caps:escape"
 }
 
 ### Input configuration
@@ -48,9 +48,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     natural_scroll enabled
     middle_emulation enabled
 }
-output DP-2 transform 270
-output DP-2 pos 0 0 res 2560x1440
-output DP-1 pos 1440 330 res 2560x1440
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -224,6 +222,9 @@ exec termite --title I3-PASSWORD-WINDOW
 
 # Startup dependencies
 exec blueman-applet
+exec_always pkill kanshi; exec kanshi
+exec mako
+
 #
 # Status Bar:
 #
