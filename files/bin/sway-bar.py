@@ -6,10 +6,13 @@ import psutil
 import re
 import pulsectl
 import warnings
+import apt
 
+from os import path
 from emoji import emojize
 from pathlib import Path
-from datetime import datetime, timedelta
+from dateutil import parser
+from datetime import datetime, timedelta, timezone
 
 
 IGNORED_INTERFACE_PATTERNS = ["lo", "docker.*"]
@@ -44,14 +47,51 @@ def get_interfaces():
 
     return iff_stats
 
+def upgradable_packages():
+    with open("/var/lib/devsible/package_info") as f:
+        package_info = json.load(f)
+    return package_info["upgradable_packages"]
+
+def time_since_devsible():
+    last_run_path = "/var/lib/devsible/last_run"
+    if not path.exists(last_run_path):
+        return None
+    with open(last_run_path) as f:
+        last_run_content = f.read().strip()
+        last_run_time = parser.parse(last_run_content)
+        return last_run_time
+
+
+def apt_output():
+    timestamp = time_since_devsible()
+    if timestamp is None:
+        return ""
+    now = datetime.now(timezone.utc)
+    timedelta = now - timestamp
+    hours = timedelta.seconds // 3600
+    days = timedelta.days
+
+    total_hours = timedelta.total_seconds() // 3600
+    if total_hours < 12:
+        return ""
+
+    number_of_packages = len(upgradable_packages())
+    output_string = ":gear:"
+    if days > 0:
+        output_string += " {}d".format(days)
+    output_string += " {}h".format(hours)
+    if number_of_packages > 0:
+        output_string += " :arrow_up:{}".format(number_of_packages)
+    return output_string
+
 def pulse_output(pulse_client):
     default_sink_name = pulse_client.server_info().default_sink_name
     default_sink = next(sink for sink in pulse_client.sink_list() if sink.name == default_sink_name)
 
     mean_pct = mean(default_sink.volume.values)
     percentage_string = "{}%".format(round(to_pct(mean_pct)))
+    form_factor = default_sink.proplist.get("device.form_factor")
 
-    form_factor = default_sink.proplist["device.form_factor"]
     is_muted = default_sink.mute == 1
 
     pulse_string = ""
@@ -130,13 +170,14 @@ def compose_output():
     date_string = date_output(datetime.now())
     battery_string = battery_output(psutil.sensors_battery())
     network_string = network_output()
+    apt_string = apt_output()
     with pulsectl.Pulse('sway-bar-client') as pulse_client:
         audio_string = pulse_output(pulse_client)
     load_string = load_output()
     memory_string = memory_output()
     language_string = language_output()
 
-    return emojize("{} {}  {}  {}  {}  {}  {}".format(language_string, load_string, memory_string, audio_string, battery_string, network_string, date_string), use_aliases=True)
+    return emojize("{} {} {}  {}  {}  {}  {}  {}".format(apt_string, language_string, load_string, memory_string, audio_string, battery_string, network_string, date_string), use_aliases=True)
 
 
 print(compose_output())
