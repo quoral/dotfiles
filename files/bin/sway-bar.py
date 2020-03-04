@@ -7,6 +7,7 @@ import re
 import pulsectl
 import warnings
 import apt
+import socket
 
 from os import path
 from emoji import emojize
@@ -15,7 +16,7 @@ from dateutil import parser
 from datetime import datetime, timedelta, timezone
 
 
-IGNORED_INTERFACE_PATTERNS = ["lo", "docker.*"]
+IGNORED_INTERFACE_PATTERNS = ["lo", "docker.*", "vbox.*"]
 BASE_NET_PATH = "/sys/class/net"
 def decorate_interface(iff, stats):
     wireless_folder_path = Path(BASE_NET_PATH, iff, "wireless")
@@ -33,16 +34,17 @@ def to_pct(num):
     return num*100
 
 def get_interfaces():
-    interfaces = set()
-    for iff in psutil.net_if_addrs().keys():
+    interfaces = dict()
+    for (iff, addresses) in psutil.net_if_addrs().items():
         if not any(re.match(ignore_pattern, iff) for ignore_pattern in IGNORED_INTERFACE_PATTERNS):
-            interfaces.add(iff)
-
+            interfaces[iff] = [address for address in addresses
+                               if address.family in (socket.AF_INET6, socket.AF_INET)]
+    print(interfaces)
     iff_stats = {
         iff: decorate_interface(iff, stats)
         for iff, stats
         in psutil.net_if_stats().items()
-        if iff in interfaces
+        if iff in interfaces and len(interfaces[iff]) > 0
     }
 
     return iff_stats
@@ -137,6 +139,7 @@ def network_output():
     network_string = ""
     for interface, info in interfaces.items():
         interface_string = ""
+        print(interface)
         if not info["is_up"]:
             continue
         if info["is_wireless"]:
