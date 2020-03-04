@@ -35,6 +35,7 @@ alias gb "git branch"
 alias gl "git log --pretty=oneline --abbrev-commit --graph"
 alias x "aunpack -q -e"
 alias emc 'emacsclient -n'
+alias magit "emacsclient -c --eval '(let ((display-buffer-alist `((\"^\\*magit: \" display-buffer-same-window) ,display-buffer-alist))) (magit-status))'"
 alias g "git"
 alias ipy "ipython"
 # Kill the last command, I like to ctrl-c in projects that have messed too much with the signals.
@@ -49,7 +50,7 @@ set -x PATH "$HOME/.cargo/bin" $PATH
 set -x PATH "$HOME/.local/bin" $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x TERM linux
-set -x EDITOR "$HOME/.emacs.d/bin/doom run"
+set -x EDITOR "emacsclient -c"
 set -x TERMINFO /etc/terminfo
 set -x DYLD_LIBRARY_PATH $HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib
 set -x RLS_ROOT $HOME/src/rls
@@ -59,5 +60,6 @@ if [ $TERM ]
    powerline-setup
 end
 
+eval (hub alias -s)
 source ~/.asdf/asdf.fish
 source ~/.asdf/plugins/java/set-java-home.fish
