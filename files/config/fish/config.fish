@@ -60,6 +60,7 @@ if [ $TERM ]
    powerline-setup
 end
 
-eval (hub alias -s)
 source ~/.asdf/asdf.fish
 source ~/.asdf/plugins/java/set-java-home.fish
+
+eval (hub alias -s)
