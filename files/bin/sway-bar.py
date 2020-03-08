@@ -139,7 +139,6 @@ def network_output():
     network_string = ""
     for interface, info in interfaces.items():
         interface_string = ""
-        print(interface)
         if not info["is_up"]:
             continue
         if info["is_wireless"]:
