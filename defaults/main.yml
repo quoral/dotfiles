@@ -7,6 +7,9 @@ links:
   - src: zshrc
     dest: ~/.zshrc
 
+  - src: config/kitty/kitty.conf
+    dest: ~/.config/kitty/kitty.conf
+
   - src: config/termite/config
     dest: ~/.config/termite/config
 
