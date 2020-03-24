@@ -35,6 +35,8 @@ links:
     dest: ~/.config/fish/functions/1pass-login.fish
   - src: config/fish/functions/1pass-list.fish
     dest: ~/.config/fish/functions/1pass-list.fish
+  - src: config/fish/functions/fc.fish
+    dest: ~/.config/fish/functions/fc.fish
 
   - src: config/fish/functions/edit.fish
     dest: ~/.config/fish/functions/edit.fish
