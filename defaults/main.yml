@@ -52,5 +52,7 @@ links:
     dest: ~/.local/bin/sway-bar
   - src: bin/sway-lock.sh
     dest: ~/.local/bin/sway-lock
-
+  - src: bin/sway-refresh.sh
+    dest: ~/.local/bin/sway-refresh
+ 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
