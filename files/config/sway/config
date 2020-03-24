@@ -231,7 +231,7 @@ exec termite --title I3-PASSWORD-WINDOW
 # Startup dependencies
 exec blueman-applet
 exec_always pkill kanshi; exec kanshi
-exec mako
+exec mako --default-timeout 7500
 
 #
 # Status Bar:
