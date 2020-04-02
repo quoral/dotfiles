@@ -5,7 +5,7 @@
 }
 
 {
-    output "Dell Inc. DELL U2410 F525M98J1CDL" position 0,0
-    output "Dell Inc. DELL U2211H D1TPK04D316L" position 1920,-250 transform 270
-    output eDP-1 position 3000,100
+    output "Dell Inc. DELL U2410 F525M98J1CDL" position 0,250
+    output "Dell Inc. DELL U2211H D1TPK04D316L" position 1920,0 transform 270
+    output eDP-1 position 3000,0
 }
