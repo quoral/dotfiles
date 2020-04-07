@@ -35,7 +35,7 @@ set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 input * {
     xkb_layout us,se
-    xkb_options "grp:win_space_toggle,caps:escape"
+    xkb_options "grp:win_space_toggle,caps:escape,compose:ralt"
 }
 
 ### Input configuration
