@@ -24,6 +24,9 @@ links:
   - src: config/i3status/config
     dest: ~/.config/i3status/config
 
+  - src: config/wofi/config
+    dest: ~/.config/wofi/config
+
   - src: config/fish/config.fish
     dest: ~/.config/fish/config.fish
   - src: config/fish/fishfile
