@@ -236,6 +236,15 @@ exec termite --title I3-PASSWORD-WINDOW
 exec blueman-applet
 exec mako --default-timeout 7500
 
+# Ensure that Firefox icons and stuff work
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Adwaita'
+    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema cursor-theme 'Adwaita'
+}
+
 #
 # Status Bar:
 #
