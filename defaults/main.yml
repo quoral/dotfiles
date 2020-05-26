@@ -1,68 +1,68 @@
 links:
   - src: vimrc
-    dest: ~/.vimrc
+    dest: .vimrc
 
   - src: zshenv
-    dest: ~/.zshenv
+    dest: .zshenv
   - src: zshrc
-    dest: ~/.zshrc
+    dest: .zshrc
 
   - src: config/kitty/kitty.conf
-    dest: ~/.config/kitty/kitty.conf
+    dest: .config/kitty/kitty.conf
 
   - src: config/termite/config
-    dest: ~/.config/termite/config
+    dest: .config/termite/config
 
   - src: config/sway/config
-    dest: ~/.config/sway/config
+    dest: .config/sway/config
 
   - src: config/kanshi/config
-    dest: ~/.config/kanshi/config
+    dest: .config/kanshi/config
 
   - src: config/waybar/waybar.config
-    dest: ~/.config/waybar/config
+    dest: .config/waybar/config
   - src: config/waybar/style.css
-    dest: ~/.config/waybar/style.css
+    dest: .config/waybar/style.css
 
   - src: config/i3/config
-    dest: ~/.config/i3/config
+    dest: .config/i3/config
   - src: config/i3status/config
-    dest: ~/.config/i3status/config
+    dest: .config/i3status/config
 
   - src: config/wofi/config
-    dest: ~/.config/wofi/config
+    dest: .config/wofi/config
 
   - src: config/fish/config.fish
-    dest: ~/.config/fish/config.fish
+    dest: .config/fish/config.fish
   - src: config/fish/fishfile
-    dest: ~/.config/fish/fishfile
+    dest: .config/fish/fishfile
 
   - src: config/fish/functions/1pass.fish
-    dest: ~/.config/fish/functions/1pass.fish
+    dest: .config/fish/functions/1pass.fish
   - src: config/fish/functions/1pass-login.fish
-    dest: ~/.config/fish/functions/1pass-login.fish
+    dest: .config/fish/functions/1pass-login.fish
   - src: config/fish/functions/1pass-list.fish
-    dest: ~/.config/fish/functions/1pass-list.fish
+    dest: .config/fish/functions/1pass-list.fish
   - src: config/fish/functions/fc.fish
-    dest: ~/.config/fish/functions/fc.fish
+    dest: .config/fish/functions/fc.fish
 
   - src: config/fish/functions/edit.fish
-    dest: ~/.config/fish/functions/edit.fish
+    dest: .config/fish/functions/edit.fish
 
   - src: wallpapers/planet.jpg
-    dest: ~/wallpapers/planet.jpg
+    dest: /wallpapers/planet.jpg
   - src: wallpapers/expanse_4k_full.png
-    dest: ~/wallpapers/expanse_4k_full.png
+    dest: /wallpapers/expanse_4k_full.png
   - src: wallpapers/spiderman_into_the_spiderverse.jpg
-    dest: ~/wallpapers/spiderman_into_the_spiderverse.jpg
+    dest: /wallpapers/spiderman_into_the_spiderverse.jpg
 
   - src: bin/1pass.py
-    dest: ~/.local/bin/1pass.py
+    dest: /.local/bin/1pass.py
   - src: bin/sway-bar.py
-    dest: ~/.local/bin/sway-bar
+    dest: /.local/bin/sway-bar
   - src: bin/sway-lock.sh
-    dest: ~/.local/bin/sway-lock
+    dest: /.local/bin/sway-lock
   - src: bin/sway-refresh.sh
-    dest: ~/.local/bin/sway-refresh
+    dest: /.local/bin/sway-refresh
  
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
