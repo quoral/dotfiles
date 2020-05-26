@@ -19,6 +19,11 @@ links:
   - src: config/kanshi/config
     dest: ~/.config/kanshi/config
 
+  - src: config/waybar/waybar.config
+    dest: ~/.config/waybar/config
+  - src: config/waybar/style.css
+    dest: ~/.config/waybar/style.css
+
   - src: config/i3/config
     dest: ~/.config/i3/config
   - src: config/i3status/config
