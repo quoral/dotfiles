@@ -226,14 +226,8 @@ default_border pixel
 gaps inner 7
 gaps outer -7
 
-# Ensure a scratchpad window for my password manager exists
-for_window [title="I3-PASSWORD-WINDOW"] floating enable
-for_window [title="I3-PASSWORD-WINDOW"] move scratchpad 
-bindsym $mod+i [title="I3-PASSWORD-WINDOW"] scratchpad show
-exec termite --title I3-PASSWORD-WINDOW
-
 # Startup dependencies
-exec blueman-applet
+# exec blueman-applet
 exec mako --default-timeout 7500
 
 # Ensure that Firefox icons and stuff work
@@ -245,26 +239,32 @@ exec_always {
     gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
 
+exec_always {
+    killall mediaplayer.py; mediaplayer.py
+    killall waybar; waybar
+    killall kanshi; kanshi
+}
+
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
+# bar {
+#     position top
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while ~/.local/bin/sway-bar; do sleep 1; done
-    separator_symbol |
-    status_edge_padding 15
-    status_padding 5
-    colors {
-        statusline #ffffff
-        background #32323299
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-    font Source Code Pro for Powerline 11
-}
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while ~/.local/bin/sway-bar; do sleep 1; done
+#     separator_symbol |
+#     status_edge_padding 15
+#     status_padding 5
+#     colors {
+#         statusline #ffffff
+#         background #32323299
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+#     font Source Code Pro for Powerline 11
+# }
 
 
 include @sysconfdir@/sway/config.d/*
