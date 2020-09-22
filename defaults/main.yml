@@ -64,5 +64,7 @@ links:
     dest: /.local/bin/sway-lock
   - src: bin/sway-refresh.sh
     dest: /.local/bin/sway-refresh
+  - src: bin/spawn.sh
+    dest: /.local/bin/spawn
  
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
