@@ -12,7 +12,7 @@
 
 - name: "Ensure all basefolders are created"
   file:
-    dest: "{{ item.dest | dirname }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest | dirname }}"
     state: directory
   with_items: "{{ links }}"
   tags:
