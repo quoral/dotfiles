@@ -42,7 +42,7 @@ alias ipy "ipython"
 alias kp "kill %1"
 
 # Shame that not everyone uses a good terminal-emulator :)
-alias ssh "env TERM=xterm-color ssh"
+alias ssh "env TERM=xterm-256color ssh"
 
 set -x GOPATH "$HOME/Code/go"
 set -x PATH "$GOPATH/bin" $PATH
@@ -51,9 +51,7 @@ set -x PATH "$HOME/.local/bin" $PATH
 set -x PATH "/snap/bin" $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x ARDUINO_PATH "$HOME/.tmp/arduino-nightly/"
-set -x TERM linux
 set -x EDITOR "emacsclient -c"
-set -x TERMINFO /etc/terminfo
 set -x DYLD_LIBRARY_PATH $HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib
 set -x RLS_ROOT $HOME/src/rls
 set -x pipenv_fish_fancy yes
