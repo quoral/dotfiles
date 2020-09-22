@@ -63,4 +63,9 @@ end
 source ~/.asdf/asdf.fish
 source ~/.asdf/plugins/java/set-java-home.fish
 
+set DIR (dirname (status --current-filename))
+for f in $DIR/company/*.fish
+    . $f
+end
+
 eval (hub alias -s)
