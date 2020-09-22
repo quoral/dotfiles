@@ -203,9 +203,10 @@ bindsym $mod+r mode "resize"
 
 # Application start shortcuts
 bindsym Mod1+c exec code
-bindsym Mod1+b exec firefox-trunk
-bindsym Mod1+t exec slack
+bindsym Mod1+b exec spawn Firefox firefox
+bindsym Mod1+t exec spawn Slack slack
 bindsym Mod1+y exec discord
+bindsym $mod+Shift+r exec chromium --app="https://roamresearch.com/#/app/Tinkerer/graph"
 
 bindsym Mod1+o exec "sway-lock"
 
