@@ -9,6 +9,13 @@
   apt:
     name: parallel
   become: True
+  when: ansible_distribution == "Ubuntu"
+
+- name: "Install parellel"
+  community.general.pacman:
+    name: parallel
+  become: True
+  when: ansible_distribution == "Archlinux"
 
 - name: "Ensure all basefolders are created"
   file:
