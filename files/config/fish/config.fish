@@ -7,6 +7,7 @@ if not functions -q fisher
 end
 
 set fish_function_path $fish_function_path "$HOME/.local/lib/python3.7/site-packages/powerline/bindings/fish"
+set fish_function_path $fish_function_path "$HOME/.local/lib/python3.9/site-packages/powerline/bindings/fish"
 set fish_function_path $fish_function_path "$HOME/.local/lib/python2.7/site-packages/powerline/bindings/fish"
 
 bind \ett peco_todoist_item
