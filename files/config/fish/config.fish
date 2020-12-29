@@ -62,7 +62,10 @@ if [ $TERM ]
 end
 
 source ~/.asdf/asdf.fish
-source ~/.asdf/plugins/java/set-java-home.fish
+
+if test -e ~/.asdf/plugins/java/set-java-home.fish
+   source ~/.asdf/plugins/java/set-java-home.fish
+end
 
 set DIR (dirname (status --current-filename))
 for f in $DIR/company/*.fish
