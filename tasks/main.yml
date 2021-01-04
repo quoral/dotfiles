@@ -30,6 +30,7 @@
     src: "{{dotfiles_location}}/files/{{ item.src }}"
     dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
     state: link
+    force: yes
   with_items: "{{ links }}"
   tags:
     - dotfiles
