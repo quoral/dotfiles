@@ -7,6 +7,18 @@ links:
   - src: zshrc
     dest: .zshrc
 
+  - src: doom.d/+bindings.el
+    dest: .doom.d/+bindings.el
+  - src: doom.d/+org-super-agenda.el
+    dest: .doom.d/+org-super-agenda.el
+  - src: doom.d/config.el
+    dest: .doom.d/config.el
+  - src: doom.d/init.el
+    dest: .doom.d/init.el
+  - src: doom.d/packages.el
+    dest: .doom.d/packages.el
+
+
   - src: config/kitty/kitty.conf
     dest: .config/kitty/kitty.conf
 
