@@ -240,12 +240,12 @@ exec_always {
     gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
 
-exec_always {
-    killall mediaplayer.py; mediaplayer.py
-    killall waybar; waybar
-    killall kanshi; kanshi
+bar {
+    swaybar_command waybar
 }
 
+exec_always killall kanshi; kanshi
+exec_always killall mediaplayer.py; mediaplayer.py
 #
 # Status Bar:
 #
