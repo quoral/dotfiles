@@ -43,6 +43,8 @@ links:
 
   - src: config/wofi/config
     dest: .config/wofi/config
+  - src: config/wofi/style.css
+    dest: .config/wofi/style.css
 
   - src: config/fish/config.fish
     dest: .config/fish/config.fish

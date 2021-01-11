@@ -18,6 +18,7 @@ set $term kitty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $wofi wofi
 
 ### Idle configuration
 #
@@ -73,7 +74,10 @@ input "1452:613:Apple_Inc._Magic_Trackpad_2" {
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+d exec $wofi
+
+    # Start your launcher
+    bindsym $mod+Shift+d exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
