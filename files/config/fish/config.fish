@@ -58,7 +58,7 @@ set -x RLS_ROOT $HOME/src/rls
 set -x pipenv_fish_fancy yes
 set -x _JAVA_AWT_WM_NONREPARENTING 1
 set -x WLR_DRM_NO_MODIFIERS 1
-
+set -x XDG_CURRENT_DESKTOP sway
 if [ $TERM ]
    powerline-setup
 end
