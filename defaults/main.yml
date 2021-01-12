@@ -48,8 +48,8 @@ links:
 
   - src: config/fish/config.fish
     dest: .config/fish/config.fish
-  - src: config/fish/fishfile
-    dest: .config/fish/fishfile
+  - src: config/fish/fish_plugins
+    dest: .config/fish/fish_plugins
 
   - src: config/fish/functions/1pass.fish
     dest: .config/fish/functions/1pass.fish
