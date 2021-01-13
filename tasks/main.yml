@@ -5,6 +5,13 @@
   tags:
     - dotfiles
 
+- name: "Install bin python dependencies"
+  pip:
+    executable: pip3
+    name: iterfzf
+  tags:
+    - dotfiles
+
 - name: "Install parellel"
   apt:
     name: parallel

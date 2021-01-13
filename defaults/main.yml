@@ -80,5 +80,7 @@ links:
     dest: /.local/bin/sway-refresh
   - src: bin/spawn.sh
     dest: /.local/bin/spawn
+  - src: bin/open-meet.py
+    dest: /.local/bin/open-meet
  
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
