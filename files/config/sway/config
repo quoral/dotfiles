@@ -18,7 +18,7 @@ set $term kitty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $wofi wofi
+set $wofi wofi --allow-images
 
 ### Idle configuration
 #
@@ -240,7 +240,7 @@ set $gnome-schema org.gnome.desktop.interface
 
 exec_always {
     gsettings set $gnome-schema gtk-theme 'Adwaita'
-    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema icon-theme 'zafiro-icon-theme'
     gsettings set $gnome-schema cursor-theme 'Adwaita'
 }
 
