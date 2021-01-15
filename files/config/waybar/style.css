@@ -1,139 +1,229 @@
+@import "nord.css";
+
 * {
-    border: none;
-    border-radius: 0;
-    font-family: Roboto,'Font Awesome 5', 'SFNS Display',  Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    min-height: 0;
+	border: none;
+	font-size: 13px;
+	margin: 2px;
+	font-family: Ubuntu Mono, Cascadia Mono, Product Sans ,Arial, Helvetica, sans-serif;
 }
-
 window#waybar {
-    background: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-    color: #ffffff;
+	background-color: #353b49;
+	color: @base04;
+  border-bottom: 2px solid rgba(46,52,64,0.7);
 }
-
-window#waybar.hidden {
-    opacity: 0.0;
+#workspaces, #tags {
+	background-color: @base00;
+	padding: 0px 5px 0px 5px;
+	font-size: 15px;
+  margin-right: 10px;
+	border-radius: 10px;
+}
+#workspaces button, #tags button {
+  background-color: transparent;
+	font-size: 14px;
+	margin: 0;
+	color: @base06;
+}
+#window {
+	color: @base04;
+	margin: 0px;
+  font-size: 14px;
+	border-radius: 10px;
+	padding: 0px 6px 0px 6px;
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#workspaces button {
-    padding: 0 5px;
-    background: transparent;
-    color: #ffffff;
-    border-bottom: 3px solid transparent;
+#workspaces button:hover, #tags button:hover {
+	box-shadow: inherit;
+	color: @base0A;
 }
-
-#workspaces button.focused {
-    background: #64727D;
-    border-bottom: 3px solid #ffffff;
+#workspaces button.focused, #tags button.focused {
+	color: @base09;
 }
-
+#tags button.focused {
+  font-weight: 600;
+}
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+	color:  @base0B;
 }
-
-#mode {
-    background: #64727D;
-    border-bottom: 3px solid #ffffff;
+#tags button {
+  color: @base03;
+  font-weight: 600;
 }
-
-#clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor {
-    padding: 0 10px;
-    margin: 0 5px;
+/* TASKBAR */
+#taskbar {
+	margin: 0px;
 }
-
-#clock {
-    background-color: #64727D;
+#taskbar button {
+	border-radius: 10px;
+  font-size: 13px;
+	padding: 0px 2px 0px 2px;
 }
-
-#battery {
-    background-color: #ffffff;
-    color: #000000;
+#taskbar button.active {
+	background-color: @base00;
 }
-
-#battery.charging {
-    color: #ffffff;
-    background-color: #26A65B;
+#taskbar button.minimized {
+	/* color: @base0D; */
 }
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
+#taskbar button:hover {
+	box-shadow: inherit;
+	background-color: rgba(35,39,49,0.4);
 }
-
-#battery.critical:not(.charging) {
-    background: #f53c3c;
-    color: #ffffff;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+/* BROWSER BOOKMARKS */
+#custom-name, #custom-github,#custom-reddit,#custom-crunchyroll,#custom-youtube,#custom-mail, #custom-library {
+  border-bottom: 2px solid rgba(46,52,64,0.7);
+	background-color: rgba(46,52,64,0.5);
+	font-size: 18px;
+  margin-left: 0;
+  margin-right: 0;
+	padding: 0px 15px 0px 15px ;
 }
-
-#cpu {
-    background: #2ecc71;
-    color: #000000;
+#custom-github {
+	border-radius: 10px 0px 0px 10px;
+	color: @base0C;
 }
-
+#custom-reddit {
+	color: @base0D;
+}
+#custom-crunchyroll {
+	color: @base0E;
+	border-radius: 0px 10px 10px 0px;
+	font-size: 15px;
+}
+#custom-youtube {
+	color: @base0F;
+}
+#custom-mail {
+	color: @base08;
+	font-size: 16px;
+}
+/* WIDGETS */
+#cpu, #idle_inhibitor, #custom-pacman, #memory, #backlight, #disk, #network, #pulseaudio, #custom-weather, #temperature {
+  font-size: 14px;
+	background-color: @base00;
+	padding: 0px 14px 0px 14px;
+	margin: 2px 0px 2px 0px;
+}
+#disk {
+	color: @base0F;
+}
 #memory {
-    background: #9b59b6;
+	color: @base0C;
 }
-
-#backlight {
-    background: #90b1b1;
+#cpu {
+	color: @base0B-light;
 }
-
 #network {
-    background: #2980b9;
+  color: #9da98d;
 }
-
-#network.disconnected {
-    background: #f53c3c;
+#custom-weather {
+	color: @base09;
 }
-
+#custom-weather {
+	padding: 0px 8px 0px 8px;
+}
+#custom-media, #mpd, #custom-mpd {
+	font-size: 14px;
+	border-radius: 10px;
+  margin-left: 10px;
+  background-color: transparent;
+}
+#custom-media.Playing {
+	color: @base09;
+	border-radius: 0px;
+	font-weight: 500;
+}
+#custom-mpd {
+	color: @base0F;
+	border-radius: 0px;
+	font-weight: 500;
+}
+#mpd.paused {
+	color: @base03;
+}
+#mpd.playing {
+	color: @base09;
+}
+#mpd.stopped {
+  color: @base01;
+}
+#custom-pacman {
+	color: @base0D;
+	border-radius: 0px 10px 10px 0px;
+	font-weight: 600;
+}
 #pulseaudio {
-    background: #f1c40f;
-    color: #000000;
+	color: @base07;
+	border-radius: 10px 0px 0px 10px;
 }
-
 #pulseaudio.muted {
-    background: #90b1b1;
-    color: #2a5c45;
+	color: @base03;
 }
-
-#custom-media {
-    background: #66cc99;
-    color: #2a5c45;
+#temperature{
+	color: @base08;
 }
-
-.custom-spotify {
-    background: #66cc99;
-}
-
-.custom-vlc {
-    background: #ffa000;
-}
-
-#temperature {
-    background: #f0932b;
-}
-
 #temperature.critical {
-    background: #eb4d4b;
+	color: @base0D;
 }
-
-#tray {
-    background-color: #2980b9;
+#battery {
+	color: @base07;
+	padding: 0px 8px 0px 8px;
 }
-
+#battery.charging {
+	color: @base06;
+}
+@keyframes blink {
+	to {
+		background-color: #eceff4;
+		color: @base00;
+	}
+}
+#battery.critical:not(.charging) {
+	background-color: @base0B;
+	color: @base06;
+	animation-name: blink;
+	animation-duration: 0.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+label:focus {
+	background-color: @base00;
+}
 #idle_inhibitor {
-    background-color: #2d3436;
+	font-size: 20px;
+	color: #6f7787;
 }
-
 #idle_inhibitor.activated {
-    background-color: #ecf0f1;
-    color: #2d3436;
+	color: @base00;
+}
+#clock, #custom-power, #custom-recorder, #tray {
+	background-color: rgba(46,52,64,0.5);
+	padding: 2px 10px 0px 10px;
+	margin: 2px 0px 2px 0px;
+  border-bottom: 2px solid rgba(46,52,64,0.7);
+}
+#clock {
+	font-size: 14px;
+}
+#custom-recorder {
+	padding: 2px 5px 2px 5px;
+  font-size: 18px;
+}
+#custom-recorder.recording {
+	color: @base0B;
+}
+#tray {
+	border-radius: 10px 0px 0px 10px;
+	margin-left: 10px;
+	color: @base07;
+}
+#custom-power {
+  color: @base06;
+	font-size: 17px;
+	border-radius: 0px 10px 10px 0px;
+	margin-right: 2px;
 }
