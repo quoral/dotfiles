@@ -82,5 +82,12 @@ links:
     dest: /.local/bin/spawn
   - src: bin/open-meet.py
     dest: /.local/bin/open-meet
- 
+
+  - src: config/powerline/config.json
+    dest: .config/powerline/config.json
+  - src: config/powerline/colors.json
+    dest: .config/powerline/colors.json
+  - src: config/powerline/colorschemes/nord.json
+    dest: .config/powerline/colorschemes/nord.json
+
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
