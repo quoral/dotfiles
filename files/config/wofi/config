@@ -1,5 +1,12 @@
-
+hide_scroll=True
 mode=drun
 width=600
 height=600
 colors=colors
+insensitive=true
+layer=true
+image_size=30
+location=top_left
+width=420
+show_all=true
+key_expand=Tab
