@@ -35,6 +35,8 @@ links:
     dest: .config/waybar/config
   - src: config/waybar/style.css
     dest: .config/waybar/style.css
+  - src: config/waybar/nord.css
+    dest: .config/waybar/nord.css
 
   - src: config/i3/config
     dest: .config/i3/config
