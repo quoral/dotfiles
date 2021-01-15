@@ -91,5 +91,7 @@ links:
     dest: .config/powerline/colors.json
   - src: config/powerline/colorschemes/nord.json
     dest: .config/powerline/colorschemes/nord.json
+  - src: config/powerline/themes/shell/mytheme.json
+    dest: .config/powerline/themes/shell/mytheme.json
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
