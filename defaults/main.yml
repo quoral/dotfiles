@@ -71,6 +71,10 @@ links:
     dest: /wallpapers/expanse_4k_full.png
   - src: wallpapers/spiderman_into_the_spiderverse.jpg
     dest: /wallpapers/spiderman_into_the_spiderverse.jpg
+  - src: wallpapers/snowy_mountains_1.jpg
+    dest: /wallpapers/snowy_mountains_1.jpg
+  - src: wallpapers/vertical_colorful_river.jpg
+    dest: /wallpapers/vertical_colorful_river.jpg
 
   - src: bin/1pass.py
     dest: /.local/bin/1pass.py
