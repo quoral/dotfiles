@@ -84,6 +84,8 @@ links:
     dest: /.local/bin/spawn
   - src: bin/open-meet.py
     dest: /.local/bin/open-meet
+  - src: bin/plaster.py
+    dest: /.local/bin/plaster
 
   - src: config/powerline/config.json
     dest: .config/powerline/config.json
