@@ -1,14 +1,19 @@
 - name: "Install powerline"
   pip:
     executable: pip3
-    name: powerline-status
+    name:
+      - powerline-status
+      - powerline-gitstatus
   tags:
     - dotfiles
 
 - name: "Install bin python dependencies"
   pip:
     executable: pip3
-    name: iterfzf
+    name:
+      - iterfzf
+      - Pillow
+      - click
   tags:
     - dotfiles
 
