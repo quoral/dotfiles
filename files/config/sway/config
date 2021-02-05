@@ -222,6 +222,8 @@ bindsym XF86AudioPlay exec playerctl play-pause -p spotify
 bindsym XF86AudioNext exec playerctl next -p spotify
 bindsym XF86AudioPrev exec playerctl previous -p spotify
 
+bindsym Mod1+m [con_mark="music"] scratchpad show
+for_window [class="Spotify"] mark "music", move scratchpad
 
 bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
 output "*" bg $HOME/wallpapers/snowy_mountains_1.jpg fill
