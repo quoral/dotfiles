@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Plaster
+Exec=fish -c "plaster --folder $HOME/wallpapers"
+Type=Application
+Comment=Reshuffle Wallpapers on all Sway outputs
+Categories=Wallpaper

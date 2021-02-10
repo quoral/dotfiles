@@ -1,0 +1,4 @@
+- name: Update desktop database
+  command: update-desktop-database /usr/share/applications
+  become: True
+  listen: changed-desktop-files

@@ -101,3 +101,5 @@ links:
     dest: .config/powerline/themes/shell/mytheme.json
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
+desktop_files:
+  - src: plaster.desktop

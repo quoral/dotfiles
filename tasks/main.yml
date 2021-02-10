@@ -46,3 +46,14 @@
   with_items: "{{ links }}"
   tags:
     - dotfiles
+
+- name: "Copy all .desktop files"
+  copy:
+    src: "{{dotfiles_location}}/files/desktop-files/{{ item.src }}"
+    dest: "/usr/share/applications/{{ item.src }}"
+  with_items: "{{ desktop_files }}"
+  tags:
+    - dotfiles
+    - desktop-files
+  become: True
+  notify: changed-desktop-files

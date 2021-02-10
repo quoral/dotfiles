@@ -50,7 +50,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
     middle_emulation enabled
 }
 
-input "1452:613:Apple_Inc._Magic_Trackpad_2" {
+input "76:613:Apple_Inc._Magic_Trackpad_2" {
     dwt enabled
     tap enabled
     natural_scroll enabled
@@ -209,6 +209,7 @@ bindsym $mod+r mode "resize"
 bindsym Mod1+c exec code
 bindsym Mod1+b exec spawn Firefox firefox
 bindsym Mod1+t exec spawn Slack slack
+bindsym Mod1+p exec spawn Planner planner
 bindsym Mod1+y exec discord
 bindsym $mod+Shift+r exec chromium --app="https://roamresearch.com/#/app/Tinkerer/graph"
 
@@ -225,7 +226,7 @@ bindsym XF86AudioPrev exec playerctl previous -p spotify
 bindsym Mod1+m [con_mark="music"] scratchpad show
 for_window [class="Spotify"] mark "music", move scratchpad
 
-bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
+bindsym $mod+Shift+p exec grim -g "$(slurp -d)" - | wl-copy
 output "*" bg $HOME/wallpapers/snowy_mountains_1.jpg fill
 
 hide_edge_borders smart
