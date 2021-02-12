@@ -68,7 +68,7 @@ input "76:613:Apple_Inc._Magic_Trackpad_2" {
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+Return exec open-in-focused-cwd $term
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -238,6 +238,7 @@ gaps outer -7
 # Startup dependencies
 # exec blueman-applet
 exec mako --default-timeout 7500
+exec persway -a -o 1
 
 # Ensure that Firefox icons and stuff work
 set $gnome-schema org.gnome.desktop.interface

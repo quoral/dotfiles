@@ -86,6 +86,8 @@ links:
     dest: /.local/bin/sway-refresh
   - src: bin/spawn.sh
     dest: /.local/bin/spawn
+  - src: bin/open-in-focused-cwd.sh
+    dest: /.local/bin/open-in-focused-cwd
   - src: bin/open-meet.py
     dest: /.local/bin/open-meet
   - src: bin/plaster.py
