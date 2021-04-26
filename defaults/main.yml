@@ -7,6 +7,9 @@ links:
   - src: zshrc
     dest: .zshrc
 
+  - src: ideavimrc
+    dest: .ideavimrc
+
   - src: doom.d/+bindings.el
     dest: .doom.d/+bindings.el
   - src: doom.d/+org-super-agenda.el
