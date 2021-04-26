@@ -78,6 +78,12 @@ links:
     dest: /wallpapers/snowy_mountains_1.jpg
   - src: wallpapers/vertical_colorful_river.jpg
     dest: /wallpapers/vertical_colorful_river.jpg
+  - src: wallpapers/firewatch_ultrawide.png
+    dest: /wallpapers/firewatch_ultrawide.png
+  - src: wallpapers/mountains.jpg
+    dest: /wallpapers/mountains.jpg
+  - src: wallpapers/colorful_river.png
+    dest: /wallpapers/colorful_river.png
 
   - src: bin/1pass.py
     dest: /.local/bin/1pass.py
