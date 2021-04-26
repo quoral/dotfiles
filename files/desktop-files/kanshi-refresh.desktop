@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Kanshi Refresh
+Exec=kanshi-refresh
+Type=Application
+Comment=Reloads Kanshi from scratch
+Categories=Displays

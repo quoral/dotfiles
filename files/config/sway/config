@@ -91,6 +91,7 @@ input "76:613:Apple_Inc._Magic_Trackpad_2" {
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Ctrl+r exec kanshi-refresh
 #
 # Moving around:
 #

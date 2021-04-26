@@ -92,6 +92,8 @@ links:
     dest: /.local/bin/open-meet
   - src: bin/plaster.py
     dest: /.local/bin/plaster
+  - src: bin/kanshi-refresh.sh
+    dest: /.local/bin/kanshi-refresh
 
   - src: config/powerline/config.json
     dest: .config/powerline/config.json
@@ -105,3 +107,4 @@ links:
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
   - src: plaster.desktop
+  - src: kanshi-refresh.desktop
