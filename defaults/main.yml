@@ -34,6 +34,9 @@ links:
   - src: config/kanshi/config
     dest: .config/kanshi/config
 
+  - src: config/xdg-desktop-portal-wlr/config
+    dest: .config/xdg-desktop-portal-wlr/config
+
   - src: config/waybar/waybar.config
     dest: .config/waybar/config
   - src: config/waybar/style.css
