@@ -37,7 +37,11 @@ class Output:
     def __init__(self, output_json):
         self.identifier = "{} {} {}".format(output_json["make"], output_json["model"], output_json["serial"])
         self.name = output_json["name"]
-        self.transform = output_json["transform"]
+        self.active = output_json["active"]
+        if not self.active:
+            # Any operations on a non-active screen is pointless
+            return
+        self.transform = output_json.get("transform", None)
         if self.transform in ("90", "270"):
             self.dimensions = (int(output_json["current_mode"]["height"]), int(output_json["current_mode"]["width"]))
         else:
@@ -75,15 +79,20 @@ def get_all_outputs():
     command_output = subprocess.run(["swaymsg", "-r", "-t", "get_outputs"], capture_output=True)
     all_outputs = json.loads(command_output.stdout)
     outputs = [Output(single_output) for single_output in all_outputs]
-    return outputs
+    return [output for output in outputs if output.active]
 
 @click.command()
 @click.option('--folder', help='Folder to search.')
 def plaster(folder):
     picture_per_aspect_ratio = get_all_pictures(folder)
+    print(picture_per_aspect_ratio)
     outputs = get_all_outputs()
     for output in outputs:
+        # print(output.aspect_ratio)
         pictures = picture_per_aspect_ratio.get(output.aspect_ratio)
+        if not pictures:
+            continue
+        # print(",".join("{}:{}".format(str(picture.aspect_ratio), picture.path) for picture in pictures))
         pictures_matching = [picture for picture in pictures
                              if picture.is_larger_or_equal_resolution(output.dimensions)]
         picture = random.choice(pictures)
