@@ -241,7 +241,9 @@ exec "systemctl --user import-environment"
 # Startup dependencies
 # exec blueman-applet
 exec mako --default-timeout 7500
-exec persway -a -o 1
+# Although I like the idea of persway, it splits windows in a way that makes it
+# super awkward ergonomically to move them intuitively. Revisit.
+# exec persway -a -o 1
 
 # Ensure that Firefox icons and stuff work
 set $gnome-schema org.gnome.desktop.interface
