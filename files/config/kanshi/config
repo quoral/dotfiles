@@ -1,11 +1,21 @@
 {
+    output eDP-1 position 0,500 enable
+    output "Dell Inc. DELL U2719DC JSH4QS2" position 1920,750
+    output "Dell Inc. DELL U2719DC 6TB1NS2" position 4480,0 transform 270
+}
+{
     output eDP-1 position 0,500
-    output "Dell Inc. DELL U2719DC 2LJ0MS2" position 1920,500
-    output "Dell Inc. DELL U2719DC JSH4QS2" position 4480,0 transform 270
+    output "Dell Inc. DELL U2719DC JSH4QS2" position 1920,0
 }
 
 {
     output "Dell Inc. DELL U2410 F525M98J1CDL" position 0,250
     output "Dell Inc. DELL U2211H D1TPK04D316L" position 1920,0 transform 90
     output eDP-1 position 3000,0
+}
+
+{
+    output eDP-1 position 0,600
+    output "Acer Technologies X34 GS 0x00007F76" position 1920,500
+    output "Dell Inc. DELL U2719DC 6TB1NS2" transform 270 position 5360,0
 }
