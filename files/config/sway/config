@@ -258,8 +258,9 @@ bar {
     swaybar_command waybar
 }
 
-exec_always killall kanshi; kanshi
-exec_always killall mediaplayer.py; mediaplayer.py
+exec kanshi
+exec mediaplayer.py
+exec plaster --folder $HOME/wallpapers/
 #
 # Status Bar:
 #
