@@ -50,6 +50,7 @@ set -x PATH "$GOPATH/bin" $PATH
 set -x PATH "$HOME/.cargo/bin" $PATH
 set -x PATH "$HOME/.local/bin" $PATH
 set -x PATH "/snap/bin" $PATH
+set -x PATH "/usr/bin" $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x ARDUINO_PATH "$HOME/.tmp/arduino-nightly/"
 set -x EDITOR "emacsclient -c"
