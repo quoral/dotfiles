@@ -1,0 +1,45 @@
+format = """
+$time$username$hostname$directory$git_branch$git_status$python
+$character
+"""
+
+[username]
+format = "[ $user@]($style)"
+style_user = "bg:black fg:yellow"
+show_always = true
+
+
+[hostname]
+format = "[$hostname ]($style)[◤](black)"
+style = "bg:black fg:yellow"
+ssh_only = false
+
+[directory]
+format = "[◢](blue)[ $path ](white bg:blue)[◤](blue)"
+truncate_to_repo = false
+fish_style_pwd_dir_length = 4
+
+[java]
+symbol = "🐌"
+
+[kubernetes]
+symbol = "☸ "
+style = "blue"
+disabled = false
+
+[git_branch]
+format = "[◢](white)[ $symbol $branch ](bg:white fg:black)[◤](white)"
+symbol = ""
+
+[git_status]
+conflicted = "🏳"
+ahead = "🏎💨"
+behind = "😰"
+diverged = "😵"
+up_to_date = "✓"
+untracked = "🤷‍"
+stashed = "📦"
+modified = "📝"
+staged = '[++\($count\)](green)'
+renamed = "👅"
+deleted = "🗑"

@@ -67,6 +67,10 @@ links:
     dest: .config/fish/functions/1pass-list.fish
   - src: config/fish/functions/fc.fish
     dest: .config/fish/functions/fc.fish
+  - src: config/fish/functions/aws-env.fish
+    dest: .config/fish/functions/aws-env.fish
+  - src: config/fish/functions/readenv.fish
+    dest: .config/fish/functions/readenv.fish
 
   - src: config/fish/functions/edit.fish
     dest: .config/fish/functions/edit.fish
@@ -115,6 +119,9 @@ links:
     dest: .config/powerline/colorschemes/nord.json
   - src: config/powerline/themes/shell/mytheme.json
     dest: .config/powerline/themes/shell/mytheme.json
+
+  - src: config/starship.toml
+    dest: .config/starship.toml
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:

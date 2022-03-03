@@ -7,7 +7,7 @@ if not functions -q fisher
 end
 
 set fish_function_path $fish_function_path "$HOME/.local/lib/python3.7/site-packages/powerline/bindings/fish"
-set fish_function_path $fish_function_path "$HOME/.local/lib/python3.9/site-packages/powerline/bindings/fish"
+set fish_function_path $fish_function_path "$HOME/.local/lib/python3.10/site-packages/powerline/bindings/fish"
 set fish_function_path $fish_function_path "$HOME/.local/lib/python2.7/site-packages/powerline/bindings/fish"
 
 bind \ett peco_todoist_item
@@ -61,7 +61,7 @@ set -x _JAVA_AWT_WM_NONREPARENTING 1
 set -x WLR_DRM_NO_MODIFIERS 1
 set -x XDG_CURRENT_DESKTOP sway
 if [ $TERM ]
-   powerline-setup
+   starship init fish | source
 end
 
 source ~/.asdf/asdf.fish

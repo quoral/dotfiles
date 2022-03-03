@@ -1,3 +1,6 @@
 #fix for altkeys
 bindkey '[D' backward-word
 bindkey '[C' forward-word
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /home/kallekrantz/Code/go/bin/aws-assume-role aws-assume-role
