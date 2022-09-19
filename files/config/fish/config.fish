@@ -46,11 +46,12 @@ alias kp "kill %1"
 alias ssh "env TERM=xterm-256color ssh"
 
 set -x GOPATH "$HOME/Code/go"
+set -x PATH "/opt/homebrew/bin" $PATH
+set -x PATH "/opt/homebrew/sbin" $PATH
 set -x PATH "$GOPATH/bin" $PATH
 set -x PATH "$HOME/.cargo/bin" $PATH
 set -x PATH "$HOME/.local/bin" $PATH
 set -x PATH "/snap/bin" $PATH
-set -x PATH "/usr/bin" $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x ARDUINO_PATH "$HOME/.tmp/arduino-nightly/"
 set -x EDITOR "emacsclient -c"
@@ -66,19 +67,21 @@ end
 
 source ~/.asdf/asdf.fish
 
-if test -e ~/.asdf/plugins/java/set-java-home.fish
-   source ~/.asdf/plugins/java/set-java-home.fish
-end
+
 
 set DIR (dirname (status --current-filename))
 for f in $DIR/company/*.fish
     . $f
 end
 
-eval (hub alias -s)
-
-if status --is-interactive
-  if test -z "$DISPLAY" -a $XDG_VTNR = 1
-    exec sway
-  end
+switch (uname)
+  case Linux
+    if status --is-interactive
+      if test -z "$DISPLAY" -a $XDG_VTNR = 1
+        exec sway
+      end
+    end
+  case Darwin
+    if status --is-interactive
+    end
 end

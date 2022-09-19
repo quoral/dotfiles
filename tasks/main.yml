@@ -1,21 +1,18 @@
-- name: "Install powerline"
-  pip:
-    executable: pip3
-    name:
-      - powerline-status
-      - powerline-gitstatus
-  tags:
-    - dotfiles
-
 - name: "Install bin python dependencies"
   pip:
     executable: pip3
     name:
       - iterfzf
-      - Pillow
       - click
   tags:
     - dotfiles
+
+- name: "Install linux deps"
+  pip:
+    executable: pip3
+    name:
+      - Pillow
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Archlinux"
 
 - name: "Install parellel"
   apt:
@@ -57,3 +54,4 @@
     - desktop-files
   become: True
   notify: changed-desktop-files
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Archlinux"
