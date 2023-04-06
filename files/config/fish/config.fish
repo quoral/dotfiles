@@ -34,6 +34,7 @@ alias gll "git log"
 alias gd "git diff"
 alias gb "git branch"
 alias gl "git log --pretty=oneline --abbrev-commit --graph"
+alias gc "git checkout (git branch --all | fzf| tr -d '[:space:]')"
 alias x "aunpack -q -e"
 alias emc 'emacsclient -n'
 alias magit "emacsclient -c --eval '(let ((display-buffer-alist `((\"^\\*magit: \" display-buffer-same-window) ,display-buffer-alist))) (magit-status))'"
@@ -76,9 +77,10 @@ end
 
 switch (uname)
   case Linux
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
     if status --is-interactive
       if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec sway
+        # exec sway
       end
     end
   case Darwin

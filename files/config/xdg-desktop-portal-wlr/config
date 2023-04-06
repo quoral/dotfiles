@@ -1,5 +1,0 @@
-[screencast]
-output_name=
-max_fps=30
-# chooser_cmd="/usr/bin/slurp -f %o -o"
-chooser_type=default

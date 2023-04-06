@@ -1,27 +1,16 @@
 {
-    output eDP-1 position 0,500 enable
-    output "Dell Inc. DELL U2719DC JSH4QS2" position 1920,750
-    output "Dell Inc. DELL U2719DC 6TB1NS2" position 4480,0 transform 270
-}
-{
-    output eDP-1 position 0,500
-    output "Dell Inc. DELL U2719DC JSH4QS2" position 1920,0
+    output eDP-1 position 0,0 enable
 }
 
 {
-    output "Dell Inc. DELL U2410 F525M98J1CDL" position 0,250
-    output "Dell Inc. DELL U2211H D1TPK04D316L" position 1920,0 transform 90
-    output eDP-1 position 3000,0
+    output "Acer Technologies KA272U 22091F8444200" position 1680,930 mode 2560x1440@59.999 scale 1 transform 90 enable
+    output "Acer Technologies KA272U 22091F84B4200" position 3660,0 mode 2560x1440@59.999 scale 1 transform normal enable
+    output "Acer Technologies X34 GS 0x00007F76" position 3120,1440 mode 3440x1440@59.999 scale 1 transform normal enable
+    output "Sharp Corporation 0x14D0 Unknown" position 11680,1200 mode 3840x2400@47.995 scale 2 transform normal disable
 }
 
-{
-    output eDP-1 position 0,900
-    output "Acer Technologies X34 GS 0x00007F76" position 1920,750
-    output "Dell Inc. DELL U2719DC 6TB1NS2" transform 90 position 5360,0
-}
 
 {
-    output "Dell Inc. DELL U2719DC JSH4QS2" position 0,0 transform 270
-    output "Acer Technologies X34 GS 0x00007F76" position 1440,500
-    output eDP-1 position 4880,1000
+    output "Sharp Corporation 0x14D0 0x00000000" position 2250,1440 mode 3840x2400@47.995 scale 2 transform normal enable
+    output "Dell Inc. DELL P3221D" position 1920,0 mode 2560x1440@59.951 scale 1 transform normal enable
 }

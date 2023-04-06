@@ -21,6 +21,8 @@ links:
   - src: doom.d/packages.el
     dest: .doom.d/packages.el
 
+  - src: ssh/config
+    dest: .ssh/config
 
   - src: config/kitty/kitty.conf
     dest: .config/kitty/kitty.conf
@@ -110,6 +112,10 @@ links:
     dest: /.local/bin/plaster
   - src: bin/kanshi-refresh.sh
     dest: /.local/bin/kanshi-refresh
+  - src: bin/output_toggle.sh
+    dest: /.local/bin/output_toggle
+  - src: bin/enable_laptop_screen.sh
+    dest: /.local/bin/enable_laptop_screen
 
   - src: config/powerline/config.json
     dest: .config/powerline/config.json
@@ -122,6 +128,9 @@ links:
 
   - src: config/starship.toml
     dest: .config/starship.toml
+
+  - src: config/gtklock/style.css
+    dest: .config/gtklock/style.css
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:

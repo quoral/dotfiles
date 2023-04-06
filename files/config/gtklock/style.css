@@ -1,0 +1,23 @@
+window#HDMI-A-2 {
+	background-image: url("/tmp/HDMI-A-2.png");
+}
+window#DP-1 {
+	background-image: url("/tmp/DP-1.png");
+}
+window#DP-2 {
+	background-image: url("/tmp/DP-2.png");
+}
+window#DP-3 {
+	background-image: url("/tmp/DP-3.png");
+}
+window#eDP-1 {
+	background-image: url("/tmp/eDP-1.png");
+}
+
+#window-box {
+	padding: 64px;
+	border: 1px solid black;
+	border-radius: 4px;
+	box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px;
+	background-color: white;
+}

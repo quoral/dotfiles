@@ -8,6 +8,7 @@
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod1
+set $workspaceMod Mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -36,7 +37,7 @@ set $wofi wofi --allow-images
 
 input * {
     xkb_layout us,se
-    xkb_options "grp:win_space_toggle,caps:escape,compose:ralt"
+    xkb_options "grp:win_space_toggle,caps:hyper,compose:ralt"
 }
 
 ### Input configuration
@@ -79,6 +80,8 @@ input "76:613:Apple_Inc._Magic_Trackpad_2" {
     # Start your launcher
     bindsym $mod+Shift+d exec $menu
 
+    # Toggle the built in display
+    bindsym $mod+Shift+m exec enable_laptop_screen eDP-1
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -130,6 +133,12 @@ input "76:613:Apple_Inc._Magic_Trackpad_2" {
     bindsym $mod+8 workspace 8
     bindsym $mod+9 workspace 9
     bindsym $mod+0 workspace 10
+
+    # Switch to workspace
+    bindsym $workspaceMod+1 workspace 1
+    bindsym $workspaceMod+2 workspace 2
+    bindsym $workspaceMod+3 workspace 3
+
     # Move focused container to workspace
     bindsym $mod+Shift+1 move container to workspace 1
     bindsym $mod+Shift+2 move container to workspace 2
@@ -212,7 +221,6 @@ bindsym Mod1+b exec spawn Firefox firefox
 bindsym Mod1+t exec spawn Slack slack
 bindsym Mod1+p exec spawn Planner planner
 bindsym Mod1+y exec discord
-bindsym $mod+Shift+r exec chromium --app="https://roamresearch.com/#/app/Tinkerer/graph"
 
 bindsym Mod1+o exec "sway-lock"
 
@@ -259,6 +267,7 @@ bar {
 }
 
 exec kanshi
+exec autotiling -l 2
 exec mediaplayer.py
 exec plaster --folder $HOME/wallpapers/
 #

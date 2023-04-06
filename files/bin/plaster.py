@@ -97,7 +97,6 @@ def plaster(folder):
                              if picture.is_larger_or_equal_resolution(output.dimensions)]
         picture = random.choice(pictures)
         output.set_bg(picture)
-        print(output.name, picture.path)
 
 
 
