@@ -3,10 +3,10 @@
 }
 
 {
-    output "Acer Technologies KA272U 22091F8444200" position 1680,930 mode 2560x1440@59.999 scale 1 transform 90 enable
-    output "Acer Technologies KA272U 22091F84B4200" position 3660,0 mode 2560x1440@59.999 scale 1 transform normal enable
+    output "Acer Technologies KA272U 22091F84B4200" position 3660,0 mode 2560x1440@59.951 scale 1 transform normal enable
     output "Acer Technologies X34 GS 0x00007F76" position 3120,1440 mode 3440x1440@59.999 scale 1 transform normal enable
-    output "Sharp Corporation 0x14D0 Unknown" position 11680,1200 mode 3840x2400@47.995 scale 2 transform normal disable
+    output "Acer Technologies KA272U 22091F8444200" position 6560,910 mode 2560x1440@59.951 scale 1 transform 90 enable
+    output "Sharp Corporation 0x14D0 Unknown" position 1200,910 mode 3840x2400@47.995 scale 2 transform normal enable
 }
 
 
