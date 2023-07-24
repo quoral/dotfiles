@@ -126,6 +126,16 @@ links:
   - src: config/powerline/themes/shell/mytheme.json
     dest: .config/powerline/themes/shell/mytheme.json
 
+  - src: config/Code/User/keybindings.json
+    dest: .config/Code/User/keybindings.json
+  - src: config/Code/User/settings.json
+    dest: config/Code/User/settings.json
+
+  - src: config/Code/User/keybindings.json
+    dest: ".config/Code - Insiders/User/keybindings.json"
+  - src: config/Code/User/settings.json
+    dest: ".config/Code - Insiders/User/settings.json"
+
   - src: config/starship.toml
     dest: .config/starship.toml
 

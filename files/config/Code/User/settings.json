@@ -1,0 +1,12 @@
+{
+    "editor.fontFamily": "Source Code Pro",
+    "editor.minimap.enabled": false,
+    "vim.useSystemClipboard": true,
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "files.insertFinalNewline": true,
+    "window.zoomLevel": 1,
+    "workbench.colorTheme": "Nord"
+}
