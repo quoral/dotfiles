@@ -68,8 +68,6 @@ end
 
 source ~/.asdf/asdf.fish
 
-
-
 set DIR (dirname (status --current-filename))
 for f in $DIR/company/*.fish
     . $f

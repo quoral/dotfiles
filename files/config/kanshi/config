@@ -1,16 +1,15 @@
-{
+profile {
     output eDP-1 position 0,0 enable
 }
 
-{
-    output "Acer Technologies KA272U 22091F84B4200" position 3660,0 mode 2560x1440@59.951 scale 1 transform normal enable
-    output "Acer Technologies X34 GS 0x00007F76" position 3120,1440 mode 3440x1440@59.999 scale 1 transform normal enable
-    output "Acer Technologies KA272U 22091F8444200" position 6560,910 mode 2560x1440@59.951 scale 1 transform 90 enable
-    output "Sharp Corporation 0x14D0 Unknown" position 1200,910 mode 3840x2400@47.995 scale 2 transform normal enable
+profile {
+    output "Sharp Corporation 0x14D0 Unknown" position 1850,1440 mode 3840x2400@59.994 scale 2 transform normal enable
+    output "Acer Technologies X34 GS 0x04705F76" position 3770,1440 mode 3440x1440@59.999 scale 1 transform normal enable
+    output "Acer Technologies KA272U 22091F84B4200" position 4250,0 mode 2560x1440@59.951 scale 1 transform normal enable
+    output "Acer Technologies KA272U 22091F8444200" position 7210,990 mode 2560x1440@59.951 scale 1 transform 270 enable
 }
 
-
-{
+profile {
     output "Sharp Corporation 0x14D0 0x00000000" position 2250,1440 mode 3840x2400@47.995 scale 2 transform normal enable
     output "Dell Inc. DELL P3221D" position 1920,0 mode 2560x1440@59.951 scale 1 transform normal enable
 }

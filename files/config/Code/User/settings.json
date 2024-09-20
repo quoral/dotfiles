@@ -6,7 +6,25 @@
     "go.lintFlags": [
         "--fast"
     ],
+    "go.toolsEnvVars": {
+        "GOFUMPT_SPLIT_LONG_LINES": "on"
+    },
     "files.insertFinalNewline": true,
-    "window.zoomLevel": 1,
-    "workbench.colorTheme": "Nord"
+    "workbench.colorTheme": "Nord",
+    "tws.highlightTrailingWhiteSpace": true,
+    "tws.trimOnSave": false,
+    "window.zoomLevel": 3,
+    "files.autoSave": "onFocusChange",
+    "go.editorContextMenuCommands": {
+        "fillStruct": true,
+        "testFile": true,
+        "testPackage": true,
+        "generateTestForFile": true
+    },
+    "go.inlayHints.rangeVariableTypes": true,
+    "files.trimFinalNewlines": true,
+    "peacock.surpriseMeOnStartup": true,
+    "cSpell.userWords": [
+        "einride"
+    ],
 }

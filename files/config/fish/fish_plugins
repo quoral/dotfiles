@@ -1,1 +1,9 @@
-/home/quoral/Code/Own/devsible/roles/dotfiles/files/config/fish/fish_plugins
+fisherman/fzf
+fisherman/getopts
+oh-my-fish/plugin-rustup
+fisherman/spin
+tuvistavie/fish-ssh-agent
+ka2n/fish-peco_todoist
+evanlucas/fish-kubectl-completions
+edc/bass
+lgathy/google-cloud-sdk-fish-completion
