@@ -118,6 +118,14 @@ links:
     dest: /.local/bin/output_toggle
   - src: bin/enable_laptop_screen.sh
     dest: /.local/bin/enable_laptop_screen
+  - src:  bin/rubyshot
+    dest: /.local/bin/rubyshot
+  - src:  bin/fuzzel-emoji
+    dest: /.local/bin/fuzzel-emoji
+  - src: bin/movefocus.bash
+    dest: /.local/bin/movefocus
+  - src: bin/movewindow.bash
+    dest: /.local/bin/movewindow
 
   - src: config/powerline/config.json
     dest: .config/powerline/config.json
@@ -143,6 +151,55 @@ links:
 
   - src: config/gtklock/style.css
     dest: .config/gtklock/style.css
+
+  - src: config/ags
+    dest: .config/ags
+  
+  - src: config/hypr
+    dest: .config/hypr
+  
+  - src: config/anyrun/config.ron
+    dest: .config/anyrun/config.ron
+  - src: config/anyrun/style.css
+    dest: .config/anyrun/style.css
+  
+  - src: config/fontconfig/conf.d
+    dest: .config/fontconfig/conf.d
+
+  - src: config/fuzzel/fuzzel.ini
+    dest: .config/fuzzel/fuzzel.ini
+
+  - src: config/mpv/mpv.conf
+    dest: .config/mpv/mpv.conf
+
+  - src: config/qt5ct/qt5ct.conf
+    dest: .config/qt5ct/qt5ct.conf
+
+
+  - src: config/wlogout/layout.conf
+    dest: .config/wlogout/layout.conf
+  - src: config/wlogout/style.css
+    dest: .config/wlogout/style.css
+
+  - src: config/chrome-flags.conf
+    dest: .config/chrome-flags.conf
+  
+  - src: config/code-flags.conf
+    dest: .config/code-flags.conf
+
+  - src: config/thorium-flags.conf
+    dest: .config/thorium-flags.conf
+  
+  - src: config/chrome-flags.conf
+    dest: .config/chrome-flags.conf
+
+  - src: config/discord-flags.conf
+    dest: .config/discord-flags.conf
+
+  # TODO: Track changes here by having custom handlers
+  # will imply that this won't be a symlink since we want to track the changes
+  - src: config/hyprshade/config.toml
+    dest: .config/hyprshade/config.toml
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
