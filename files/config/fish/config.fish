@@ -68,6 +68,8 @@ end
 
 source ~/.asdf/asdf.fish
 
+source /opt/google-cloud-cli/path.fish.inc
+
 set DIR (dirname (status --current-filename))
 for f in $DIR/company/*.fish
     . $f
