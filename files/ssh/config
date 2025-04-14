@@ -1,1 +1,3 @@
+Include /Users/quoral/.colima/ssh_config
+
 AddKeysToAgent  yes

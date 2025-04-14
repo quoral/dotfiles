@@ -24,7 +24,6 @@ function setenv
     set -gx $argv
 end
 
-
 # Aliases that are good to have.
 alias e edit
 alias c "edit --editor charm"
@@ -66,14 +65,35 @@ if [ $TERM ]
    starship init fish | source
 end
 
-source ~/.asdf/asdf.fish
-
-source /opt/google-cloud-cli/path.fish.inc
-
 set DIR (dirname (status --current-filename))
 for f in $DIR/company/*.fish
     . $f
 end
+
+# ASDF configuration code
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
+else
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
+end
+
+# Do not use fish_add_path (added in Fish 3.2) because it
+# potentially changes the order of items in PATH
+if not contains $_asdf_shims $PATH
+    set -gx --prepend PATH $_asdf_shims
+end
+set --erase _asdf_shims
+
+#Homebrew data reader
+if test -d (brew --prefix)"/share/fish/completions"
+    set -p fish_complete_path (brew --prefix)/share/fish/completions
+end
+
+if test -d (brew --prefix)"/share/fish/vendor_completions.d"
+    set -p fish_complete_path (brew --prefix)/share/fish/vendor_completions.d
+end
+
+export PIPX_DEFAULT_PYTHON="/opt/homebrew/bin/python3"
 
 switch (uname)
   case Linux
@@ -87,3 +107,10 @@ switch (uname)
     if status --is-interactive
     end
 end
+
+# pnpm
+set -gx PNPM_HOME "/Users/quoral/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

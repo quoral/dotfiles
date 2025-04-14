@@ -6,3 +6,4 @@ boxen.fish
 __pycache__
 *.egg-info
 files/config/fish/company
+.aider*

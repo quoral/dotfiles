@@ -146,8 +146,20 @@ links:
   - src: config/Code/User/settings.json
     dest: ".config/Code - Insiders/User/settings.json"
 
+
+  - src: config/Code/User/keybindings.json
+    dest: ".config/Code/User/keybindings.json"
+  - src: config/Code/User/settings.json
+    dest: ".config/Code/User/settings.json"
+
   - src: config/starship.toml
     dest: .config/starship.toml
+
+  - src: config/ghostty/config
+    dest: .config/ghostty/config
+
+  - src: config/aerospace/aerospace.toml
+    dest: .config/aerospace/aerospace.toml
 
   - src: config/gtklock/style.css
     dest: .config/gtklock/style.css
@@ -205,3 +217,7 @@ dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
   - src: plaster.desktop
   - src: kanshi-refresh.desktop
+
+global_links:
+  - src: bin/new-terminal.applescript
+    dest: /usr/local/bin/new-ghostty-window

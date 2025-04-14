@@ -10,7 +10,7 @@
   become: True
   when: ansible_distribution == "Archlinux"
 
-- name: "Ensure all basefolders are created"
+- name: "USER: Ensure all basefolders are created"
   file:
     dest: "{{ ansible_env.HOME }}/{{ item.dest | dirname }}"
     state: directory
@@ -18,13 +18,23 @@
   tags:
     - dotfiles
 
-- name: "Ensure all symlinks are placed"
+- name: "USER: Ensure all symlinks are placed"
   file:
     src: "{{dotfiles_location}}/files/{{ item.src }}"
     dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
     state: link
     force: yes
   with_items: "{{ links }}"
+  tags:
+    - dotfiles
+
+- name: "GLOBAL: Ensure all global symlinks are placed"
+  file:
+    src: "{{dotfiles_location}}/files/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items: "{{ global_links }}"
+  become: True
   tags:
     - dotfiles
 
