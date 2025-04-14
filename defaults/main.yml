@@ -75,6 +75,8 @@ links:
     dest: .config/fish/functions/readenv.fish
   - src: config/fish/functions/unstuck-pr.fish
     dest: .config/fish/functions/unstuck-pr.fish
+  - src: config/fish/functions/for_all_folder.fish
+    dest: .config/fish/functions/for_all_folder.fish
 
   - src: config/fish/functions/edit.fish
     dest: .config/fish/functions/edit.fish
