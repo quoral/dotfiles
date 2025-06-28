@@ -2,3 +2,5 @@ theme = nord
 font-family = Source Code Pro
 background-opacity = 0.8
 background-blur = true
+macos-titlebar-style = hidden
+keybind = global:alt+enter=new_window

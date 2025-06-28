@@ -1,4 +1,4 @@
-function for_all_folder --description 'Run a command in multiple folders, exiting on first error'
+function for_all_folder
     if test (count $argv) -lt 2
         echo "Usage: for_all_folder <command> <folder1> [folder2] ..." >&2
         return 1
@@ -51,4 +51,5 @@ function for_all_folder --description 'Run a command in multiple folders, exitin
     end
 
     return 0
+end
 end

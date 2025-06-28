@@ -77,6 +77,8 @@ links:
     dest: .config/fish/functions/unstuck-pr.fish
   - src: config/fish/functions/for_all_folder.fish
     dest: .config/fish/functions/for_all_folder.fish
+  - src: config/fish/functions/envsource.fish
+    dest: .config/fish/functions/envsource.fish
 
   - src: config/fish/functions/edit.fish
     dest: .config/fish/functions/edit.fish
@@ -120,9 +122,9 @@ links:
     dest: /.local/bin/output_toggle
   - src: bin/enable_laptop_screen.sh
     dest: /.local/bin/enable_laptop_screen
-  - src:  bin/rubyshot
+  - src: bin/rubyshot
     dest: /.local/bin/rubyshot
-  - src:  bin/fuzzel-emoji
+  - src: bin/fuzzel-emoji
     dest: /.local/bin/fuzzel-emoji
   - src: bin/movefocus.bash
     dest: /.local/bin/movefocus
@@ -148,7 +150,6 @@ links:
   - src: config/Code/User/settings.json
     dest: ".config/Code - Insiders/User/settings.json"
 
-
   - src: config/Code/User/keybindings.json
     dest: ".config/Code/User/keybindings.json"
   - src: config/Code/User/settings.json
@@ -168,15 +169,15 @@ links:
 
   - src: config/ags
     dest: .config/ags
-  
+
   - src: config/hypr
     dest: .config/hypr
-  
+
   - src: config/anyrun/config.ron
     dest: .config/anyrun/config.ron
   - src: config/anyrun/style.css
     dest: .config/anyrun/style.css
-  
+
   - src: config/fontconfig/conf.d
     dest: .config/fontconfig/conf.d
 
@@ -189,6 +190,16 @@ links:
   - src: config/qt5ct/qt5ct.conf
     dest: .config/qt5ct/qt5ct.conf
 
+  - src: config/nvim/init.lua
+    dest: .config/nvim/init.lua
+  - src: config/nvim/lua/config
+    dest: .config/nvim/lua/config
+  - src: config/nvim/lua/plugins
+    dest: .config/nvim/lua/plugins
+  - src: config/nvim/stylua.toml
+    dest: .config/nvim/stylua.toml
+  - src: config/nvim/neoconf.json
+    dest: .config/nvim/.neoconf.json
 
   - src: config/wlogout/layout.conf
     dest: .config/wlogout/layout.conf
@@ -197,18 +208,27 @@ links:
 
   - src: config/chrome-flags.conf
     dest: .config/chrome-flags.conf
-  
+
   - src: config/code-flags.conf
     dest: .config/code-flags.conf
 
   - src: config/thorium-flags.conf
     dest: .config/thorium-flags.conf
-  
+
   - src: config/chrome-flags.conf
     dest: .config/chrome-flags.conf
 
   - src: config/discord-flags.conf
     dest: .config/discord-flags.conf
+
+  - src: config/fish/conf.d/npx.fish
+    dest: .config/fish/conf.d/npx.fish
+
+  - src: config/opencode/config.json
+    dest: .config/opencode/config.json
+
+  - src: config/gh-dash/config.yml
+    dest: .config/gh-dash/config.yml
 
   # TODO: Track changes here by having custom handlers
   # will imply that this won't be a symlink since we want to track the changes

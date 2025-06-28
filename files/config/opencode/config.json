@@ -1,0 +1,23 @@
+{
+  "$schema": "http://opencode.ai/config.json",
+  "theme": "opencode",
+  "model": "copilot/openai/gpt-4o",
+  "autoshare": false,
+  "autoupdate": true,
+  "provider": {
+    "github-copilot": {
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "baseURL": "https://api.githubcopilot.com"
+      },
+      "models": {
+        "gpt-4o": {
+          "name": "gpt-4o"
+        },
+        "gpt-4.1": {
+          "name": "gpt-4.1"
+        }
+      }
+    }
+  }
+}

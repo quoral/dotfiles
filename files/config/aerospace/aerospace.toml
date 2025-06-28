@@ -55,6 +55,7 @@ key-mapping.preset = 'qwerty'
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+automatically-unhide-macos-hidden-apps = true
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
@@ -181,7 +182,8 @@ alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 alt-shift-semicolon = 'mode service'
 cmd-shift-r = 'mode resize'
 
-alt-enter = 'exec-and-forget /usr/local/bin/new-ghostty-window'
+# Revisit when https://github.com/ghostty-org/ghostty/discussions/2353 is done
+# alt-enter = 'exec-and-forget /usr/local/bin/new-ghostty-window'
 alt-d = 'exec-and-forget open /Applications/Raycast.app'
 
 # 'service' binding mode declaration.
