@@ -218,9 +218,6 @@ links:
   - src: config/chrome-flags.conf
     dest: .config/chrome-flags.conf
 
-  - src: config/discord-flags.conf
-    dest: .config/discord-flags.conf
-
   - src: config/fish/conf.d/npx.fish
     dest: .config/fish/conf.d/npx.fish
 
