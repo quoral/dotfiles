@@ -227,6 +227,9 @@ links:
   - src: config/gh-dash/config.yml
     dest: .config/gh-dash/config.yml
 
+  - src: config/karabiner/karabiner.json
+    dest: .config/karabiner/karabiner.json
+
   # TODO: Track changes here by having custom handlers
   # will imply that this won't be a symlink since we want to track the changes
   - src: config/hyprshade/config.toml
