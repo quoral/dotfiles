@@ -1,19 +1,4 @@
 source $HOME/.antigen/antigen.zsh
-antigen use oh-my-zsh
-
-antigen theme sorin
-
-antigen bundle git
-antigen bundle brew
-antigen bundle brew-cask
-antigen bundle gem
-antigen bundle osx
-antigen bundle npm
-antigen bundle command-not-found
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-
-antigen apply
 
 pyclean () {
     find . -name "*.pyc" | xargs -I {} rm -v "{}"

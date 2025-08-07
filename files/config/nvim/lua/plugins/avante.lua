@@ -6,7 +6,6 @@ return {
     build = LazyVim.is_win() and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" or "make",
 
     opts = {
-      provider = "copilot",
       auto_suggestions_provider = "copilot",
       hints = { enabled = false },
       file_selector = {

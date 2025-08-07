@@ -4,3 +4,4 @@ background-opacity = 0.8
 background-blur = true
 macos-titlebar-style = hidden
 keybind = global:alt+enter=new_window
+keybind = shift+enter=text:\n

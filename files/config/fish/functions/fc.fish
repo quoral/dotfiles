@@ -1,6 +1,4 @@
 function fc --argument args
-    # set -q $args[1]; or set $args[1] ""
-
-    set dir (find ~/Code -maxdepth 2 -mindepth 2 -type d 2> /dev/null | fzf -q "$args")
-    cd $dir
+    set dir (fd --glob -H -t d '**/.git' ~/Code  -d 5 --min-depth 2 --no-ignore  --exec dirname {} | string replace "$HOME/Code/" '~/Code/' | fzf -q "$args" | string replace '~' "$HOME" )
+    cd "$dir"
 end

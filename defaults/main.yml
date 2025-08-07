@@ -24,6 +24,9 @@ links:
   - src: ssh/config
     dest: .ssh/config
 
+  - src: npmrc
+    dest: .npmrc
+
   - src: config/kitty/kitty.conf
     dest: .config/kitty/kitty.conf
 
@@ -194,6 +197,8 @@ links:
     dest: .config/nvim/init.lua
   - src: config/nvim/lua/config
     dest: .config/nvim/lua/config
+  - src: config/nvim/after
+    dest: .config/nvim/after
   - src: config/nvim/lua/plugins
     dest: .config/nvim/lua/plugins
   - src: config/nvim/stylua.toml
