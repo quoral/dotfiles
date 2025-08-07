@@ -5,3 +5,8 @@ bindkey '[C' forward-word
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/kallekrantz/Code/go/bin/aws-assume-role aws-assume-role
 alias docker="colima nerdctl -- -n k8s.io"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/quoral/.lmstudio/bin"
+# End of LM Studio CLI section
+

@@ -104,8 +104,16 @@ switch (uname)
             end
         end
     case Darwin
+        # Under Colima the below are required for test containers to work.
+        export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+        export DOCKER_HOST="unix://$HOME/.colima/docker.sock"
         if status --is-interactive
+
         end
+end
+
+if status --is-interactive
+    rbenv init - --no-rehash fish | source
 end
 
 # pnpm
@@ -118,5 +126,8 @@ end
 # Added by Windsurf
 fish_add_path $HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin/
 
-# Added by `rbenv init` on Tue Jun 17 09:15:13 CEST 2025
-status --is-interactive; and rbenv init - --no-rehash fish | source
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/quoral/.lmstudio/bin
+# End of LM Studio CLI section
+mise activate fish --shims | source
+uv generate-shell-completion fish | source

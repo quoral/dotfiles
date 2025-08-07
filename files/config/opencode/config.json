@@ -18,6 +18,16 @@
           "name": "gpt-4.1"
         }
       }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:1234/v1"
+      },
+      "models": {
+        "qwen3-30b-a3b-python-coder": {},
+        "qwen3/qwen3-32b": {}
+      }
     }
   }
 }
