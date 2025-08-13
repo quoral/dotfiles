@@ -240,6 +240,11 @@ links:
   - src: config/hyprshade/config.toml
     dest: .config/hyprshade/config.toml
 
+  - src: bin/git-summarize.sh
+    dest: /.local/bin/git-summarize
+  - src: bin/gcloud-iam-roles
+    dest: /.local/bin/gcloud-iam-roles
+
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
   - src: plaster.desktop

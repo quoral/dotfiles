@@ -19,7 +19,12 @@ if [ "$current_branch" = "$default_branch" ]; then
 fi
 
 # Get the base branch
-base_branch=$(git merge-base HEAD origin/$default_branch)
+base_branch=$(git merge-base HEAD origin/$default_branch 2>/dev/null)
+if [ $? -ne 0 ]; then
+  echo "Fetching updates from remote..."
+  git fetch
+  base_branch=$(git merge-base HEAD origin/$default_branch)
+fi
 
 # Get the diff and status
 diff_output=$(git diff $base_branch)
@@ -90,7 +95,7 @@ else
   echo
   case $REPLY in
   [Aa]*)
-    echo "$commit_msg" | git commit -F -
+    echo "$commit_msg" | git commit -a -F -
     echo "Changes committed!"
     ;;
   [Ee]*)

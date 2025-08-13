@@ -1,0 +1,103 @@
+#!/bin/bash
+
+set -e
+
+# Cache settings
+CACHE_DIR="/tmp/gcloud-iam-roles-cache"
+CACHE_FILE="$CACHE_DIR/roles.json"
+CACHE_MAX_AGE=$((72 * 3600)) # 72 hours in seconds
+
+# Parse arguments
+REFRESH_CACHE=false
+ARGS=()
+for arg in "$@"; do
+    if [[ "$arg" == "--refresh-cache" ]]; then
+        REFRESH_CACHE=true
+    else
+        ARGS+=("$arg")
+    fi
+done
+
+if [ ${#ARGS[@]} -lt 1 ]; then
+    echo "Usage: $0 [--refresh-cache] <product> [filter]"
+    echo "Example: $0 storage admin"
+    echo "         $0 compute viewer"
+    echo "         $0 --refresh-cache bigquery"
+    exit 1
+fi
+
+PRODUCT="${ARGS[0]}"
+FILTER="${ARGS[1]:-}"
+
+# Convert to lowercase for case-insensitive matching
+PRODUCT_LOWER=$(echo "$PRODUCT" | tr '[:upper:]' '[:lower:]')
+FILTER_LOWER=$(echo "$FILTER" | tr '[:upper:]' '[:lower:]')
+
+# Create cache directory if it doesn't exist
+mkdir -p "$CACHE_DIR"
+
+# Function to fetch roles from gcloud
+fetch_roles() {
+    echo "Fetching IAM roles from gcloud..." >&2
+    gcloud iam roles list --format=json > "$CACHE_FILE"
+    echo "Cache updated: $CACHE_FILE" >&2
+}
+
+# Check if we need to refresh the cache
+should_refresh=false
+
+if [[ "$REFRESH_CACHE" == true ]]; then
+    should_refresh=true
+    echo "Refreshing cache as requested..." >&2
+elif [[ ! -f "$CACHE_FILE" ]]; then
+    should_refresh=true
+    echo "No cache found, fetching roles..." >&2
+else
+    # Check cache age
+    if [[ $(uname) == "Darwin" ]]; then
+        # macOS
+        cache_time=$(stat -f %m "$CACHE_FILE")
+    else
+        # Linux
+        cache_time=$(stat -c %Y "$CACHE_FILE")
+    fi
+    current_time=$(date +%s)
+    cache_age=$((current_time - cache_time))
+    
+    if [[ $cache_age -gt $CACHE_MAX_AGE ]]; then
+        should_refresh=true
+        echo "Cache is older than 72 hours, refreshing..." >&2
+    else
+        echo "Using cached roles (age: $((cache_age / 3600)) hours)" >&2
+    fi
+fi
+
+# Refresh cache if needed
+if [[ "$should_refresh" == true ]]; then
+    fetch_roles
+fi
+
+# Read roles from cache
+roles=$(cat "$CACHE_FILE")
+
+# Filter by product (case insensitive)
+filtered_roles=$(echo "$roles" | jq --arg product "$PRODUCT_LOWER" '
+    map(select(.name | ascii_downcase | contains($product)))
+')
+
+# If second argument provided, filter further by title and name
+if [ -n "$FILTER" ]; then
+    filtered_roles=$(echo "$filtered_roles" | jq --arg filter "$FILTER_LOWER" '
+        map(select(
+            (.title | ascii_downcase | contains($filter)) or 
+            (.name | ascii_downcase | contains($filter))
+        ))
+    ')
+fi
+
+# Output the results in a readable format
+echo "$filtered_roles" | jq -r '.[] | "Name: \(.name)\nTitle: \(.title)\nDescription: \(.description // "N/A")\n---"'
+
+# Show count
+count=$(echo "$filtered_roles" | jq 'length')
+echo "Found $count role(s)"

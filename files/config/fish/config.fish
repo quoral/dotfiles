@@ -54,7 +54,8 @@ set -x PATH "$HOME/.local/bin" $PATH
 set -x PATH /snap/bin $PATH
 set -x FONT_HOME "$HOME/.local/share/fonts"
 set -x ARDUINO_PATH "$HOME/.tmp/arduino-nightly/"
-set -x EDITOR "emacsclient -c"
+set -x VISUAL nvim
+set -x EDITOR $VISUAL
 set -x DYLD_LIBRARY_PATH $HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib
 set -x RLS_ROOT $HOME/src/rls
 set -x pipenv_fish_fancy yes
@@ -107,6 +108,10 @@ switch (uname)
         # Under Colima the below are required for test containers to work.
         export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
         export DOCKER_HOST="unix://$HOME/.colima/docker.sock"
+
+        # Pain, but XDD is not configured by default on MacOS.
+        # This fixes some misbehaving clients.
+        export XDG_CONFIG_HOME="$HOME/.config"
         if status --is-interactive
 
         end
