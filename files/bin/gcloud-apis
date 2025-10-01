@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# gcloud-apis - Search Google Cloud APIs with wildcard support
+# Usage: gcloud-apis [search_term]
+# Example: gcloud-apis run  # finds Cloud Run API
+
+set -euo pipefail
+
+SEARCH_TERM="${1:-}"
+
+# Function to display usage
+show_usage() {
+    echo "Usage: gcloud-apis [search_term]"
+    echo ""
+    echo "Search Google Cloud APIs with wildcard support."
+    echo ""
+    echo "Examples:"
+    echo "  gcloud-apis                 # List all APIs"
+    echo "  gcloud-apis run             # Find APIs containing 'run'"
+    echo "  gcloud-apis storage         # Find APIs containing 'storage'"
+    echo "  gcloud-apis compute         # Find APIs containing 'compute'"
+    echo ""
+    exit 1
+}
+
+# Check if help is requested
+if [[ "${SEARCH_TERM}" == "-h" ]] || [[ "${SEARCH_TERM}" == "--help" ]]; then
+    show_usage
+fi
+
+# Check if gcloud is installed
+if ! command -v gcloud >/dev/null 2>&1; then
+    echo "Error: gcloud CLI is not installed or not in PATH"
+    echo "Please install the Google Cloud SDK: https://cloud.google.com/sdk/docs/install"
+    exit 1
+fi
+
+# Function to get project ID (try various methods)
+get_project_id() {
+    # Try to get from gcloud config
+    local project_id
+    project_id=$(gcloud config get-value project 2>/dev/null || echo "")
+    
+    if [[ -n "${project_id}" && "${project_id}" != "(unset)" ]]; then
+        echo "${project_id}"
+        return 0
+    fi
+    
+    # Try to get from environment
+    if [[ -n "${GOOGLE_CLOUD_PROJECT:-}" ]]; then
+        echo "${GOOGLE_CLOUD_PROJECT}"
+        return 0
+    fi
+    
+    if [[ -n "${GCLOUD_PROJECT:-}" ]]; then
+        echo "${GCLOUD_PROJECT}"
+        return 0
+    fi
+    
+    # Try to get from metadata (if running on GCP)
+    project_id=$(curl -s -H "Metadata-Flavor: Google" \
+        "http://metadata.google.internal/computeMetadata/v1/project/project-id" 2>/dev/null || echo "")
+    
+    if [[ -n "${project_id}" ]]; then
+        echo "${project_id}"
+        return 0
+    fi
+    
+    return 1
+}
+
+# Get or set project
+PROJECT_ID=""
+if ! PROJECT_ID=$(get_project_id); then
+    echo "Warning: No Google Cloud project is set."
+    echo "To use a specific project, run: gcloud config set project YOUR_PROJECT_ID"
+    echo "For now, using a dummy project to list available APIs..."
+    echo ""
+    PROJECT_ID="dummy-project-for-api-list"
+fi
+
+# Function to list and search APIs
+list_apis() {
+    local search_pattern="$1"
+    local temp_file
+    temp_file=$(mktemp)
+    
+    # Get the list of available services
+    if ! gcloud services list --available \
+        --project="${PROJECT_ID}" \
+        --format="table(name,title)" \
+        --quiet 2>/dev/null > "${temp_file}"; then
+        
+        echo "Error: Failed to fetch API list. This might be due to:"
+        echo "1. Invalid project ID: ${PROJECT_ID}"
+        echo "2. Authentication issues (run: gcloud auth login)"
+        echo "3. Network connectivity issues"
+        echo ""
+        echo "Please ensure you have:"
+        echo "- A valid Google Cloud project set (gcloud config set project PROJECT_ID)"
+        echo "- Proper authentication (gcloud auth login)"
+        rm -f "${temp_file}"
+        exit 1
+    fi
+    
+    # Filter results based on search pattern
+    if [[ -n "${search_pattern}" ]]; then
+        # Case-insensitive grep with the search pattern
+        grep -i "${search_pattern}" "${temp_file}" || {
+            echo "No APIs found matching: ${search_pattern}"
+            echo ""
+            echo "Try a broader search or run 'gcloud-apis' to see all available APIs."
+        }
+    else
+        cat "${temp_file}"
+    fi
+    
+    rm -f "${temp_file}"
+}
+
+# Main execution
+echo "Searching Google Cloud APIs..."
+if [[ -n "${SEARCH_TERM}" ]]; then
+    echo "Filter: ${SEARCH_TERM}"
+fi
+echo "Project: ${PROJECT_ID}"
+echo ""
+
+list_apis "${SEARCH_TERM}"

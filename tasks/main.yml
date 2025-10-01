@@ -28,6 +28,14 @@
   tags:
     - dotfiles
 
+- name: "GLOBAL: Ensure /System/Library/Desktop Pictures directory exists"
+  file:
+    path: "/System/Library/Desktop Pictures"
+    state: directory
+  become: True
+  tags:
+    - dotfiles
+
 - name: "GLOBAL: Ensure all global symlinks are placed"
   file:
     src: "{{dotfiles_location}}/files/{{ item.src }}"
@@ -37,6 +45,17 @@
   become: True
   tags:
     - dotfiles
+
+- name: "GLOBAL: Link dynamic wallpapers to /System/Library/Desktop Pictures"
+  file:
+    src: "{{dotfiles_location}}/files/wallpapers/dynamic/{{ item }}"
+    dest: "/System/Library/Desktop Pictures/{{ item }}"
+    state: link
+  with_items: "{{ dynamic_wallpapers }}"
+  become: True
+  tags:
+    - dotfiles
+    - wallpapers
 
 - name: "Copy all .desktop files"
   copy:

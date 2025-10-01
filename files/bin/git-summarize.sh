@@ -1,5 +1,48 @@
 #!/bin/bash
 
+# Check if there are any staged changes
+if ! git diff --cached --quiet; then
+  echo "Found staged changes, proceeding with commit..."
+else
+  echo "No changes are staged for commit."
+  echo "Running interactive git add..."
+  git add --edit -i
+
+  # Check again if anything was staged
+  if ! git diff --cached --quiet; then
+    echo "Changes have been staged, proceeding with commit..."
+  else
+    echo "No changes were staged. Exiting."
+    exit 0
+  fi
+fi
+
+# Check for and run precommit hooks if available
+if [ -f ".pre-commit-config.yaml" ] && command -v pre-commit >/dev/null 2>&1; then
+  # Check if pre-commit is actually installed in this repo
+  if pre-commit --version >/dev/null 2>&1 && (pre-commit install --dry-run >/dev/null 2>&1 || [ -d ".git/hooks" ]); then
+    echo "Running pre-commit hooks..."
+    if pre-commit run --all-files; then
+      echo "Pre-commit hooks passed successfully."
+    else
+      echo "Pre-commit hooks failed. Please fix the issues and try again."
+      exit 1
+    fi
+
+    # Check if pre-commit made any changes that need to be staged
+    if ! git diff --quiet; then
+      echo "Pre-commit hooks made changes. Staging them now..."
+      git add -A
+    fi
+  else
+    echo "Warning: .pre-commit-config.yaml found but pre-commit not properly installed in this repo."
+    echo "Run 'pre-commit install' to set up pre-commit hooks."
+  fi
+elif [ -f ".pre-commit-config.yaml" ]; then
+  echo "Warning: .pre-commit-config.yaml found but pre-commit command not available."
+  echo "Install pre-commit with: pip install pre-commit"
+fi
+
 # Get the current branch name
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 default_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)

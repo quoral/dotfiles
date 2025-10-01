@@ -24,9 +24,6 @@ links:
   - src: ssh/config
     dest: .ssh/config
 
-  - src: npmrc
-    dest: .npmrc
-
   - src: config/kitty/kitty.conf
     dest: .config/kitty/kitty.conf
 
@@ -244,6 +241,8 @@ links:
     dest: /.local/bin/git-summarize
   - src: bin/gcloud-iam-roles
     dest: /.local/bin/gcloud-iam-roles
+  - src: bin/gcloud-apis
+    dest: /.local/bin/gcloud-apis
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
@@ -253,3 +252,8 @@ desktop_files:
 global_links:
   - src: bin/new-terminal.applescript
     dest: /usr/local/bin/new-ghostty-window
+
+dynamic_wallpapers:
+  - Firewatch.heic
+  - earth.heic
+  - minimal_forest.heic

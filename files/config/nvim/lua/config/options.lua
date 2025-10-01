@@ -3,3 +3,7 @@
 -- Add any additional options here
 --
 vim.g.root_spec = { "cwd" }
+vim.opt.fixendofline = true
+vim.opt.endofline = true
+vim.lsp.enable("pyrefly")
+vim.g.lazyvim_python_lsp = "pyrefly"
