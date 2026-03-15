@@ -1,5 +1,3 @@
-source $HOME/.antigen/antigen.zsh
-
 pyclean () {
     find . -name "*.pyc" | xargs -I {} rm -v "{}"
     find . -type d -name "__pycache__" -delete
@@ -9,10 +7,6 @@ pyclean () {
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-
-alias edit="emacsclient --no-wait"
-export PYLINTRC="~/.pylintrc"
-export EDITOR="emacsclient -n"
 
 export GOPATH="$HOME/Code/go"
 

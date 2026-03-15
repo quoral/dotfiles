@@ -93,7 +93,7 @@ EOL
 
 # API configuration
 API_ENDPOINT="https://api.anthropic.com/v1/messages"
-API_MODEL="claude-3-5-sonnet-20241022"
+API_MODEL="eu.anthropic.claude-sonnet-4-5-20250929-v1"
 
 # Use API key from environment
 API_KEY=${ANTHROPIC_API_KEY}

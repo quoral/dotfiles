@@ -199,6 +199,15 @@ cmd-shift-r = 'mode resize'
 # alt-enter = 'exec-and-forget /usr/local/bin/new-ghostty-window'
 alt-d = 'exec-and-forget open /Applications/Raycast.app'
 
+# Toggle app keybindings (focus/open or close window)
+alt-t = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Slack'
+alt-y = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Zen'
+alt-n = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Discord'
+alt-m = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Spotify'
+
+# Lock screen
+alt-q = "exec-and-forget osascript -e 'tell application \"System Events\" to keystroke \"q\" using {command down, control down}'"
+
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]

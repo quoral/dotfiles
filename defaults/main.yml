@@ -69,6 +69,8 @@ links:
     dest: .config/fish/functions/1pass-list.fish
   - src: config/fish/functions/fc.fish
     dest: .config/fish/functions/fc.fish
+  - src: config/fish/functions/wt.fish
+    dest: .config/fish/functions/wt.fish
   - src: config/fish/functions/aws-env.fish
     dest: .config/fish/functions/aws-env.fish
   - src: config/fish/functions/readenv.fish
@@ -82,6 +84,46 @@ links:
 
   - src: config/fish/functions/edit.fish
     dest: .config/fish/functions/edit.fish
+  - src: config/fish/functions/claude-team.fish
+    dest: .config/fish/functions/claude-team.fish
+  - src: config/fish/functions/claude-teams.fish
+    dest: .config/fish/functions/claude-teams.fish
+  - src: config/fish/functions/claude-sandbox.fish
+    dest: .config/fish/functions/claude-sandbox.fish
+  - src: config/fish/functions/claude-sandboxes.fish
+    dest: .config/fish/functions/claude-sandboxes.fish
+  - src: config/fish/functions/claude-creds.fish
+    dest: .config/fish/functions/claude-creds.fish
+  - src: config/fish/functions/review-pr.fish
+    dest: .config/fish/functions/review-pr.fish
+
+  - src: config/fish/functions/claude-auth.fish
+    dest: .config/fish/functions/claude-auth.fish
+  - src: config/fish/functions/self-review.fish
+    dest: .config/fish/functions/self-review.fish
+
+  - src: config/fish/conf.d/claude-auth-init.fish
+    dest: .config/fish/conf.d/claude-auth-init.fish
+
+  - src: docker/claude-sandbox
+    dest: .config/docker/claude-sandbox
+
+  - src: config/claude/skills/code-reviewer
+    dest: .claude/skills/code-reviewer
+  - src: config/claude/skills/brainstorming
+    dest: .claude/skills/brainstorming
+  - src: config/claude/skills/systematic-debugging
+    dest: .claude/skills/systematic-debugging
+  - src: config/claude/skills/verification-before-completion
+    dest: .claude/skills/verification-before-completion
+  - src: config/claude/skills/self-review
+    dest: .claude/skills/self-review
+  - src: config/claude/settings.json
+    dest: .claude/settings.json
+  - src: config/claude/keybindings.json
+    dest: .claude/keybindings.json
+  - src: config/claude/CLAUDE.md
+    dest: .claude/CLAUDE.md
 
   - src: wallpapers/planet.jpg
     dest: /wallpapers/planet.jpg
@@ -222,6 +264,8 @@ links:
 
   - src: config/fish/conf.d/npx.fish
     dest: .config/fish/conf.d/npx.fish
+  - src: config/fish/conf.d/github-sandbox.fish
+    dest: .config/fish/conf.d/github-sandbox.fish
 
   - src: config/opencode/config.json
     dest: .config/opencode/config.json
@@ -243,6 +287,8 @@ links:
     dest: /.local/bin/gcloud-iam-roles
   - src: bin/gcloud-apis
     dest: /.local/bin/gcloud-apis
+  - src: bin/aerospace-toggle-app.sh
+    dest: /.local/bin/aerospace-toggle-app
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
@@ -252,8 +298,3 @@ desktop_files:
 global_links:
   - src: bin/new-terminal.applescript
     dest: /usr/local/bin/new-ghostty-window
-
-dynamic_wallpapers:
-  - Firewatch.heic
-  - earth.heic
-  - minimal_forest.heic
