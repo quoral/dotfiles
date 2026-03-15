@@ -1,5 +1,5 @@
 function claude-creds --description "Refresh shared sandbox credentials"
-    set shared_cache ~/Code/Freda/.shared-cache
+    set shared_cache $CLAUDE_WORKSPACE_DIR/.shared-cache
 
     switch "$argv[1]"
         case aws

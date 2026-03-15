@@ -1,4 +1,4 @@
-function claude-team --description "Set up a Claude Code team workspace for freda-ab"
+function claude-team --description "Set up a Claude Code team workspace"
     # Step 1: Get team-id (arg or prompt)
     set team_id $argv[1]
     if test -z "$team_id"
@@ -10,7 +10,7 @@ function claude-team --description "Set up a Claude Code team workspace for fred
         return 1
     end
 
-    set team_dir ~/Code/Freda/teams/$team_id
+    set team_dir $CLAUDE_WORKSPACE_DIR/teams/$team_id
 
     # Step 2: Check if team exists
     if test -d "$team_dir"
@@ -24,9 +24,9 @@ function claude-team --description "Set up a Claude Code team workspace for fred
         mkdir -p "$team_dir"
     end
 
-    # Step 3: Fetch repos from freda-ab org and multi-select with fzf
-    echo "Fetching repos from freda-ab..."
-    set repos (gh repo list freda-ab --limit 100 --json name --jq '.[].name' | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
+    # Step 3: Fetch repos from org and multi-select with fzf
+    echo "Fetching repos from $CLAUDE_GITHUB_ORG..."
+    set repos (gh repo list $CLAUDE_GITHUB_ORG --limit 100 --json name --jq '.[].name' | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
 
     if test -z "$repos"
         echo "No repos selected"
@@ -41,7 +41,7 @@ function claude-team --description "Set up a Claude Code team workspace for fred
             echo "Repo '$repo' already exists, skipping..."
         else
             echo "Cloning $repo..."
-            gh repo clone freda-ab/$repo "$repo_path"
+            gh repo clone $CLAUDE_GITHUB_ORG/$repo "$repo_path"
         end
     end
 

@@ -1,5 +1,5 @@
 function claude-teams --description "List and cd to existing team workspaces"
-    set teams_dir ~/Code/Freda/teams
+    set teams_dir $CLAUDE_WORKSPACE_DIR/teams
     if not test -d "$teams_dir"
         echo "No teams directory found"
         return 1

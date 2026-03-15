@@ -1,5 +1,5 @@
 function claude-sandboxes --description "List and cd to existing sandboxes"
-    set sandbox_dir ~/Code/Freda/sandbox
+    set sandbox_dir $CLAUDE_WORKSPACE_DIR/sandbox
     if not test -d "$sandbox_dir"
         echo "No sandboxes directory found"
         return 1

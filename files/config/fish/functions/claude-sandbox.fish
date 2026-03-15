@@ -26,7 +26,7 @@ function claude-sandbox --description "Create sandboxed Claude Code agent enviro
 
     # Handle --feedback flag
     if test "$argv[1]" = "--feedback"
-        set sandbox_base ~/Code/Freda/sandbox
+        set sandbox_base $CLAUDE_WORKSPACE_DIR/sandbox
 
         if not test -d "$sandbox_base"
             echo "No sandboxes directory found"
@@ -60,7 +60,7 @@ Be specific about which files to modify and what changes to make."
 
     # Check for --resume flag
     if test "$argv[1]" = "--resume" -o "$argv[1]" = "-r"
-        set sandbox_base ~/Code/Freda/sandbox
+        set sandbox_base $CLAUDE_WORKSPACE_DIR/sandbox
         if not test -d "$sandbox_base"
             echo "No sandboxes directory found"
             return 1
@@ -100,7 +100,7 @@ Be specific about which files to modify and what changes to make."
         set timestamp (date +%Y-%m-%d)
         set hash (openssl rand -hex 3)
         set sandbox_name "$prefix-$timestamp-$hash"
-        set sandbox_dir ~/Code/Freda/sandbox/$sandbox_name
+        set sandbox_dir $CLAUDE_WORKSPACE_DIR/sandbox/$sandbox_name
 
         # Step 3: Create sandbox directory
         mkdir -p "$sandbox_dir"
@@ -136,14 +136,14 @@ Be specific about which files to modify and what changes to make."
 " > "$sandbox_dir/.sandbox/feedback-template.md"
 
         # Step 4: Select and clone repos (like freda-team)
-        echo "Fetching repos from freda-ab..."
-        set repos (gh repo list freda-ab --limit 100 --json name --jq '.[].name' | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
+        echo "Fetching repos from $CLAUDE_GITHUB_ORG..."
+        set repos (gh repo list $CLAUDE_GITHUB_ORG --limit 100 --json name --jq '.[].name' | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
 
         if test -n "$repos"
             for repo in $repos
                 set repo_path "$sandbox_dir/$repo"
                 echo "Cloning $repo..."
-                gh repo clone freda-ab/$repo "$repo_path"
+                gh repo clone $CLAUDE_GITHUB_ORG/$repo "$repo_path"
             end
         end
 
@@ -186,16 +186,16 @@ This feedback helps improve future sandbox sessions.
     end
 
     # Ensure shared cache directories exist with proper permissions
-    mkdir -p ~/Code/Freda/.shared-cache/pnpm
-    mkdir -p ~/Code/Freda/.shared-cache/aws
-    mkdir -p ~/Code/Freda/.shared-cache/gcloud
-    mkdir -p ~/Code/Freda/.shared-cache/claude
-    chmod -R 777 ~/Code/Freda/.shared-cache/aws ~/Code/Freda/.shared-cache/gcloud ~/Code/Freda/.shared-cache/claude
+    mkdir -p $CLAUDE_WORKSPACE_DIR/.shared-cache/pnpm
+    mkdir -p $CLAUDE_WORKSPACE_DIR/.shared-cache/aws
+    mkdir -p $CLAUDE_WORKSPACE_DIR/.shared-cache/gcloud
+    mkdir -p $CLAUDE_WORKSPACE_DIR/.shared-cache/claude
+    chmod -R 777 $CLAUDE_WORKSPACE_DIR/.shared-cache/aws $CLAUDE_WORKSPACE_DIR/.shared-cache/gcloud $CLAUDE_WORKSPACE_DIR/.shared-cache/claude
 
     # Only export AWS credentials when in AWS/Bedrock mode
     if test "$auth_mode" = "aws"
         # Ensure AWS credentials are available in shared cache
-        set shared_aws ~/Code/Freda/.shared-cache/aws
+        set shared_aws $CLAUDE_WORKSPACE_DIR/.shared-cache/aws
 
         # Create minimal config for sandbox (no SSO - use exported credentials instead)
         echo "[profile dev]
@@ -234,12 +234,12 @@ aws_session_token = $session_token" > "$shared_aws/credentials"
     echo "Starting sandbox container in $sandbox_dir..."
     docker run -it --rm \
         -v "$sandbox_dir:/workspace" \
-        (test "$auth_mode" = "aws"; and echo "-v $HOME/Code/Freda/.shared-cache/aws:/home/sandbox/.aws") \
-        -v "$HOME/Code/Freda/.shared-cache/gcloud:/home/sandbox/.config/gcloud" \
+        (test "$auth_mode" = "aws"; and echo "-v $CLAUDE_WORKSPACE_DIR/.shared-cache/aws:/home/sandbox/.aws") \
+        -v "$CLAUDE_WORKSPACE_DIR/.shared-cache/gcloud:/home/sandbox/.config/gcloud" \
         -v "$HOME/.claude:/mnt/claude:ro" \
         -v "$HOME/.gitconfig:/mnt/gitconfig:ro" \
-        -v "$HOME/Code/Freda/.shared-cache/pnpm:/home/sandbox/.local/share/pnpm" \
-        -v "$HOME/Code/Freda/.shared-cache/claude:/home/sandbox/.claude-cache" \
+        -v "$CLAUDE_WORKSPACE_DIR/.shared-cache/pnpm:/home/sandbox/.local/share/pnpm" \
+        -v "$CLAUDE_WORKSPACE_DIR/.shared-cache/claude:/home/sandbox/.claude-cache" \
         -e GITHUB_TOKEN="$GITHUB_SANDBOX_TOKEN" \
         -e CLAUDE_AUTH_MODE="$auth_mode" \
         (test "$auth_mode" = "aws"; and echo "-e AWS_PROFILE=dev -e AWS_REGION=eu-central-1 -e AWS_DEFAULT_REGION=eu-central-1 -e CLAUDE_CODE_USE_BEDROCK=1") \
