@@ -24,9 +24,15 @@ function claude-team --description "Set up a Claude Code team workspace"
         mkdir -p "$team_dir"
     end
 
-    # Step 3: Fetch repos from org and multi-select with fzf
-    echo "Fetching repos from $CLAUDE_GITHUB_ORG..."
-    set repos (gh repo list $CLAUDE_GITHUB_ORG --limit 100 --json name --jq '.[].name' | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
+    # Step 3: Fetch repos from all accessible orgs/user and multi-select with fzf
+    echo "Fetching accessible repos..."
+    set -l orgs (gh api user/orgs --jq '.[].login' 2>/dev/null)
+    set -l gh_user (gh api user --jq '.login' 2>/dev/null)
+    set -l all_repos
+    for org in $gh_user $orgs
+        set -a all_repos (gh repo list $org --limit 100 --json nameWithOwner --jq '.[].nameWithOwner' 2>/dev/null)
+    end
+    set repos (printf '%s\n' $all_repos | sort -u | fzf --multi --prompt="Select repos (TAB to select, ENTER to confirm): ")
 
     if test -z "$repos"
         echo "No repos selected"
@@ -36,12 +42,13 @@ function claude-team --description "Set up a Claude Code team workspace"
 
     # Step 4: Clone selected repos
     for repo in $repos
-        set repo_path "$team_dir/$repo"
+        set repo_name (string split '/' $repo)[-1]
+        set repo_path "$team_dir/$repo_name"
         if test -d "$repo_path"
-            echo "Repo '$repo' already exists, skipping..."
+            echo "Repo '$repo_name' already exists, skipping..."
         else
             echo "Cloning $repo..."
-            gh repo clone $CLAUDE_GITHUB_ORG/$repo "$repo_path"
+            gh repo clone $repo "$repo_path"
         end
     end
 

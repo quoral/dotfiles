@@ -206,6 +206,9 @@ links:
   - src: config/aerospace/aerospace.toml
     dest: .config/aerospace/aerospace.toml
 
+  - src: config/firefox/chrome/userChrome.css
+    dest: Library/Application Support/Firefox/Profiles/ncf5arl7.default-release/chrome/userChrome.css
+
   - src: config/gtklock/style.css
     dest: .config/gtklock/style.css
 

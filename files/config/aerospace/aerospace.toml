@@ -201,7 +201,7 @@ alt-d = 'exec-and-forget open /Applications/Raycast.app'
 
 # Toggle app keybindings (focus/open or close window)
 alt-t = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Slack'
-alt-y = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Zen'
+alt-y = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Firefox'
 alt-n = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Discord'
 alt-m = 'exec-and-forget ~/.local/bin/aerospace-toggle-app Spotify'
 
