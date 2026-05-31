@@ -67,15 +67,17 @@ automatically-unhide-macos-hidden-apps = false
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [workspace-to-monitor-force-assignment]
-1 = 'main'
-2 = 'main'
-3 = 'main'
-4 = 'main'
-5 = 'main'
-6 = 'main'
-7 = 'main'
+1 = 'X34 GS'
+2 = 'X34 GS'
+3 = 'X34 GS'
+4 = 'X34 GS'
+5 = 'X34 GS'
+6 = 'X34 GS'
+7 = 'X34 GS'
 8 = 'KA272U \(1\)'
 9 = 'KA272U \(2\)'
+10 = 'built-in retina display'
+'p:.*' = ['X34 GS', 'main']
 [gaps]
 inner.horizontal = 3
 inner.vertical = 3

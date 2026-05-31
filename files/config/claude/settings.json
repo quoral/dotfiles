@@ -5,11 +5,18 @@
     "AWS_PROFILE": "dev",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "model": "claude-opus-4-6[1m]",
   "statusLine": {
     "type": "command",
     "command": "/opt/homebrew/bin/npx -y @owloops/claude-powerline@latest --theme=nord --style=powerline"
   },
-  "enabledPlugins": {},
+  "enabledPlugins": {
+    "slack@claude-plugins-official": true
+  },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-daltonized",
+  "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true
 }

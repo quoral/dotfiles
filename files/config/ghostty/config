@@ -5,4 +5,4 @@ background-blur = true
 macos-titlebar-style = hidden
 keybind = global:alt+enter=new_window
 keybind = shift+enter=text:\n
-scrollback-limit = 4294967296
+scrollback-limit = 100000

@@ -118,6 +118,8 @@ links:
     dest: .claude/skills/verification-before-completion
   - src: config/claude/skills/self-review
     dest: .claude/skills/self-review
+  - src: config/claude/skills/linear
+    dest: .claude/skills/linear
   - src: config/claude/settings.json
     dest: .claude/settings.json
   - src: config/claude/keybindings.json
@@ -292,6 +294,14 @@ links:
     dest: /.local/bin/gcloud-apis
   - src: bin/aerospace-toggle-app.sh
     dest: /.local/bin/aerospace-toggle-app
+  - src: bin/cw-layout.bash
+    dest: /.local/bin/cw-layout
+
+  - src: config/fish/functions/cw.fish
+    dest: .config/fish/functions/cw.fish
+
+  - src: config/raycast/extensions/claude-workspaces
+    dest: .config/raycast/extensions/claude-workspaces
 
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:

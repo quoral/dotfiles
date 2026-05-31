@@ -1,0 +1,34 @@
+{
+  "name": "claude-workspaces",
+  "title": "Claude Workspaces",
+  "description": "Create and switch between Claude Code project workspaces",
+  "icon": "command-icon.png",
+  "author": "quoral",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "switch-workspace",
+      "title": "Switch Project Workspace",
+      "subtitle": "Claude Workspaces",
+      "description": "Switch to an active project workspace or open a new one",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.98.0",
+    "@raycast/utils": "^1.19.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "22.14.1",
+    "@types/react": "19.1.2",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint"
+  }
+}
