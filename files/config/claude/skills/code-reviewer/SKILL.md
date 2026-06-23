@@ -19,8 +19,9 @@ In autonomous mode, this gate is relaxed — see Autonomous Mode for submission 
 
 When explicitly told you are running in autonomous mode (no human reviewer in the loop), adjust your behavior:
 
-- **Lower the threshold for flagging, but don't mechanically inflate severity.** You have no reviewer to catch what you miss. Flag things you'd normally stay quiet on — but keep their natural severity. A nitpick is still a nitpick; an architectural concern that's genuinely important should be important. The change is in what you surface, not in how you label it.
-- **Skip the batch approval loop.** There is no reviewer to approve batches — analyze all batches sequentially, draft all comments, then submit them in a single review. Submit as `COMMENT` by default. Use `REQUEST_CHANGES` only when there are blocking issues.
+- **Lower the threshold for flagging — and be more nitpicky.** You have no reviewer to catch what you miss, and a human will still read your output. Surface things you'd normally stay quiet on, including nitpicks and minor suggestions that an interactive reviewer would triage themselves. Keep their natural severity — a nitpick is still a nitpick — but err on the side of surfacing rather than suppressing. The human reading the review can dismiss noise; they can't act on findings you swallowed.
+- **Skip the batch approval loop.** There is no reviewer to approve batches — analyze all batches sequentially, draft all comments, then submit them in a single review.
+- **Never approve. Always use `COMMENT`.** You cannot substitute for human judgment on merge-readiness. Use `REQUEST_CHANGES` only when there are blocking issues. Never use `APPROVE` — that decision belongs to a human reviewer.
 - **Be thorough on architectural and cross-cutting concerns.** Run pattern comparisons, check dual code paths, and read beyond the diff even for batches that look simple. In interactive mode the reviewer catches what you miss — in autonomous mode, you are the only eyes.
 
 ## Checklist
@@ -29,25 +30,19 @@ Execute these steps in order:
 
 1. [ ] Read PR metadata from `.review/pr-meta.json`
 2. [ ] Understand the PR context (title, description, base branch)
-3. [ ] Check for existing pending reviews and automated review comments (e.g., Greptile) on the PR to avoid duplicate feedback and to validate or dismiss prior findings:
-   ```bash
-   # Fetch existing reviews
-   gh api repos/{owner}/{repo}/pulls/{pr}/reviews
-   # Fetch inline comments (includes Greptile bot comments)
-   gh api repos/{owner}/{repo}/pulls/{pr}/comments
-   ```
-4. [ ] Determine review mode:
-   - **Code review** (default): changes are primarily code → continue to step 5
-   - **Plan + code review**: PR includes a plan/design doc alongside implementation → verify plan first (see Plan + Code PRs), then continue to step 5 for the implementation
+3. [ ] Determine review mode:
+   - **Code review** (default): changes are primarily code → continue to step 4
+   - **Plan + code review**: PR includes a plan/design doc alongside implementation → verify plan first (see Plan + Code PRs), then continue to step 4 for the implementation
    - **Discussion review**: changes are architecture docs, RFCs, or design proposals → follow Discussion Mode flow
-5. [ ] Analyze changed files and determine batching strategy
-6. [ ] Propose batch groupings to reviewer for approval (autonomous: decide batching, proceed directly)
-7. [ ] For each batch:
+4. [ ] Analyze changed files and determine batching strategy (consider Pre-Batch Research Phase first for architectural PRs)
+5. [ ] Propose batch groupings to reviewer for approval (autonomous: decide batching, proceed directly)
+6. [ ] For each batch:
    - [ ] Analyze changes in the batch
    - [ ] For simple batches: summarize → draft comments → confirm
    - [ ] For complex batches: investigate usage → surface findings → draft comments
    - [ ] Present draft comments with inline diff view
    - [ ] Wait for reviewer approval/edits before proceeding (autonomous: skip — continue to next batch)
+7. [ ] Before submitting: dedupe against existing reviews and automated bot comments (see Deduping Against Prior Reviews)
 8. [ ] After all batches reviewed, summarize overall review
 9. [ ] Submit comments after final confirmation (autonomous: submit directly)
 10. [ ] Capture session learnings in `.review/session-feedback.md`
@@ -63,6 +58,7 @@ Evaluate each batch against these domains (not all apply to every change):
 5. **Infrastructure/Domain Dependencies** - External service changes? Migration needs?
 6. **Data Integrity & Lifecycle** - For new resource relationships: referential integrity, cascade behavior, orphan handling, deletion order
 7. **YAGNI & Scope** - Is everything in this PR necessary for the stated goal? Are there abstractions, parameters, or branches that serve hypothetical future needs rather than current requirements?
+8. **Complexity Justification** - For patterns that are technically correct but add complexity (concurrency primitives, generics, abstraction layers, indirection), ask: is this justified at the current scale? A correct-but-complex pattern that serves no measurable need is still a cost.
 
 ## Batch Analysis Heuristics
 
@@ -77,6 +73,12 @@ Choose batching strategy based on the PR structure:
    - Grep for imports of deleted modules
    - Check for remaining references
    - Confirm deleted functionality is covered by remaining code
+7. **Single-pass for pattern-mirror PRs** - Infra/codegen/config PRs that mirror a cited precedent (e.g., new worker copying an existing worker's wiring, new codegen config matching an existing one) can be reviewed as a single batch. The review work is validating *against the precedent*, not segmenting by volume. Apply when there's a clear cited precedent and the changes faithfully follow it — the value is in cross-codebase comparison, not in finer-grained batching.
+
+   Also use single-pass for:
+   - **Scaffolding PRs** — stubs, wiring, and boilerplate where all files are tightly coupled
+   - **PRs with extensive prior review coverage** — when 2+ prior review rounds already covered the implementation details, your value-add is cross-cutting concerns, not file-by-file analysis
+   - **Small PRs that obviously mirror an existing pattern** — even without a cited precedent, if the pattern is clear from context
 
 ### Batch Priority
 
@@ -121,16 +123,31 @@ Identify and skip generated files (e.g., `api.gen.go`, `client.gen.go`, sqlc out
 
 ## Pre-Batch Research Phase
 
-For PRs that introduce new abstractions (enum values, ownership semantics, architectural patterns), offer a conceptual discussion phase **before** proposing batches:
+For PRs that introduce new abstractions, architectural patterns, framework workarounds, or cite a precedent worth validating, run a conceptual research/discussion phase **before** proposing batches. In practice this is one of the highest-value parts of a review — investigation done here surfaces findings (framework gaps, cited-precedent mismatches, design tradeoffs) that batch-level diff review tends to miss.
 
-1. Identify the core design decisions in the PR
-2. Research the codebase context (existing patterns, related systems)
-3. Surface 1-2 conceptual concerns to the reviewer for discussion
+1. Identify the core design decisions or claims in the PR
+2. Research codebase context and cited precedents — use parallel agents and WebFetch when the question spans multiple files, external SDKs, or third-party docs
+3. Surface 1-2 conceptual findings to the reviewer for discussion
 4. Let the discussion converge before moving to batch-by-batch review
 
-This phase is optional — skip it for PRs that are purely additive or follow established patterns. Offer it when the diff introduces something the reviewer will want to reason about holistically before seeing the implementation details.
+### When Pre-Batch Research Subsumes the Review
 
-For PRs with significant architectural changes or where the PR description requests high-level feedback, consider running a blast radius analysis (if available) as part of this phase. Architectural-level findings shape the entire review and prevent batch-level analysis from rehashing the same concerns.
+Sometimes the pre-batch phase IS the review. This happens in two scenarios:
+
+1. **Architectural evaluation** — The reviewer wants alternatives analysis rather than batch-by-batch bug finding ("evaluate the approach", "is this the right technology", "what about X instead"). Spawn parallel research agents, iterate with the reviewer, and produce a single review-level comment with architectural analysis.
+
+2. **Reviewer-directed deep-dive** — The reviewer has a specific concern ("what about sandboxing?", "are the filter semantics right?") that requires cross-codebase investigation. Go deep on their concern, iterate until satisfied, then assess whether batch review of the remaining code adds value.
+
+In both cases:
+- The outcome is typically 1-2 review-level comments, not inline comments per batch
+- Skip the batch loop unless the reviewer explicitly redirects toward code-level review
+- The investigation itself is the value — capture it in session feedback even if no comments are posted
+
+### When to skip
+
+Skip this phase for PRs that are purely additive, mechanically follow an established pattern (see Single-Pass Heuristic in Batch Analysis), or are too small to warrant it.
+
+For PRs with significant architectural changes, consider running a blast radius analysis (if available) as part of this phase. Architectural-level findings shape the entire review and prevent batch-level analysis from rehashing the same concerns.
 
 ## Engagement Flow
 
@@ -290,6 +307,21 @@ The diff is pre-generated at `.review/pr-diff.patch`. Read this file to see all 
 
 Do NOT run `git diff` yourself — use the pre-generated diff file to ensure consistency and save tokens. However, **do** read full source files (via `Read` or `cat`) when investigating — the diff shows what changed, but the surrounding code provides the context needed to evaluate the change.
 
+### Stale Local Checkout
+
+The local checkout may be behind the PR head, especially for PRs that have iterated on prior feedback. Before starting review, verify the local branch matches the PR head. If it doesn't, either pull the latest or use `gh api` to read the current state:
+
+```bash
+# Check if local matches PR head
+gh pr view {pr} --json headRefOid -q .headRefOid
+git rev-parse HEAD
+
+# Read latest files directly from PR if stale
+gh api repos/{owner}/{repo}/pulls/{pr}/files --paginate
+```
+
+Agents spawned from a stale checkout will analyze outdated code — sync first.
+
 ## Investigation Techniques
 
 These techniques apply across all batch types. The most consistently valuable review work comes from investigating how changes interact with the existing codebase, not from reading the diff in isolation.
@@ -310,6 +342,39 @@ When two code paths serve similar purposes (e.g., `HandleOAuthCallback` vs `hand
 - Are there asymmetries between the paths that the PR introduces or misses?
 
 This is a recurring bug pattern — different entry points to similar logic diverge silently.
+
+### Data Flow Tracing
+
+When a PR modifies how a field is written, read, or propagated, trace all paths for that field across the codebase:
+- What writes this field? (API handlers, event consumers, backfill jobs, migrations)
+- What reads it? (Queries, serializers, downstream consumers)
+- After this PR, do all write paths produce consistent state?
+
+This catches silent shadowing (old write path overwriting new field post-backfill) and propagation gaps (config that reaches one layer but not another). Particularly valuable for schema changes where multiple write paths converge on the same column.
+
+## Deduping Against Prior Reviews
+
+**Timing depends on prior review density.**
+
+- **Few or no prior reviews:** Form your findings independently first. Checking early anchors your analysis and you'll miss things others missed.
+- **Extensive prior reviews (2+ rounds, multiple bots/humans):** Check prior reviews after reading the diff but before deep investigation. This avoids spending investigation time on already-addressed findings. You still form your own view of the diff first — just don't invest in tracing call chains for issues that were already fixed in follow-up commits.
+
+In either case, fetch before submission:
+
+```bash
+# Existing reviews
+gh api repos/{owner}/{repo}/pulls/{pr}/reviews
+# Inline comments (includes Greptile and other bot comments)
+gh api repos/{owner}/{repo}/pulls/{pr}/comments
+```
+
+Then for each draft comment:
+- **Already raised and addressed:** drop it
+- **Already raised and unresolved:** drop it (don't add noise)
+- **Partially covered:** revise to add the missing angle, or drop if the existing comment is sufficient
+- **Not covered:** keep it
+
+If prior automated reviews already covered implementation-level findings thoroughly, your value-add is at a higher level — architectural concerns, runtime/lifecycle reasoning, cross-codebase pattern checks.
 
 ## Verifying External Claims
 
