@@ -296,6 +296,10 @@ links:
     dest: /.local/bin/aerospace-toggle-app
   - src: bin/cw-layout.bash
     dest: /.local/bin/cw-layout
+  - src: bin/ring-cycle.sh
+    dest: /.local/bin/ring-cycle
+  - src: bin/ring-add.sh
+    dest: /.local/bin/ring-add
 
   - src: config/fish/functions/cw.fish
     dest: .config/fish/functions/cw.fish

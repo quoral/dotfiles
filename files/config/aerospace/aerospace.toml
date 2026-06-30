@@ -67,17 +67,16 @@ automatically-unhide-macos-hidden-apps = false
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [workspace-to-monitor-force-assignment]
-1 = 'X34 GS'
-2 = 'X34 GS'
-3 = 'X34 GS'
-4 = 'X34 GS'
-5 = 'X34 GS'
-6 = 'X34 GS'
-7 = 'X34 GS'
+1 = ['X34 GS', 'main']
+2 = ['X34 GS', 'main']
+3 = ['X34 GS', 'main']
+4 = ['X34 GS', 'main']
+5 = ['X34 GS', 'main']
+6 = ['X34 GS', 'main']
+7 = ['X34 GS', 'main']
 8 = 'KA272U \(1\)'
 9 = 'KA272U \(2\)'
 10 = 'built-in retina display'
-'p:.*' = ['X34 GS', 'main']
 [gaps]
 inner.horizontal = 3
 inner.vertical = 3
@@ -124,8 +123,8 @@ alt-l = 'focus --boundaries all-monitors-outer-frame right'
 # See: https://nikitabobko.github.io/AeroSpace/commands#fullscreen
 alt-f = 'fullscreen'
 alt-shift-ctrl-f = 'fullscreen'
-# See: https://nikitabobko.github.io/AeroSpace/commands#balance-size
-alt-r = 'balance-sizes'
+alt-r = 'exec-and-forget ~/.local/bin/ring-cycle'
+alt-shift-r = 'exec-and-forget ~/.local/bin/ring-add'
 alt-shift-ctrl-b = 'fullscreen'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
@@ -229,3 +228,4 @@ k = 'resize height -50'
 l = 'resize width +50'
 enter = 'mode main'
 esc = 'mode main'
+
