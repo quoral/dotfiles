@@ -307,6 +307,13 @@ links:
   - src: config/raycast/extensions/claude-workspaces
     dest: .config/raycast/extensions/claude-workspaces
 
+  - src: config/roci/config.toml
+    dest: .config/roci/config.toml
+  - src: config/roci/Dockerfile
+    dest: .config/roci/Dockerfile
+  - src: config/roci/entrypoint.bash
+    dest: .config/roci/entrypoint.bash
+
 dotfiles_repository: https://github.com/kallekrantz/dotfiles
 desktop_files:
   - src: plaster.desktop

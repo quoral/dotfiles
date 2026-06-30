@@ -1,0 +1,30 @@
+[roci]
+default_provider = "claude-code"
+kb_path = "/Users/quoral/.config/roci/knowledge"
+db_path = "/Users/quoral/.config/roci/db/roci.db"
+
+[providers.claude-code]
+kind = "claude-code"
+credential = "claude-code-oauth"
+container_image = "roci-sandbox:latest"
+container_network = "allowlist"
+container_env = { CLAUDE_CODE_OAUTH_TOKEN = "$credential" }
+default_model = "claude-opus-4-6[1m]"
+
+[sandbox]
+allowed_domains = ["api.anthropic.com", "registry.npmjs.org", "github.com"]
+git_checkpoint = true
+cleanup_containers = true
+mode = "process"
+
+[sandbox.profiles.review]
+credentials = ["github-sandbox-token"]
+allow_domains = ["api.anthropic.com", "github.com", "api.github.com"]
+
+[sandbox.profiles.investigate]
+credentials = ["github-sandbox-token"]
+allow_domains = ["api.anthropic.com", "github.com", "api.github.com"]
+
+[session]
+repo_dirs = ["~/Code/Own", "~/Code/Freda", "~/Code/Github"]
+workspace_dir = "~/Code/roci"
