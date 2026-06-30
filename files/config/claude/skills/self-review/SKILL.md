@@ -5,9 +5,11 @@ description: "Use before creating a pull request. Self-critiques your changes ag
 
 # Self-Review Before PR
 
-## Overview
+## Mindset
 
-Review your own changes before creating a PR by launching parallel Explore subagents that compare new code against existing codebase patterns. Runs iterative rounds — fix issues found, then review again — until the code is clean.
+Self-review is intentionally **stricter** than reviewing someone else's code. You know the codebase, you wrote the change, and you have no excuse for shipping patterns you'd flag in a colleague's PR. If you'd raise it reviewing someone else — it's non-negotiable to catch in your own code.
+
+The primary value is **architectural investigation** — tracing how your changes interact with the existing codebase (deletion paths, data flow, contract mismatches). Surface-level issues (style, naming, minor error-handling gaps) are secondary.
 
 ## When to Use
 
@@ -29,6 +31,52 @@ git diff main...HEAD --stat
 
 State which mode you're using and why.
 
+## Review Domains
+
+Evaluate changes against these domains (not all apply to every change):
+
+1. **Code Correctness & Logic** — Does the code do what it claims? Edge cases? Race conditions?
+2. **Architecture & Design** — Does it fit the codebase patterns? Appropriate abstractions?
+3. **Testing Coverage** — Are changes tested? Are tests meaningful?
+4. **Requirements Alignment** — Does implementation match what was intended?
+5. **Infrastructure/Domain Dependencies** — External service changes? Migration needs?
+6. **Data Integrity & Lifecycle** — For new resource relationships: referential integrity, cascade behavior, orphan handling, deletion order
+7. **YAGNI & Scope** — Is everything necessary for the stated goal? Are there abstractions, parameters, or branches that serve hypothetical future needs rather than current requirements?
+8. **Complexity Justification** — For patterns that add complexity (concurrency primitives, generics, abstraction layers, indirection): is this justified at the current scale? A correct-but-complex pattern that serves no measurable need is still a cost.
+
+**API contracts and database schema get extra scrutiny.** These are foundational — mistakes are expensive post-merge. For schema changes, think from the caller's perspective: what queries run against this table, what access patterns are expected. For API changes, think from the consumer's perspective: is the request/response shape intuitive, are error cases handled.
+
+## Investigation Techniques
+
+These are the highest-value activities in self-review. Don't just read your own diff — investigate how it interacts with the rest of the codebase.
+
+### Cross-Codebase Pattern Comparison
+
+Find existing implementations of the same pattern and compare:
+- How do other handlers/modules in this domain handle the same concern?
+- Does your implementation follow the established convention, or diverge?
+- If you based your code on an existing pattern, does your version actually match in the load-bearing details?
+
+### Dual Code Path Consistency
+
+When two code paths serve similar purposes, a change to one often needs a corresponding change to the other. Check:
+- Does the new behavior apply to both paths?
+- Are there asymmetries between the paths that your change introduces or misses?
+
+### Data Flow Tracing
+
+When your change modifies how a field is written, read, or propagated, trace all paths:
+- What writes this field? (API handlers, event consumers, backfill jobs, migrations)
+- What reads it? (Queries, serializers, downstream consumers)
+- After your change, do all write paths produce consistent state?
+
+### Deletion Verification
+
+For changes with significant deletions:
+- Grep for imports of deleted modules
+- Check for remaining references
+- Confirm deleted functionality is covered by remaining code
+
 ## Fast Mode
 
 1. **Gather the diff:**
@@ -41,17 +89,19 @@ State which mode you're using and why.
    - Check the diff for each known pattern
    - Flag matches with specific line references
 
-3. **General quick checks:**
+3. **Quick domain checks:**
    - Obvious bugs, typos, debug leftovers
    - Missing error handling at boundaries
    - TODOs or FIXMEs that shouldn't ship
    - Hardcoded values that should be config
+   - YAGNI violations — anything that serves hypothetical future needs
+   - Pattern divergence — does new code follow established conventions?
 
 4. **Report** using the format below.
 
 ## Thorough Mode
 
-Run **iterative review rounds** using parallel Explore subagents. Each round launches 2-3 agents with distinct review focuses. Fix issues between rounds. Stop when a round surfaces no must-fix items.
+Run **iterative review rounds** using parallel Explore subagents. Each round launches 2-3 agents with distinct review focuses drawn from the review domains and investigation techniques. Fix issues between rounds. Stop when a round surfaces no must-fix items.
 
 ### Round Structure
 
@@ -66,49 +116,45 @@ Each round follows this cycle:
 
 Launch 3 agents focused on:
 
-**Agent 1 — Pattern consistency with existing code:**
+**Agent 1 — Cross-codebase pattern comparison:**
 - Find 2-3 similar files in the codebase (same feature area, same component type)
-- Compare the new code against them line-by-line
-- Check: naming, structure, state management, error handling, imports
+- Compare the new code against them: naming, structure, error handling, imports
 - Flag any deviation from established patterns with specific line numbers
+- For API/schema changes: compare PK strategy, index patterns, auth, pagination, error shapes against similar existing code
 
-**Agent 2 — Type safety and data flow:**
+**Agent 2 — Type safety and data flow tracing:**
 - Trace input types through the component/module
 - Check null safety, type narrowing, guard ordering
 - Verify generated types match their usage
-- Check schema definitions against their consumers
+- Trace field reads/writes across the codebase — do all write paths produce consistent state after this change?
 
-**Agent 3 — Structural consistency of all changed files:**
-- Review every modified file (configs, i18n, registrations, etc.)
-- Check alphabetical ordering, grouping conventions, naming patterns
-- Cross-reference keys/references between files (e.g., i18n keys used in components exist in translation files)
+**Agent 3 — Structural consistency and data integrity:**
+- Review every modified file (configs, registrations, etc.)
+- Cross-reference keys/references between files
+- For new resource relationships: check referential integrity, cascade behavior, orphan handling, deletion order
 - Verify file naming matches codebase conventions
 
-### Round 2: Framework-Specific Best Practices
+### Round 2: Architecture, Edge Cases, and Integration
 
-Launch 2-3 agents focused on the tech stack used (React, database, API, etc.). Example for React:
+Launch 2-3 agents focused on the specific concerns this change raises:
 
-**Agent 1 — React patterns:**
-- Hook ordering relative to early returns (Rules of Hooks)
-- useRef vs useState distinction
-- Unnecessary memoization (useMemo/useCallback without proven need)
-- Async event handler error handling (try/catch + error capture)
-- Derived values during render vs stored state
-- Component composition — is the component doing too much?
+**Agent 1 — Architecture and complexity:**
+- Does the change fit codebase patterns? Is the abstraction level appropriate?
+- YAGNI check: is everything necessary for the stated goal?
+- Complexity justification: are complex patterns (concurrency, generics, indirection) warranted at current scale?
+- Dual code path consistency: if similar paths exist, does the change apply to both?
 
 **Agent 2 — Error handling and edge cases:**
 - Walk every code path — can any path fail silently?
-- Double-execution prevention (guard flags, refs)
-- Are all async operations wrapped in try/catch?
-- Does the error handler itself have error handling?
-- Index mapping correctness in array transformations
+- Are all async operations properly handled?
 - Race condition potential in concurrent operations
+- Silent failure modes that would pass tests but produce wrong behavior
 
 **Agent 3 — Integration and contracts:**
 - Do API call arguments match the schema?
 - Are mutation outputs structurally valid for their consumers?
 - Do registered names match between definition and usage sites?
-- Are feature flags, route paths, and config keys valid?
+- For deletions: grep for remaining references to deleted code
 
 ### Round 3+ (if needed): Targeted Follow-up
 
@@ -126,20 +172,34 @@ When briefing each agent:
 - **Ask for line numbers** — "cite exact line numbers for every finding"
 - **Demand precision** — "report only real issues, not style preferences"
 - **Require dedicated tools** — explicitly tell agents to use the Read tool (not sed, cat, head, tail, or awk via Bash) for reading files, and Grep/Glob for searching
+- **Tell agents to read full files, not just the diff** — the diff shows what changed, but surrounding code catches asymmetries between related code paths
 
 ### Synthesizing Agent Results
 
 After each round:
 1. Read all agent findings
 2. **Separate real issues from false alarms** — agents may flag things that are intentional or safe. Verify before fixing.
-3. Group into must-fix / should-fix / nits
-4. Fix must-fix and should-fix items
-5. Run `mise lint` or equivalent to verify
-6. Decide if another round is needed
+3. **Calibrate theoretical risks by failure visibility** — if a future change would trigger an obvious failure (compilation error, test failure), skip it. Only flag theoretical risks when the failure mode would be silent: subtle data corruption, wrong-but-plausible behavior, or bugs that pass tests.
+4. Group into must-fix / should-fix / nits
+5. Fix must-fix and should-fix items
+6. Run `mise lint` or equivalent to verify
+7. Decide if another round is needed
+
+## Adversarial Verification Pass
+
+After all review rounds are complete and fixes applied, do one final pass through the diff with a **reviewer's lens** — pretend you're reviewing a colleague's PR, not your own code. This catches issues that self-review rounds miss due to author bias.
+
+1. Re-read the full diff (`git diff main...HEAD`)
+2. For each changed file, evaluate against the review domains as if seeing this code for the first time
+3. Apply the investigation techniques: cross-codebase pattern comparison, dual code path consistency, data flow tracing
+4. Be adversarial — look for reasons to request changes, not reasons to approve
+5. If this pass surfaces must-fix items: fix them and re-run the adversarial pass
+
+This pass is what makes `/goal` composition work. The goal evaluator checks the verdict — if the adversarial pass found issues, the verdict says so and `/goal` keeps the session alive for another cycle.
 
 ## Supplementary Skill Assessment
 
-After the code review rounds are complete, assess whether the nature of the changes would benefit from running any of the other available skills.
+After the adversarial pass is clean, assess whether the nature of the changes would benefit from running any of the other available skills.
 
 ### How It Works
 
@@ -161,25 +221,38 @@ Don't suggest supplementary skills when:
 Group findings by severity:
 
 ### Must-fix
-Issues that will likely be flagged as blocking in review.
+Issues that will likely be caught in review — or worse, in production.
 
 ### Should-fix
-Important improvements that reviewers will probably request.
+Important improvements. A reviewer would flag these.
 
 ### Nits
 Style, naming, minor improvements. Worth fixing but won't block.
 
 ### Verdict
 
-End with one of:
-- **Ready to PR** — no must-fix items, ship it
-- **Address items first** — list the must-fix items to resolve
+End with exactly one of these lines (the `/goal` evaluator reads this):
+
+> **VERDICT: READY TO PR** — no must-fix items remain, adversarial pass is clean
+
+> **VERDICT: NOT READY** — N must-fix items remain: [list them]
+
+## Composing with /goal
+
+This skill is designed to work with `/goal` for fully autonomous self-improvement loops:
+
+```
+/goal run /self-review until the verdict is READY TO PR
+```
+
+Each `/goal` iteration runs a full self-review cycle (rounds → fixes → adversarial pass → verdict). The goal evaluator checks the verdict line. If NOT READY, Claude re-enters the skill for another cycle. If READY TO PR, the goal is met and Claude stops.
 
 ## Important
 
 - Be specific. Reference file paths and line numbers.
 - Don't invent issues. If the code is clean, say so.
-- Prioritize patterns from `feedback-patterns.md` — these are real things reviewers have caught before.
+- Prioritize patterns from `feedback-patterns.md` — these come from real review feedback.
 - Don't re-review things that are clearly intentional or already discussed in commit messages.
 - **Trust but verify agent findings** — agents can flag false positives (e.g., "runtime crash risk" when the caller already guards null). Check the actual code path before fixing.
-- **Stop when clean** — don't run rounds for the sake of running rounds. If a round finds nothing, you're done.
+- **Stop when clean** — don't run rounds for the sake of running rounds. If a round finds nothing, move to the adversarial pass.
+- **Verify your own fixes are sound** — before applying a fix, verify the mechanism is available in the runtime context. An incorrect fix is worse than the original issue.
